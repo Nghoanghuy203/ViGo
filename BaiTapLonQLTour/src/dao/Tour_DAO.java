@@ -1,25 +1,17 @@
 package dao;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.ImageIcon;
-
 import connectDB.ConnectDB;
 import entities.Tour;
 import my_Interfaces.ITour;
@@ -143,7 +135,8 @@ public class Tour_DAO implements ITour{
 			statement = con.prepareStatement(sql);
 			statement.setNString(1, diemDi);
 			statement.setNString(2, diemDen);
-			statement.setNString(3, ngayDi.trim());
+			statement.setString(3, ngayDi);
+			System.out.println(diemDi+ diemDen+ ngayDi);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				String ma = rs.getString(1);
@@ -159,13 +152,14 @@ public class Tour_DAO implements ITour{
 				BufferedImage img = ImageIO.read(bis);
 				LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
 				Time tgTapTrung = rs.getTime(8);
-				String dDi = rs.getNString(9);
-				String dDen = rs.getNString(10);
-				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, dDi, dDen);
+				String diemDi1 = rs.getNString(9);
+				String diemDen1 = rs.getNString(10);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDi1, diemDen1);
 				list.add(t);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return list;
 	}

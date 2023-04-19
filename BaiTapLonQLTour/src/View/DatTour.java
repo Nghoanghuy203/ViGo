@@ -303,7 +303,7 @@ public class DatTour extends JFrame {
 		gioDi.setText("-Giờ đi: "+DateFormat.getTimeInstance().format(t.getTgKhoiHanh()));
 		diemTapTrung.setText("Thời gian tập trung: "+DateFormat.getTimeInstance().format(t.getTgTapTrung())+", "+dtf.format(t.getNgayTapTrung()));
 		soNgay.setText("Thời gian: "+t.getSoNgay()+" ngày");
-		noiKhoiHanh.setText("Nơi khởi hành: "+t.getDiemDi());
+		noiKhoiHanh.setText("Lịch trình: "+t.getDiemDi()+" đến "+t.getDiemDen());
 		soChoConNhan.setText("Số vé còn nhận: "+t.getSoVeConLai());
 		hinhAnh.setIcon(new ImageIcon(scaledImage(t.getHinhAnh(), hinhAnh.getWidth(), hinhAnh.getHeight())));
 	}

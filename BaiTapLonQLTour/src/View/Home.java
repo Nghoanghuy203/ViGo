@@ -74,6 +74,7 @@ public class Home extends JFrame {
 	
 	private String sDDi, sDDen, sNgay;
 	private JTextField txtMess;
+	private JLabel btnUndo, btnRedu;
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +95,7 @@ public class Home extends JFrame {
 		}
 		//
 		tourBus = new Tour_BUS();
-		ds = tourBus.getDS();
+		//ds = tourBus.getDS();
 		
 		//datTour = new DatTour("");
 		setSize(1200,700);
@@ -138,21 +139,21 @@ public class Home extends JFrame {
 		});
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUser.setForeground(new Color(255, 255, 255));
-		btnUser.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\user.png"));
+		btnUser.setIcon(new ImageIcon("src\\images\\user.png"));
 		btnUser.setBounds(1050, 11, 51, 52);
 		pnHeader.add(btnUser);
 		
 		JLabel lblLogo = new JLabel("ViGo");
 		lblLogo.setFont(new Font("Arial", Font.BOLD, 35));
 		lblLogo.setForeground(new Color(255, 255, 255));
-		lblLogo.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\beach_118051 (1).png"));
+		lblLogo.setIcon(new ImageIcon("src\\images\\beach_118051 (1).png"));
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
 		
 		JLabel btnCart = new JLabel("");
 		btnCart.setBounds(1104, 11, 51, 52);
 		pnHeader.add(btnCart);
-		btnCart.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\cart.png"));
+		btnCart.setIcon(new ImageIcon("src\\images\\cart.png"));
 		
 		JPanel search = new JPanel();
 		search.setBackground(new Color(255, 255, 255));
@@ -176,7 +177,7 @@ public class Home extends JFrame {
 		cboDiemDi = new CustomComboxBox(strDiemDi, ChonMau.blue_4B70F5, Color.white, Color.black, ChonMau.blue_4B70F5, 30, true);
 		cboDiemDi.setLocation(40, 5);
 		search.add(cboDiemDi.getPanel(Color.white, 55, 5, 170, 45));
-		sDDi = (String) cboDiemDi.getSelectedItem();
+		
 		
 		JLabel sDiemDi = new JLabel("Điểm đi:");
 		sDiemDi.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -192,7 +193,7 @@ public class Home extends JFrame {
 		cboDiemDen = new CustomComboxBox(strDiemDen, ChonMau.blue_4B70F5, Color.white, Color.black, ChonMau.blue_4B70F5, 30, true);
 		cboDiemDen.setLocation(40, 5);
 		search.add(cboDiemDen.getPanel(Color.white, 280, 5, 170, 45));
-		sDDen = (String) cboDiemDen.getSelectedItem();
+		
 		
 		lblNgy = new JLabel("Ngày:");
 		lblNgy.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -211,27 +212,20 @@ public class Home extends JFrame {
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		datePicker.setBounds(490, 17, 180, 28);
 		datePicker.getJDateInstantPanel().setShowYearButtons(true);
-		//datePicker.getJFormattedTextField().setText("2023-01-01");
-		//datePicker.getModel().setValue(Date("2023-01-01"));
+		datePicker.getJFormattedTextField().setText("2023-01-01");
+		//sNgay="2023-01-01";
+		//Date d = new Date(2023, 01, 01);
+		//datePicker.getModel().setSelected(false);
 		search.add(datePicker);
 		
 		JButton btnNewButton = new JButton("Tìm");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//dsTimKiem.removeAll(dsTimKiem);
-				Date date= (Date) datePicker.getModel().getValue();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				sNgay=sdf.format(date);
-				dsTimKiem=tourBus.timKiem(sDDi, sDDen, sNgay);
-				if (dsTimKiem.size()>0) {
-					txtMess.setText(sNgay);
-					iTour=0;
-					ds=dsTimKiem;
-					lItem=ds.size();
-					showList(iTour);
-				}
-				else txtMess.setText("không tìm thấy kết quả!"+sNgay);
-				System.out.println(sNgay);
+				sDDi = (String) cboDiemDi.getSelectedItem();
+				sDDen = (String) cboDiemDen.getSelectedItem();
+				txtMess.setText("");
+				showListSearch();
 			}
 		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
@@ -267,7 +261,7 @@ public class Home extends JFrame {
 		tourPicture1.setVerticalAlignment(SwingConstants.TOP);
 		tourPicture1.setVerticalTextPosition(SwingConstants.BOTTOM);
 		tourPicture1.setIgnoreRepaint(true);
-		tourPicture1.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\thanh-pho-da-lat.jpg"));
+		tourPicture1.setIcon(new ImageIcon("src\\images\\thanh-pho-da-lat.jpg"));
 		tourPicture1.setBounds(10, 11, 300, 165);
 		item1.add(tourPicture1);
 		
@@ -576,15 +570,15 @@ public class Home extends JFrame {
 		tourBtn6.setBounds(10, 235, 88, 16);
 		item6.add(tourBtn6);
 		
-		JLabel btnUndo = new JLabel("");
+		btnUndo = new JLabel("");
 		btnUndo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnUndo.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\left-arrow.png"));
+		btnUndo.setIcon(new ImageIcon("src\\images\\left-arrow.png"));
 		btnUndo.setBounds(25, 383, 48, 37);
 		pnHome.add(btnUndo);
 		
-		JLabel btnRedu = new JLabel("");
+		btnRedu = new JLabel("");
 		btnRedu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRedu.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\right-arrow.png"));
+		btnRedu.setIcon(new ImageIcon("src\\images\\right-arrow.png"));
 		btnRedu.setBounds(1122, 383, 48, 37);
 		pnHome.add(btnRedu);
 		
@@ -596,26 +590,29 @@ public class Home extends JFrame {
 		pnHome.add(txtMess);
 		txtMess.setColumns(10);
 		
-		JTextPane btnReset = new JTextPane();
+		JLabel btnReset = new JLabel();
+		btnReset.setIcon(new ImageIcon(Home.class.getResource("/images/reset_undo_arrow_icon_149006 (1).png")));
 		btnReset.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ds=tourBus.getDS();
+				txtMess.setText("");
 				iTour=0;
 				lItem=ds.size();
 				showList(iTour);
-				dsTimKiem.removeAll(dsTimKiem);
+				if (lItem-iTour>6) btnRedu.setVisible(true);
+				//dsTimKiem.removeAll(dsTimKiem);
 			}
 		});
 		btnReset.setText("reset");
-		btnReset.setBounds(291, 101, 26, 31);
+		btnReset.setBounds(290, 100, 40, 35);
+		
 		pnHome.add(btnReset);
 		ds = tourBus.getDS();
 		iTour=0;
 		lItem=ds.size();
 		showList(iTour);
-		if (iTour<7) btnUndo.setVisible(false);
-		if (lItem-iTour<6) btnRedu.setVisible(false);
+		
 		btnUndo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -642,6 +639,8 @@ public class Home extends JFrame {
 	
 	private void showList(int i) {
 		//ds= tourBus.getDS();
+		if (iTour<7) btnUndo.setVisible(false);
+		if (lItem-iTour<7) btnRedu.setVisible(false);
 		if (lItem-iTour==5) {
 			updateDataItem1(i);
 			i++;
@@ -791,7 +790,26 @@ public class Home extends JFrame {
 		g2.dispose();
 		return resizedImage;
 	}
-	
+	private void showListSearch() {
+		Date date= (Date) datePicker.getModel().getValue();
+		if (date==null) {
+			txtMess.setText("chọn ngày!");
+			return;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sNgay=sdf.format(date);
+		System.out.println(sDDi+ sDDen+ sNgay);
+		dsTimKiem=tourBus.timKiem(sDDi, sDDen, sNgay);
+		if (dsTimKiem.size()>0) {
+			txtMess.setText("");
+			iTour=0;
+			ds=dsTimKiem;
+			lItem=ds.size();
+			showList(iTour);
+		}
+		else txtMess.setText("không tìm thấy kết quả!");
+		System.out.println(sNgay);
+	}
 
 	private String[] updateCboBoxDiemDi() {
 		String[] s = {};
