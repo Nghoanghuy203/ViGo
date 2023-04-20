@@ -1,4 +1,4 @@
-package View;
+package custom_entity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

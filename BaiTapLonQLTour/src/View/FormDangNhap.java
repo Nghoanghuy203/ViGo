@@ -11,6 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+
+import app.Test;
+import custom_entity.RoundedCornerBorder;
+
 import java.awt.Color;
 import java.awt.Cursor;
 
@@ -84,7 +88,8 @@ public class FormDangNhap extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public FormDangNhap() {
-
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200,700);
 		setLocationRelativeTo(null);
@@ -139,7 +144,7 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		btnDangNhap.setBounds(222, 452, 178, 41);
 		pnLogin.add(btnDangNhap);
 		
-		btnThemAccount = new JButton("Thêm Account ");
+		btnThemAccount = new JButton("Đăng ký tài khoản");
 		btnThemAccount.addActionListener(this);
 		btnThemAccount.setForeground(new Color(245, 255, 250));
 		btnThemAccount.setBackground(Color.BLUE);

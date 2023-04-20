@@ -43,7 +43,7 @@ public class Tour_DAO implements ITour{
 				byte[] byteArr = clob.getBytes(1, (int)clob.length());
 				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
 				BufferedImage img = ImageIO.read(bis);
-				LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
+				//LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
 				Time tgTapTrung = rs.getTime(8);
 				String diemDI = rs.getNString(9);
 				String diemDen = rs.getNString(10);
@@ -51,7 +51,7 @@ public class Tour_DAO implements ITour{
 				String tenhdv = rs.getNString("tenHDV");
 				String sdt = rs.getNString("sdt");
 				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
-				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen, hdv);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, tgTapTrung, diemDI, diemDen, hdv);
 				ds.add(t);
 			}
 		} catch (Exception e) {
@@ -108,7 +108,7 @@ public class Tour_DAO implements ITour{
 				byte[] byteArr = clob.getBytes(1, (int)clob.length());
 				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
 				BufferedImage img = ImageIO.read(bis);
-				LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
+				//LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
 				Time tgTapTrung = rs.getTime(8);
 				String diemDI = rs.getNString(9);
 				String diemDen = rs.getNString(10);
@@ -116,7 +116,7 @@ public class Tour_DAO implements ITour{
 				String tenhdv = rs.getNString("tenHDV");
 				String sdt = rs.getNString("sdt");
 				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
-				t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen, hdv);
+				t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, tgTapTrung, diemDI, diemDen, hdv);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -159,7 +159,7 @@ public class Tour_DAO implements ITour{
 				byte[] byteArr = clob.getBytes(1, (int)clob.length());
 				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
 				BufferedImage img = ImageIO.read(bis);
-				LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
+				//LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
 				Time tgTapTrung = rs.getTime(8);
 				String diemDi1 = rs.getNString(9);
 				String diemDen1 = rs.getNString(10);
@@ -167,7 +167,7 @@ public class Tour_DAO implements ITour{
 				String tenhdv = rs.getNString("tenHDV");
 				String sdt = rs.getNString("sdt");
 				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
-				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDi1, diemDen1,hdv);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, tgTapTrung, diemDi1, diemDen1,hdv);
 				list.add(t);
 			}
 		} catch (Exception e) {
@@ -175,6 +175,55 @@ public class Tour_DAO implements ITour{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public ArrayList<Tour> timKiem(String diemDi, String diemDen) {
+		// TODO Auto-generated method stub
+		ArrayList<Tour> list = new ArrayList<Tour>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV where diemDi = ? and diemDen = ?";// and convert(date,tgKhoiHanh) = ?
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, diemDi);
+			statement.setNString(2, diemDen);
+			//statement.setString(3, ngayDi);
+			//System.out.println(diemDi+ diemDen+ ngayDi);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String ma = rs.getString(1);
+				String ten = rs.getString(2);
+				LocalDate ngayKhoiHanh = rs.getDate(3).toLocalDate();
+				Time tgKhoiHanh = rs.getTime(3);
+				int soNgay = rs.getInt(4);
+				int soVeConLai = rs.getInt(5);
+				double gia= rs.getDouble(6);
+				Blob clob = rs.getBlob(7);
+				byte[] byteArr = clob.getBytes(1, (int)clob.length());
+				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
+				BufferedImage img = ImageIO.read(bis);
+				//LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
+				Time tgTapTrung = rs.getTime(8);
+				String diemDi1 = rs.getNString(9);
+				String diemDen1 = rs.getNString(10);
+				String mahdv = rs.getNString("maHDV");
+				String tenhdv = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, tgTapTrung, diemDi1, diemDen1,hdv);
+				list.add(t);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@Override
+	public ArrayList<Tour> timKiem(String noiDungTimKiem) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

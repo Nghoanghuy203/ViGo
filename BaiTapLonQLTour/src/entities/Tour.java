@@ -13,6 +13,8 @@ import java.util.Objects;
 
 import javax.swing.ImageIcon;
 
+import custom_entity.Format;
+
 public class Tour {
 	private String maTour;
 	private String tenTour;
@@ -22,7 +24,6 @@ public class Tour {
 	private int soVeConLai;
 	private double gia;
 	private BufferedImage hinhAnh;
-	private LocalDate ngayTapTrung;
 	private Time tgTapTrung;
 	private String diemDi;
 	private String diemDen;
@@ -76,12 +77,6 @@ public class Tour {
 	public void setHinhAnh(BufferedImage hinhAnh) {
 		this.hinhAnh = hinhAnh;
 	}
-	public LocalDate getNgayTapTrung() {
-		return ngayTapTrung;
-	}
-	public void setNgayTapTrung(LocalDate ngayTapTrung) {
-		this.ngayTapTrung = ngayTapTrung;
-	}
 	public Time getTgTapTrung() {
 		return tgTapTrung;
 	}
@@ -108,7 +103,7 @@ public class Tour {
 		this.hdv = hdv;
 	}
 	public Tour(String maTour, String tenTour, LocalDate ngayKhoiHanh, Time tgKhoiHanh, int soNgay, int soVeConLai,
-			double gia, BufferedImage hinhAnh, LocalDate ngayTapTrung, Time tgTapTrung, String diemDi, String diemDen, HuongDanVien hdv) {
+			double gia, BufferedImage hinhAnh, Time tgTapTrung, String diemDi, String diemDen, HuongDanVien hdv) {
 		super();
 		this.maTour = maTour;
 		this.tenTour = tenTour;
@@ -118,7 +113,6 @@ public class Tour {
 		this.soVeConLai = soVeConLai;
 		this.gia = gia;
 		this.hinhAnh = hinhAnh;
-		this.ngayTapTrung = ngayTapTrung;
 		this.tgTapTrung = tgTapTrung;
 		this.diemDi = diemDi;
 		this.diemDen = diemDen;
@@ -147,7 +141,10 @@ public class Tour {
 		return Objects.equals(maTour, other.maTour);
 	}
 	
-	
+	@Override
+    public String toString() {
+        return maTour + ";" + tenTour  + ";" + tgTapTrung + ";" + tgKhoiHanh  + ngayKhoiHanh + ";" + soNgay + ";" + soVeConLai + ";" + Format.formatMoneyVND(gia) + ";" + diemDi + ";" + diemDen+";"+hdv.getMaHDV();
+    }
 	
 	
 	

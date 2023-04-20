@@ -153,7 +153,7 @@ public class ThemAccount extends JFrame implements ActionListener {
 		lblgioiTinh.setBounds(28, 377, 389, 13);
 		pnSignin.add(lblgioiTinh);
 		
-		btnLogIn = new JButton("Log In");
+		btnLogIn = new JButton("Trở về đăng nhập");
 		btnLogIn.addActionListener(this);
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogIn.setBackground(Color.BLUE);

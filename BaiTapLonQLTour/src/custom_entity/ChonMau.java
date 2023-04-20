@@ -1,4 +1,4 @@
-package View;
+package custom_entity;
 
 import java.awt.Color;
 import java.awt.HeadlessException;

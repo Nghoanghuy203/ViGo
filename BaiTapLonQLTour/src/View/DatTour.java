@@ -15,12 +15,15 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import app.Test;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import entities.Tour;
 
 import java.awt.ScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Font;
@@ -58,7 +61,7 @@ public class DatTour extends JFrame {
 	private JLabel tenTour,maTour,ngayKhoiHanh,gioDi,diemTapTrung,soNgay,noiKhoiHanh,soChoConNhan,tenHDV,sdtHDV,giaTour,hinhAnh;
 	private int soVeCon;
 	
- 
+	private FormDangNhap f = new FormDangNhap();
 	/**
 	 * Launch the application.
 	 */
@@ -122,13 +125,12 @@ public class DatTour extends JFrame {
 		pnHeader.add(btnExit);
 		
 		JLabel btnUser = new JLabel("");
-//		btnUser.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				login = new LoginSignup();
-//				login.main(null);
-//			}
-//		});
+		btnUser.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				f.setVisible(true);
+			}
+		});
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUser.setForeground(new Color(255, 255, 255));
 		btnUser.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\user.png"));
@@ -201,6 +203,14 @@ public class DatTour extends JFrame {
 		pnDatTour.add(sdtHDV);
 		
 		JPanel btnDatNgay = new JPanel();
+		btnDatNgay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (!Test.isLogin) {
+					showLogin();
+				}
+			}
+		});
 		btnDatNgay.setBackground(new Color(220, 20, 60));
 		btnDatNgay.setToolTipText("");
 		btnDatNgay.setBounds(74, 615, 246, 49);
@@ -303,7 +313,7 @@ public class DatTour extends JFrame {
 		giaTour.setText(df.format(t.getGia()));
 		ngayKhoiHanh.setText("Ngày khởi hành: "+dtf.format(t.getNgayKhoiHanh()));
 		gioDi.setText("-Giờ đi: "+DateFormat.getTimeInstance().format(t.getTgKhoiHanh()));
-		diemTapTrung.setText("Thời gian tập trung: "+DateFormat.getTimeInstance().format(t.getTgTapTrung())+", "+dtf.format(t.getNgayTapTrung()));
+		diemTapTrung.setText("Thời gian tập trung: "+DateFormat.getTimeInstance().format(t.getTgTapTrung())+", "+dtf.format(t.getNgayKhoiHanh()));
 		soNgay.setText("Thời gian: "+t.getSoNgay()+" ngày");
 		noiKhoiHanh.setText("Lộ trình: "+t.getDiemDi()+" đến "+t.getDiemDen());
 		soChoConNhan.setText("Số vé còn nhận: "+t.getSoVeConLai());
@@ -318,5 +328,12 @@ public class DatTour extends JFrame {
 		g2.drawImage(img, 0, 0, w, h,null);
 		g2.dispose();
 		return resizedImage;
+	}
+	public void showLogin() {
+		if (!Test.isLogin) {
+			if (JOptionPane.showConfirmDialog(this, "Bạn cần đăng nhập tài khoản để đặt tour!", "Lưu ý", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+				new FormDangNhap().setVisible(true);
+			}	
+		}
 	}
 }

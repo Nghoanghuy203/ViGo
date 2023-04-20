@@ -1,4 +1,4 @@
-package View;
+package custom_entity;
 
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -196,7 +196,7 @@ public class CustomComboxBox extends JComboBox<Object> implements PopupMenuListe
 		pnCustomComboxBox.add(this);
 		pnCustomComboxBox.setBackground(panelColor);
 
-		this.setPreferredSize(new Dimension((int) (height * 0.8), (int) (width * 0.8)));
+		this.setPreferredSize(new Dimension((int) (height * 0.9), (int) (width * 0.9)));
 		pnCustomComboxBox.setBounds(x, y, height, width);
 		pnCustomComboxBox.setPreferredSize(new Dimension(height, width));
 		return pnCustomComboxBox;

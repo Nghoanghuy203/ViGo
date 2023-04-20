@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
+import custom_entity.ChonMau;
+import custom_entity.CustomComboxBox;
+import custom_entity.DateLabelFormatter;
+import custom_entity.RoundedCornerBorder;
 import entities.Tour;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -51,7 +55,6 @@ import javax.swing.SpringLayout;
 
 @SuppressWarnings("serial")
 public class Home extends JFrame {
-
 	private JPanel pnHome;
 	private LoginSignup login;
 	private DatTour datTour;
@@ -221,7 +224,7 @@ public class Home extends JFrame {
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		datePicker.setBounds(490, 12, 180, 35);
 		datePicker.getJDateInstantPanel().setShowYearButtons(true);
-		datePicker.getJFormattedTextField().setText("2023-01-01");
+		//datePicker.getJFormattedTextField().setText("2023-01-01");
 		datePicker.getJFormattedTextField().setForeground(Color.blue);
 		datePicker.setButtonFocusable(false);
 		
@@ -806,25 +809,24 @@ public class Home extends JFrame {
 		return resizedImage;
 	}
 	private void showListSearch() {
+		sDDi = (String) cboDiemDi.getSelectedItem();
+		sDDen = (String) cboDiemDen.getSelectedItem();
 		Date date= (Date) datePicker.getModel().getValue();
-		if (date==null) {
-			txtMess.setText("chọn ngày!");
-			return;
-		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		sNgay=sdf.format(date);
-		System.out.println(sDDi+ sDDen+ sNgay);
-		dsTimKiem=tourBus.timKiem(sDDi, sDDen, sNgay);
+		if(date != null) {
+			sNgay=sdf.format(date);
+			dsTimKiem=tourBus.timKiem(sDDi, sDDen, sNgay);
+		} else dsTimKiem=tourBus.timKiem(sDDi, sDDen);
+		
 		if (dsTimKiem.size()>0) {
-			txtMess.setText("");
 			iTour=0;
 			ds=dsTimKiem;
 			lItem=ds.size();
 			showList(iTour);
 		}
 		else txtMess.setText("không tìm thấy kết quả!");
-		System.out.println(sNgay);
 	}
+	
 
 	private String[] updateCboBoxDiemDi() {
 		String[] s = {};
@@ -840,7 +842,6 @@ public class Home extends JFrame {
 		List<String> list = new ArrayList<>(Arrays.asList(s));
 		for (Tour t : tourBus.getDS()) {
 				if (!list.contains(t.getDiemDen())) list.add(t.getDiemDen());
-			
 		}
 		s=list.toArray(new String[0]);
 		return s;
