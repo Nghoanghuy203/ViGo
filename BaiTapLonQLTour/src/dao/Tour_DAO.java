@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import connectDB.ConnectDB;
+import entities.HuongDanVien;
 import entities.Tour;
 import my_Interfaces.ITour;
 
@@ -27,12 +28,12 @@ public class Tour_DAO implements ITour{
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "Select * from Tour order by tgCapNhat desc";
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV order by tgCapNhat desc";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				String ma = rs.getString(1);
-				String ten = rs.getString(2);
+				String ma = rs.getNString(1);
+				String ten = rs.getNString(2);
 				LocalDate ngayKhoiHanh = rs.getDate(3).toLocalDate();
 				Time tgKhoiHanh = rs.getTime(3);
 				int soNgay = rs.getInt(4);
@@ -46,7 +47,11 @@ public class Tour_DAO implements ITour{
 				Time tgTapTrung = rs.getTime(8);
 				String diemDI = rs.getNString(9);
 				String diemDen = rs.getNString(10);
-				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen);
+				String mahdv = rs.getNString("maHDV");
+				String tenhdv = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen, hdv);
 				ds.add(t);
 			}
 		} catch (Exception e) {
@@ -87,7 +92,7 @@ public class Tour_DAO implements ITour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "select * from tour where maTour = ?";
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV where maTour = ?";
 			statement = con.prepareStatement(sql);
 			statement.setString(1, id);
 			ResultSet rs = statement.executeQuery();
@@ -107,7 +112,11 @@ public class Tour_DAO implements ITour{
 				Time tgTapTrung = rs.getTime(8);
 				String diemDI = rs.getNString(9);
 				String diemDen = rs.getNString(10);
-				t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen);
+				String mahdv = rs.getNString("maHDV");
+				String tenhdv = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
+				t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDI, diemDen, hdv);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -131,7 +140,7 @@ public class Tour_DAO implements ITour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "select * from tour where diemDi = ? and diemDen = ? and convert(DATE,tgKhoiHanh) = ?";// and convert(date,tgKhoiHanh) = ?
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV where diemDi = ? and diemDen = ? and convert(DATE,tgKhoiHanh) = ?";// and convert(date,tgKhoiHanh) = ?
 			statement = con.prepareStatement(sql);
 			statement.setNString(1, diemDi);
 			statement.setNString(2, diemDen);
@@ -154,7 +163,11 @@ public class Tour_DAO implements ITour{
 				Time tgTapTrung = rs.getTime(8);
 				String diemDi1 = rs.getNString(9);
 				String diemDen1 = rs.getNString(10);
-				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDi1, diemDen1);
+				String mahdv = rs.getNString("maHDV");
+				String tenhdv = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, ngayTapTrung, tgTapTrung, diemDi1, diemDen1,hdv);
 				list.add(t);
 			}
 		} catch (Exception e) {

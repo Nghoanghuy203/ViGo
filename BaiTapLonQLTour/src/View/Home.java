@@ -34,10 +34,12 @@ import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 
+import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import org.jdatepicker.util.JDatePickerUtil;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -45,7 +47,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SpringLayout;
 
+@SuppressWarnings("serial")
 public class Home extends JFrame {
 
 	private JPanel pnHome;
@@ -75,6 +79,7 @@ public class Home extends JFrame {
 	private String sDDi, sDDen, sNgay;
 	private JTextField txtMess;
 	private JLabel btnUndo, btnRedu;
+	private SpringLayout springLayout;
 	/**
 	 * Launch the application.
 	 */
@@ -103,6 +108,7 @@ public class Home extends JFrame {
 		setUndecorated(true);
 		this.setLocationRelativeTo(null);
 		pnHome = new JPanel();
+		pnHome.setIgnoreRepaint(true);
 		pnHome.setBackground(Color.WHITE);
 		pnHome.setBorder(new LineBorder(new Color(65, 105, 225), 1, true));
 
@@ -133,8 +139,10 @@ public class Home extends JFrame {
 		btnUser.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				login = new LoginSignup();
-				login.main(null);
+//				login = new LoginSignup();
+//				login.main(null);
+				FormDangNhap f = new FormDangNhap();
+				f.setVisible(true);
 			}
 		});
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -207,18 +215,24 @@ public class Home extends JFrame {
 		p.put("text.year", "Year");
 		datePanel = new JDatePanelImpl(model, p);
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		datePicker.getJFormattedTextField().setBorder(new LineBorder(new Color(65, 105, 225), 1, true));
+		datePicker.setBorder(new RoundedCornerBorder());
+		datePicker.getJFormattedTextField().setBorder(null);
 		datePicker.setBackground(new Color(255, 255, 255));
 		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		datePicker.setBounds(490, 17, 180, 28);
+		datePicker.setBounds(490, 12, 180, 35);
 		datePicker.getJDateInstantPanel().setShowYearButtons(true);
 		datePicker.getJFormattedTextField().setText("2023-01-01");
+		datePicker.getJFormattedTextField().setForeground(Color.blue);
+		datePicker.setButtonFocusable(false);
+		
+		
 		//sNgay="2023-01-01";
 		//Date d = new Date(2023, 01, 01);
 		//datePicker.getModel().setSelected(false);
 		search.add(datePicker);
 		
 		JButton btnNewButton = new JButton("Tìm");
+		btnNewButton.setIcon(new ImageIcon(Home.class.getResource("/images/341216476_608902234206627_540418413920865547_n.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//dsTimKiem.removeAll(dsTimKiem);
@@ -229,9 +243,9 @@ public class Home extends JFrame {
 			}
 		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBorder(null);
+		btnNewButton.setBorder(new RoundedCornerBorder());
 		btnNewButton.setBackground(new Color(65, 105, 225));
-		btnNewButton.setBounds(720, 20, 60, 23);
+		btnNewButton.setBounds(705, 16, 70, 30);
 		search.add(btnNewButton);
 		//cbo1.setBounds(320, 110, 180, 30);
 		//
@@ -583,6 +597,7 @@ public class Home extends JFrame {
 		pnHome.add(btnRedu);
 		
 		txtMess = new JTextField();
+		txtMess.setSelectionColor(new Color(255, 0, 0));
 		txtMess.setBorder(null);
 		txtMess.setHorizontalAlignment(SwingConstants.CENTER);
 		txtMess.setForeground(new Color(255, 0, 0));

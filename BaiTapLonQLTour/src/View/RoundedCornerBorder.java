@@ -13,11 +13,9 @@ import javax.swing.plaf.basic.BasicComboPopup;
 
 public class RoundedCornerBorder extends AbstractBorder{
 	  protected static final int ARC = 25;
-	  @Override public void paintBorder(
-	      Component c, Graphics g, int x, int y, int width, int height) {
+	  @Override public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 	    Graphics2D g2 = (Graphics2D) g.create();
-	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	                        RenderingHints.VALUE_ANTIALIAS_ON);
+	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 	    int r = ARC;
 	    int w = width  - 1;
 	    int h = height - 1;
@@ -35,7 +33,7 @@ public class RoundedCornerBorder extends AbstractBorder{
 	        g2.fill(corner);
 	      }
 	    }
-	    g2.setPaint(c.getForeground());
+	    g2.setPaint(Color.blue);
 	    g2.draw(round);
 	    g2.dispose();
 	  }
@@ -46,4 +44,5 @@ public class RoundedCornerBorder extends AbstractBorder{
 	    insets.set(4, 8, 4, 8);
 	    return insets;
 	  }
+	  
 }

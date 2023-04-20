@@ -26,6 +26,7 @@ public class Tour {
 	private Time tgTapTrung;
 	private String diemDi;
 	private String diemDen;
+	private HuongDanVien hdv;
 	
 	public String getMaTour() {
 		return maTour;
@@ -100,8 +101,14 @@ public class Tour {
 		this.diemDen = diemDen;
 	}
 	
+	public HuongDanVien getHdv() {
+		return hdv;
+	}
+	public void setHdv(HuongDanVien hdv) {
+		this.hdv = hdv;
+	}
 	public Tour(String maTour, String tenTour, LocalDate ngayKhoiHanh, Time tgKhoiHanh, int soNgay, int soVeConLai,
-			double gia, BufferedImage hinhAnh, LocalDate ngayTapTrung, Time tgTapTrung, String diemDi, String diemDen) {
+			double gia, BufferedImage hinhAnh, LocalDate ngayTapTrung, Time tgTapTrung, String diemDi, String diemDen, HuongDanVien hdv) {
 		super();
 		this.maTour = maTour;
 		this.tenTour = tenTour;
@@ -115,6 +122,7 @@ public class Tour {
 		this.tgTapTrung = tgTapTrung;
 		this.diemDi = diemDi;
 		this.diemDen = diemDen;
+		this.hdv=hdv;
 	}
 	public Tour(String maTour) {
 		super();

@@ -44,6 +44,7 @@ import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 public class DatTour extends JFrame {
 
@@ -87,11 +88,12 @@ public class DatTour extends JFrame {
 		}
 		//
 		tour_BUS = new Tour_BUS();
-		
+		setSize(1200, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		//setBounds(84, 99, 1200, 620);
-		setBounds(84,19,1200,700);
+		//setBounds(84,19,1200,700);
+		setLocationRelativeTo(null);
 		pnDatTour = new JPanel();
 		pnDatTour.setBackground(new Color(255, 255, 255));
 		pnDatTour.setBorder(null);
@@ -166,7 +168,7 @@ public class DatTour extends JFrame {
 		pnDatTour.add(ngayKhoiHanh);
 		
 		gioDi = new JLabel("- Giờ đi: 17:50");
-		gioDi.setBounds(300, 252, 131, 14);
+		gioDi.setBounds(278, 252, 131, 14);
 		pnDatTour.add(gioDi);
 		
 		diemTapTrung = new JLabel("Tập trung 15:00 tại sân bay Tân Sơn Nhất ");
@@ -201,19 +203,19 @@ public class DatTour extends JFrame {
 		JPanel btnDatNgay = new JPanel();
 		btnDatNgay.setBackground(new Color(220, 20, 60));
 		btnDatNgay.setToolTipText("");
-		btnDatNgay.setBounds(732, 542, 287, 49);
+		btnDatNgay.setBounds(74, 615, 246, 49);
 		pnDatTour.add(btnDatNgay);
 		btnDatNgay.setLayout(null);
 		
 		JLabel lblNewLabel_10 = new JLabel("Đặt ngay");
 		lblNewLabel_10.setForeground(new Color(255, 255, 255));
-		lblNewLabel_10.setBounds(116, 11, 74, 29);
+		lblNewLabel_10.setBounds(97, 11, 74, 29);
 		btnDatNgay.add(lblNewLabel_10);
 		
 		hinhAnh = new JLabel("");
 		hinhAnh.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		hinhAnh.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\thanh-pho-da-lat.jpg"));
-		hinhAnh.setBounds(593, 123, 560, 332);
+		hinhAnh.setBounds(469, 123, 653, 332);
 		pnDatTour.add(hinhAnh);
 		
 		JLabel btnTroVe = new JLabel("Trở về");
@@ -224,7 +226,7 @@ public class DatTour extends JFrame {
 				//System.exit(0);
 			}
 		});
-		btnTroVe.setIcon(new ImageIcon("C:\\Users\\nghoa\\Downloads\\back.png"));
+		btnTroVe.setIcon(new ImageIcon(DatTour.class.getResource("/images/back.png")));
 		btnTroVe.setBounds(10, 90, 80, 21);
 		pnDatTour.add(btnTroVe);
 		
@@ -244,14 +246,14 @@ public class DatTour extends JFrame {
 				showTable();
 			}
         });
-		spinner.setBounds(231, 427, 30, 28);
+		spinner.setBounds(230, 485, 45, 28);
 		pnDatTour.add(spinner);
 		spinner.setValue((int)1);
 		
 		
 		JLabel soLuongVe = new JLabel("Số lượng vé");
 		soLuongVe.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 24));
-		soLuongVe.setBounds(74, 427, 161, 28);
+		soLuongVe.setBounds(74, 485, 161, 28);
 		pnDatTour.add(soLuongVe);
 		String header[] = {"STT","Họ tên","Số điện thoại"};
 		tableModel = new DefaultTableModel(header, 0);
@@ -266,7 +268,7 @@ public class DatTour extends JFrame {
 		scrollPane.setBorder(null);
 		scrollPane.setBackground(new Color(255, 255, 255));
 		table.setBorder(null);
-		scrollPane.setBounds(74, 490, 468, 166);
+		scrollPane.setBounds(469, 489, 653, 175);
 		pnDatTour.add(scrollPane);
 		
 		
@@ -303,9 +305,11 @@ public class DatTour extends JFrame {
 		gioDi.setText("-Giờ đi: "+DateFormat.getTimeInstance().format(t.getTgKhoiHanh()));
 		diemTapTrung.setText("Thời gian tập trung: "+DateFormat.getTimeInstance().format(t.getTgTapTrung())+", "+dtf.format(t.getNgayTapTrung()));
 		soNgay.setText("Thời gian: "+t.getSoNgay()+" ngày");
-		noiKhoiHanh.setText("Lịch trình: "+t.getDiemDi()+" đến "+t.getDiemDen());
+		noiKhoiHanh.setText("Lộ trình: "+t.getDiemDi()+" đến "+t.getDiemDen());
 		soChoConNhan.setText("Số vé còn nhận: "+t.getSoVeConLai());
 		hinhAnh.setIcon(new ImageIcon(scaledImage(t.getHinhAnh(), hinhAnh.getWidth(), hinhAnh.getHeight())));
+		tenHDV.setText("Họ tên: "+t.getHdv().getHoTen());
+		sdtHDV.setText("Số điện thoại: "+t.getHdv().getSdt());
 	}
 	private BufferedImage scaledImage(BufferedImage img, int w, int h) {
 		BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
@@ -315,5 +319,4 @@ public class DatTour extends JFrame {
 		g2.dispose();
 		return resizedImage;
 	}
-	
 }
