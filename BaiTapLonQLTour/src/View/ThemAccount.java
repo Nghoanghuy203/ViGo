@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import custom_entity.ScaledImg;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -31,8 +34,10 @@ import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
+import javax.swing.border.MatteBorder;
 
 public class ThemAccount extends JFrame implements ActionListener {
 	
@@ -64,6 +69,7 @@ public class ThemAccount extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private JLabel lblNgaySinh;
 
 	/**
 	 * Launch the application.
@@ -115,42 +121,43 @@ public class ThemAccount extends JFrame implements ActionListener {
 		pnSignin.add(lblNewLabel);
 		
 		txtemail = new JTextField();
-		txtemail.setBounds(28, 73, 389, 27);
+		txtemail.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(65, 105, 225)));
+		txtemail.setBounds(30, 60, 400, 25);
 		pnSignin.add(txtemail);
 		txtemail.setColumns(10);
 		
 		txthoTen = new JTextField();
 		txthoTen.setColumns(10);
-		txthoTen.setBounds(28, 263, 389, 27);
+		txthoTen.setBounds(30, 240, 400, 25);
 		pnSignin.add(txthoTen);
 		
 		txtsDT = new JTextField();
 		txtsDT.setColumns(10);
-		txtsDT.setBounds(28, 330, 389, 27);
+		txtsDT.setBounds(30, 300, 400, 25);
 		pnSignin.add(txtsDT);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(28, 49, 389, 13);
+		lblEmail.setBounds(30, 40, 400, 15);
 		pnSignin.add(lblEmail);
 		
 		lblMK = new JLabel("Mật Khẩu");
-		lblMK.setBounds(28, 110, 389, 13);
+		lblMK.setBounds(30, 100, 389, 15);
 		pnSignin.add(lblMK);
 		
 		lblnhapLaiMK = new JLabel("Nhập Lại mật khẩu");
-		lblnhapLaiMK.setBounds(28, 176, 389, 13);
+		lblnhapLaiMK.setBounds(30, 160, 400, 15);
 		pnSignin.add(lblnhapLaiMK);
 		
 		lblhoten = new JLabel("Họ Tên");
-		lblhoten.setBounds(28, 240, 389, 13);
+		lblhoten.setBounds(30, 220, 400, 15);
 		pnSignin.add(lblhoten);
 		
 		lblsDT = new JLabel("Số Điện Thoại");
-		lblsDT.setBounds(28, 307, 389, 13);
+		lblsDT.setBounds(30, 280, 400, 15);
 		pnSignin.add(lblsDT);
 		
 		lblgioiTinh = new JLabel("Giới Tính");
-		lblgioiTinh.setBounds(28, 377, 389, 13);
+		lblgioiTinh.setBounds(30, 400, 400, 15);
 		pnSignin.add(lblgioiTinh);
 		
 		btnLogIn = new JButton("Trở về đăng nhập");
@@ -158,7 +165,7 @@ public class ThemAccount extends JFrame implements ActionListener {
 		btnLogIn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogIn.setBackground(Color.BLUE);
 		btnLogIn.setForeground(Color.WHITE);
-		btnLogIn.setBounds(28, 469, 190, 47);
+		btnLogIn.setBounds(30, 460, 190, 50);
 		pnSignin.add(btnLogIn);
 		
 		btnThemAccount = new JButton("Đăng Ký");
@@ -166,28 +173,32 @@ public class ThemAccount extends JFrame implements ActionListener {
 		btnThemAccount.setForeground(Color.WHITE);
 		btnThemAccount.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnThemAccount.setBackground(Color.BLUE);
-		btnThemAccount.setBounds(228, 469, 189, 47);
+		btnThemAccount.setBounds(240, 460, 190, 50);
 		pnSignin.add(btnThemAccount);
 		
 		txtPass1 = new JPasswordField();
-		txtPass1.setBounds(28, 133, 389, 33);
+		txtPass1.setBounds(30, 120, 400, 25);
 		pnSignin.add(txtPass1);
 		
 		txtPass2 = new JPasswordField();
-		txtPass2.setBounds(28, 199, 389, 33);
+		txtPass2.setBounds(30, 180, 400, 25);
 		pnSignin.add(txtPass2);
 		
 		
 		
 		JRadioButton radNam = new JRadioButton("Nam");
 		radNam.setBackground(new Color(255, 255, 255, 0));
-		radNam.setBounds(308, 397, 109, 23);
+		radNam.setBounds(240, 420, 100, 25);
 		pnSignin.add(radNam);
 		
 		JRadioButton radNu = new JRadioButton("Nữ");
 		radNu.setBackground(new Color(255, 255, 255, 0));
-		radNu.setBounds(28, 397, 109, 23);
+		radNu.setBounds(30, 420, 100, 25);
 		pnSignin.add(radNu);
+		
+		ButtonGroup groupRad = new ButtonGroup();
+		groupRad.add(radNu);
+		groupRad.add(radNam);
 		
 		JLabel btnTroVe = new JLabel("Trở về");
 		btnTroVe.addMouseListener(new MouseAdapter() {
@@ -201,6 +212,11 @@ public class ThemAccount extends JFrame implements ActionListener {
 		btnTroVe.setBounds(700, 10, 80, 21);
 		pnSignin.add(btnTroVe);
 		
+
+		lblNgaySinh = new JLabel("Ngày sinh");
+		lblNgaySinh.setBounds(30, 340, 400, 15);
+		pnSignin.add(lblNgaySinh);
+		
 		JLabel hinhnen = new JLabel("New label");
 		File f =new File(ThemAccount.class.getResource("/images/anhnen.jpg").getFile());
 		BufferedImage img =null;
@@ -210,9 +226,10 @@ public class ThemAccount extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		hinhnen.setIcon(new ImageIcon(scaledImage(img, pnSignin.getWidth(), pnSignin.getHeight())));
+		hinhnen.setIcon(new ImageIcon(ScaledImg.scaledImage(img, pnSignin.getWidth(), pnSignin.getHeight())));
 		hinhnen.setBounds(0, 0, 800, 560);
 		pnSignin.add(hinhnen);
+		
 	}
 
 	@Override
@@ -255,13 +272,5 @@ public class ThemAccount extends JFrame implements ActionListener {
 			l.setVisible(true);
 			this.dispose();
 		}
-	}
-	private BufferedImage scaledImage(BufferedImage img, int w, int h) {
-		BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = resizedImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(img, 0, 0, w, h,null);
-		g2.dispose();
-		return resizedImage;
 	}
 }

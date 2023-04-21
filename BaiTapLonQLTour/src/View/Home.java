@@ -8,6 +8,7 @@ import custom_entity.ChonMau;
 import custom_entity.CustomComboxBox;
 import custom_entity.DateLabelFormatter;
 import custom_entity.RoundedCornerBorder;
+import custom_entity.ScaledImg;
 import entities.Tour;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -743,7 +744,7 @@ public class Home extends JFrame {
 	}
 	
 	private void updateDataItem1(int i) {
-		tourPicture1.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture1.getWidth(),tourPicture1.getHeight())));
+		tourPicture1.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture1.getWidth(),tourPicture1.getHeight())));
 		tourName1.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice1.setText(df.format(ds.get(i).getGia()));
@@ -754,7 +755,7 @@ public class Home extends JFrame {
 	}
 	
 	private void updateDataItem2(int i) {
-		tourPicture2.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture2.getWidth(),tourPicture2.getHeight())));
+		tourPicture2.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture2.getWidth(),tourPicture2.getHeight())));
 		tourName2.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice2.setText(df.format(ds.get(i).getGia()));
@@ -764,7 +765,7 @@ public class Home extends JFrame {
 	}
 	
 	private void updateDataItem3(int i) {
-		tourPicture3.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture3.getWidth(),tourPicture3.getHeight())));
+		tourPicture3.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture3.getWidth(),tourPicture3.getHeight())));
 		tourName3.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice3.setText(df.format(ds.get(i).getGia()));
@@ -774,7 +775,7 @@ public class Home extends JFrame {
 	}
 	
 	private void updateDataItem4(int i) {
-		tourPicture4.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture4.getWidth(),tourPicture4.getHeight())));
+		tourPicture4.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture4.getWidth(),tourPicture4.getHeight())));
 		tourName4.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice4.setText(df.format(ds.get(i).getGia()));
@@ -783,7 +784,7 @@ public class Home extends JFrame {
 		tourID4.setText("Mã tour: "+ds.get(i).getMaTour());
 	}
 	private void updateDataItem5(int i) {
-		tourPicture5.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture5.getWidth(),tourPicture5.getHeight())));
+		tourPicture5.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture5.getWidth(),tourPicture5.getHeight())));
 		tourName5.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice5.setText(df.format(ds.get(i).getGia()));
@@ -792,7 +793,7 @@ public class Home extends JFrame {
 		tourID5.setText("Mã tour: "+ds.get(i).getMaTour());
 	}
 	private void updateDataItem6(int i) {
-		tourPicture6.setIcon(new ImageIcon(scaledImage(ds.get(i).getHinhAnh(),tourPicture6.getWidth(),tourPicture6.getHeight())));
+		tourPicture6.setIcon(new ImageIcon(ScaledImg.scaledImage(ds.get(i).getHinhAnh(),tourPicture6.getWidth(),tourPicture6.getHeight())));
 		tourName6.setText(ds.get(i).getTenTour());
 		DecimalFormat df = new DecimalFormat("#,###Đ");
 		tourPrice6.setText(df.format(ds.get(i).getGia()));
@@ -800,14 +801,7 @@ public class Home extends JFrame {
 		tourTime6.setText(dtf.format(ds.get(i).getNgayKhoiHanh())+" - "+ds.get(i).getSoNgay()+" ngày");
 		tourID6.setText("Mã tour: "+ds.get(i).getMaTour());
 	}
-	private BufferedImage scaledImage(BufferedImage img, int w, int h) {
-		BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = resizedImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(img, 0, 0, w, h,null);
-		g2.dispose();
-		return resizedImage;
-	}
+
 	private void showListSearch() {
 		sDDi = (String) cboDiemDi.getSelectedItem();
 		sDDen = (String) cboDiemDen.getSelectedItem();

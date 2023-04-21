@@ -18,6 +18,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import app.Test;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
+import custom_entity.ScaledImg;
 import entities.Tour;
 
 import java.awt.ScrollPane;
@@ -209,6 +210,8 @@ public class DatTour extends JFrame {
 				if (!Test.isLogin) {
 					showLogin();
 				}
+				else showMs();
+					
 			}
 		});
 		btnDatNgay.setBackground(new Color(220, 20, 60));
@@ -317,23 +320,19 @@ public class DatTour extends JFrame {
 		soNgay.setText("Thời gian: "+t.getSoNgay()+" ngày");
 		noiKhoiHanh.setText("Lộ trình: "+t.getDiemDi()+" đến "+t.getDiemDen());
 		soChoConNhan.setText("Số vé còn nhận: "+t.getSoVeConLai());
-		hinhAnh.setIcon(new ImageIcon(scaledImage(t.getHinhAnh(), hinhAnh.getWidth(), hinhAnh.getHeight())));
+		hinhAnh.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), hinhAnh.getWidth(), hinhAnh.getHeight())));
 		tenHDV.setText("Họ tên: "+t.getHdv().getHoTen());
 		sdtHDV.setText("Số điện thoại: "+t.getHdv().getSdt());
 	}
-	private BufferedImage scaledImage(BufferedImage img, int w, int h) {
-		BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = resizedImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(img, 0, 0, w, h,null);
-		g2.dispose();
-		return resizedImage;
-	}
+
 	public void showLogin() {
 		if (!Test.isLogin) {
 			if (JOptionPane.showConfirmDialog(this, "Bạn cần đăng nhập tài khoản để đặt tour!", "Lưu ý", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 				new FormDangNhap().setVisible(true);
 			}	
 		}
+	}
+	public void showMs() {
+		JOptionPane.showMessageDialog(this, "succes!");
 	}
 }

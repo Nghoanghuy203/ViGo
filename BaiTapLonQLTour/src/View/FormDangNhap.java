@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import app.Test;
 import custom_entity.RoundedCornerBorder;
+import custom_entity.ScaledImg;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -185,13 +186,14 @@ public class FormDangNhap extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		hinhnen.setIcon(new ImageIcon(scaledImage(img, pnLogin.getWidth(), pnLogin.getHeight())));
+		hinhnen.setIcon(new ImageIcon(ScaledImg.scaledImage(img, pnLogin.getWidth(), pnLogin.getHeight())));
 		hinhnen.setBounds(0, 0, 800, 560);
 		pnLogin.add(hinhnen);
 		
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -202,23 +204,34 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		}
 		if(o.equals(btnDangNhap)) {
 			try {
-				Class.forName(driver);
-				Connection con = DriverManager.getConnection(url, user, password);
-				String sql = "select*from ACCOUNT where EMAIL=? and MATKHAU=?"; // truy vấn đến sql
-				PreparedStatement ps = con.prepareStatement(sql); 
-				ps.setString(1,txtemail.getText());
-				ps.setString(2,pFDangNhap.getText());
-				rs = ps.executeQuery();
-				
-				if(txtemail.getText().equals("") || pFDangNhap.getText().equals("")) {
-					JOptionPane.showMessageDialog(this, "Chưa nhập Email và Mật khẩu");
-				} else if(rs.next()) {
-					Home home = new Home();
-					home.setVisible(true);
-					this.dispose();
-					JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-				} else {
-					JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
+//				Class.forName(driver);
+//				Connection con = DriverManager.getConnection(url, user, password);
+//				String sql = "select*from ACCOUNT where EMAIL=? and MATKHAU=?"; // truy vấn đến sql
+//				PreparedStatement ps = con.prepareStatement(sql); 
+//				ps.setString(1,txtemail.getText());
+//				ps.setString(2,pFDangNhap.getText());
+//				rs = ps.executeQuery();
+//				
+//				if(txtemail.getText().equals("") || pFDangNhap.getText().equals("")) {
+//					JOptionPane.showMessageDialog(this, "Chưa nhập Email và Mật khẩu");
+//				} else if(rs.next()) {
+//					Home home = new Home();
+//					home.setVisible(true);
+//					this.dispose();
+//					JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+//				} else {
+//					JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
+//				}
+				if (txtemail.getText().trim().equals("hoanghuy") && pFDangNhap.getText().equals("123")) {
+					Test.isLogin=true;
+					NhanVienQuanLy qlnv = new NhanVienQuanLy();
+					qlnv.setVisible(true);
+					setVisible(false);
+				}
+				if (txtemail.getText().trim().equals("khachhang") && pFDangNhap.getText().equals("123")) {
+					setVisible(false);
+					Test.isLogin=true;
+					JOptionPane.showMessageDialog(this, "Đặt tour thành công");
 				}
 			} catch (Exception e2) {
 			
@@ -228,12 +241,5 @@ public class FormDangNhap extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		new FormDangNhap().setVisible(true);
 	}
-	private BufferedImage scaledImage(BufferedImage img, int w, int h) {
-		BufferedImage resizedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = resizedImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(img, 0, 0, w, h,null);
-		g2.dispose();
-		return resizedImage;
-	}
+
 }

@@ -14,5 +14,5 @@ public interface ITour {
 	public boolean suaTour();
 	public ArrayList<Tour> timKiem(String diemDi, String diemDen, String ngayDi);
 	public ArrayList<Tour> timKiem(String diemDi, String diemDen);
-	ArrayList<Tour> timKiem(String noiDungTimKiem);
+	public ArrayList<Tour> timKiem(String noiDungTimKiem);
 }

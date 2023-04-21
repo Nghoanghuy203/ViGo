@@ -61,6 +61,10 @@ public class NguoiDung {
 		super();
 		this.soNguoiDung = soNguoiDung;
 	}
+	public NguoiDung(String maNguoiDung, String hoten) {
+		this.soNguoiDung=maNguoiDung;
+		this.hoTen=hoten;
+	}
 	@Override
 	public String toString() {
 		return "NguoiDung [soNguoiDung=" + soNguoiDung + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + ", diaChi="

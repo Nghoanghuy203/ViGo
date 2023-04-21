@@ -30,6 +30,9 @@ public class HuongDanVien {
 		this.hoTen = hoTen;
 		this.sdt = sdt;
 	}
+	public HuongDanVien() {
+		
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(maHDV);

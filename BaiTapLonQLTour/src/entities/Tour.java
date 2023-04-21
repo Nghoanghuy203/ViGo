@@ -122,6 +122,9 @@ public class Tour {
 		super();
 		this.maTour = maTour;
 	}
+	public Tour(String maTour, String tenTour) {
+		this(maTour,tenTour,LocalDate.now(),Time.valueOf(LocalTime.now()),0,0,0f,null,Time.valueOf(LocalTime.now()),"","",new HuongDanVien());
+	}
 	public Tour() {
 		super();
 	}
