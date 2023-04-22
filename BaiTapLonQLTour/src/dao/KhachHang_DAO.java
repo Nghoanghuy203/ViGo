@@ -126,5 +126,35 @@ public class KhachHang_DAO implements IKhachHang{
 		}
 		return n>0;
 	}
+
+	@Override
+	public KhachHang getKhachHang(String id) {
+		// TODO Auto-generated method stub
+		KhachHang kh=null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			
+			String sql = "select * from khachhang where maKH=?";
+			statement = con.prepareStatement(sql);
+			statement.setNString(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				String maKH = rs.getNString("maKH");
+				String tenKH = rs.getNString("hoTen");
+				String sdt = rs.getNString("soDienThoai");
+				Date ngaySinh = rs.getDate("ngaySinh");
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String email = rs.getNString("email");
+				String matKhau = rs.getNString("matKhau");
+				kh = new KhachHang(maKH, tenKH, ngaySinh, sdt, gioiTinh, email, matKhau);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return kh;
+	}
 	
 }

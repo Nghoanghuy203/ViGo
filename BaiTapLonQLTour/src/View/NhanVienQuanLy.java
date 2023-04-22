@@ -7,13 +7,18 @@ import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,10 +27,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import custom_entity.ChonMau;
 import custom_entity.CustomTable;
 import custom_entity.DateLabelFormatter;
+import custom_entity.FileChooser;
 import custom_entity.RoundedCornerBorder;
 import custom_entity.ScaledImg;
 import entities.DonDatTour;
@@ -166,31 +174,12 @@ public class NhanVienQuanLy extends JFrame {
 		btnExit.setBounds(1177, 0, 23, 31);
 		pnHeader.add(btnExit);
 
-		JLabel btnUser = new JLabel("");
-//		btnUser.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				login = new LoginSignup();
-//				login.main(null);
-//			}
-//		});
-		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnUser.setForeground(new Color(255, 255, 255));
-		btnUser.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\user.png"));
-		btnUser.setBounds(1050, 11, 51, 52);
-		pnHeader.add(btnUser);
-
 		JLabel lblLogo = new JLabel("ViGo");
 		lblLogo.setFont(new Font("Arial", Font.BOLD, 35));
 		lblLogo.setForeground(new Color(255, 255, 255));
 		lblLogo.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\beach_118051 (1).png"));
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
-
-		JLabel btnCart = new JLabel("");
-		btnCart.setBounds(1104, 11, 51, 52);
-		pnHeader.add(btnCart);
-		btnCart.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\cart.png"));
 		
 		JLabel btnTroVe = new JLabel("Trở về");
 		btnTroVe.addMouseListener(new MouseAdapter() {
@@ -200,7 +189,7 @@ public class NhanVienQuanLy extends JFrame {
 				// System.exit(0);
 			}
 		});
-		btnTroVe.setIcon(new ImageIcon("C:\\Users\\nghoa\\Downloads\\back.png"));
+		btnTroVe.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/back.png")));
 		btnTroVe.setBounds(10, 90, 80, 21);
 		pnNhanVienQuanLy.add(btnTroVe);
 		
@@ -220,7 +209,7 @@ public class NhanVienQuanLy extends JFrame {
 		btnTour.setRadius(30);
 		btnTour.setText("TOUR");
 		btnTour.setBounds(20, 122, 130, 50);
-		btnTour.setFont(new Font("Arial", Font.BOLD, 30));
+		btnTour.setFont(new Font("Arial", Font.BOLD, 20));
 		pnNhanVienQuanLy.add(btnTour);
 		
 		CustomButton btnKhachHang = new CustomButton((String) null);
@@ -237,7 +226,7 @@ public class NhanVienQuanLy extends JFrame {
 		btnKhachHang.setRadius(30);
 		btnKhachHang.setHightlight(Color.WHITE);
 		btnKhachHang.setForeground(new Color(75, 112, 245));
-		btnKhachHang.setFont(new Font("Arial", Font.BOLD, 30));
+		btnKhachHang.setFont(new Font("Arial", Font.BOLD, 20));
 		btnKhachHang.setColor_fogeground(new Color(75, 112, 245));
 		btnKhachHang.setBounds(160, 122, 214, 50);
 		pnNhanVienQuanLy.add(btnKhachHang);
@@ -256,7 +245,7 @@ public class NhanVienQuanLy extends JFrame {
 		btnDonDat.setRadius(30);
 		btnDonDat.setHightlight(Color.WHITE);
 		btnDonDat.setForeground(new Color(75, 112, 245));
-		btnDonDat.setFont(new Font("Arial", Font.BOLD, 30));
+		btnDonDat.setFont(new Font("Arial", Font.BOLD, 20));
 		btnDonDat.setColor_fogeground(new Color(75, 112, 245));
 		btnDonDat.setBounds(383, 122, 168, 50);
 		pnNhanVienQuanLy.add(btnDonDat);
@@ -271,13 +260,13 @@ public class NhanVienQuanLy extends JFrame {
 				GUI_HuongDanVien();
 			}
 		});
-		btnHuongDanVien.setText("HG DẪN VIÊN");
+		btnHuongDanVien.setText("HƯỚNG  DẪN VIÊN");
 		btnHuongDanVien.setRadius(30);
 		btnHuongDanVien.setHightlight(Color.WHITE);
 		btnHuongDanVien.setForeground(new Color(75, 112, 245));
-		btnHuongDanVien.setFont(new Font("Arial", Font.BOLD, 30));
+		btnHuongDanVien.setFont(new Font("Arial", Font.BOLD, 20));
 		btnHuongDanVien.setColor_fogeground(new Color(75, 112, 245));
-		btnHuongDanVien.setBounds(561, 122, 230, 50);
+		btnHuongDanVien.setBounds(561, 122, 220, 50);
 		pnNhanVienQuanLy.add(btnHuongDanVien);
 		
 		JLabel lblTraCuu = new JLabel("Tra cứu mã, tên, SDT hoặc email:");
@@ -304,9 +293,9 @@ public class NhanVienQuanLy extends JFrame {
 		KH_panel = new JPanel();
 		HDV_panel = new JPanel();
 		
-		//GUI_KhachHang();
+		GUI_KhachHang();
 		//GUI_Tour();
-		GUI_HuongDanVien();
+		//GUI_HuongDanVien();
 		//GUI_DonDat();
 	}
 	private void GUI_Tour() {
@@ -324,7 +313,7 @@ public class NhanVienQuanLy extends JFrame {
 		p.put("text.year", "Year");
 		datePanel = new JDatePanelImpl(model, p);
 		JPanel search = new JPanel();
-		search.setBounds(0, 11, 771, 58);
+		search.setBounds(5, 10, 765, 60);
 		T_panel.add(search);
 		search.setBackground(new Color(255, 255, 255));
 		search.setLayout(null);
@@ -406,10 +395,11 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Thông tin Tour");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(85, 0, 217, 34);
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(Color.BLUE);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 32));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		
 		T_txtMaTour = new JTextField();
 		T_txtMaTour.setColumns(10);
@@ -493,43 +483,118 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_6);
 		
 		T_btnThem = new CustomButton((String) null);
+		
+		T_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
 		T_btnThem.setText("Thêm");
 		T_btnThem.setRadius(30);
 		T_btnThem.setHightlight(Color.WHITE);
 		T_btnThem.setForeground(new Color(75, 112, 245));
-		T_btnThem.setFont(new Font("Dialog", Font.PLAIN, 30));
+		T_btnThem.setFont(new Font("Dialog", Font.BOLD, 16));
 		T_btnThem.setColor_fogeground(new Color(75, 112, 245));
-		T_btnThem.setBounds(10, 414, 97, 39);
+		T_btnThem.setBounds(10, 420, 80, 35);
 		panel_1.add(T_btnThem);
 		
 		T_btnXoa = new CustomButton((String) null);
+		T_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
 		T_btnXoa.setText("Xóa");
 		T_btnXoa.setRadius(30);
 		T_btnXoa.setHightlight(Color.WHITE);
 		T_btnXoa.setForeground(new Color(75, 112, 245));
-		T_btnXoa.setFont(new Font("Dialog", Font.PLAIN, 30));
+		T_btnXoa.setFont(new Font("Dialog", Font.BOLD, 16));
 		T_btnXoa.setColor_fogeground(new Color(75, 112, 245));
-		T_btnXoa.setBounds(136, 416, 101, 34);
+		T_btnXoa.setBounds(100, 420, 80, 35);
 		panel_1.add(T_btnXoa);
 		
 		T_btnSua = new CustomButton((String) null);
+		T_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
 		T_btnSua.setText("Sửa");
 		T_btnSua.setRadius(30);
 		T_btnSua.setHightlight(Color.WHITE);
 		T_btnSua.setForeground(new Color(75, 112, 245));
-		T_btnSua.setFont(new Font("Dialog", Font.PLAIN, 30));
+		T_btnSua.setFont(new Font("Dialog", Font.BOLD, 16));
 		T_btnSua.setColor_fogeground(new Color(75, 112, 245));
-		T_btnSua.setBounds(268, 416, 101, 34);
+		T_btnSua.setBounds(190, 420, 80, 35);
 		panel_1.add(T_btnSua);
 		
 		JLabel lblNewLabel_2_2_6_1 = new JLabel("Hình Ảnh");
 		lblNewLabel_2_2_6_1.setBounds(10, 310, 97, 14);
 		panel_1.add(lblNewLabel_2_2_6_1);
 		
-		JLabel lblNewLabel_3 = new JLabel("Label Hinh");
-		lblNewLabel_3.setBounds(151, 316, 206, 89);
-		panel_1.add(lblNewLabel_3);
+		JLabel lblhinhTour = new JLabel("Label Hinh");
+		lblhinhTour.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblhinhTour.setBounds(151, 316, 206, 89);
+		panel_1.add(lblhinhTour);
 		
+		CustomButton T_btnXoaTrang = new CustomButton((String) null);
+		T_btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		T_btnXoaTrang.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/pen.png")));
+		T_btnXoaTrang.setText("Edit");
+		T_btnXoaTrang.setRadius(30);
+		T_btnXoaTrang.setHightlight(Color.WHITE);
+		T_btnXoaTrang.setForeground(new Color(75, 112, 245));
+		T_btnXoaTrang.setFont(new Font("Dialog", Font.BOLD, 16));
+		T_btnXoaTrang.setColor_fogeground(new Color(75, 112, 245));
+		T_btnXoaTrang.setBounds(280, 420, 80, 35);
+		panel_1.add(T_btnXoaTrang);
+		
+		BufferedImage h=null;
+		try {
+			h = ImageIO.read(NhanVienQuanLy.class.getResource("/images/nullimg.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(h, lblhinhTour.getWidth(), lblhinhTour.getHeight())));
+		
+		JButton fileImg = new JButton("Chọn ảnh");
+		fileImg.setBorder(new LineBorder(new Color(65, 105, 225)));
+		fileImg.setBackground(new Color(255, 255, 255));
+		fileImg.setBounds(10, 340, 100, 25);
+		panel_1.add(fileImg);
+		//fileImg.setVisible(false);
+		fileImg.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				BufferedImage img = FileChooser.fileChooser();
+				lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(img, lblhinhTour.getWidth(), lblhinhTour.getHeight())));
+			}
+		});
+		T_btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fileImg.setVisible(false);
+			}
+		});
+		T_btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				T_txtMaTour.setText("");
+				T_txtTenTour.setText("");
+				T_txtTgTapTrung.setText("");
+				T_txtTgKhoiHanh.setText("");
+				T_txtSoNgay.setText("");
+				T_txtSoVeCon.setText("");
+				T_txtGia.setText("");
+				T_txtDiemDi.setText("");
+				T_txtDiemDen.setText("");
+				BufferedImage h=null;
+				try {
+					h = ImageIO.read(NhanVienQuanLy.class.getResource("/images/nullimg.png"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(h,lblhinhTour.getWidth(),lblhinhTour.getHeight())));
+				fileImg.setVisible(true);
+			}
+		});
 		customTable.addMouseListener(new MouseListener() {
 				
 			@Override
@@ -559,6 +624,7 @@ public class NhanVienQuanLy extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int selected = customTable.getSelectedRow();
 				T_txtMaTour.setText((String)customTable.getValueAt(selected, 0));
+				T_txtMaTour.setEditable(false);
 				T_txtTenTour.setText((String)customTable.getValueAt(selected, 1));
 				T_txtTgTapTrung.setText((String)customTable.getValueAt(selected, 2));
 				T_txtTgKhoiHanh.setText((String)customTable.getValueAt(selected, 3));
@@ -567,9 +633,10 @@ public class NhanVienQuanLy extends JFrame {
 				T_txtGia.setText((String)customTable.getValueAt(selected, 6));
 				T_txtDiemDi.setText((String)customTable.getValueAt(selected, 7));
 				T_txtDiemDen.setText((String)customTable.getValueAt(selected, 8));
+				fileImg.setVisible(false);
 				for (Tour t : dsTour) {
 					if(T_txtMaTour.getText().equals(t.getMaTour())){
-						lblNewLabel_3.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblNewLabel_3.getWidth(), lblNewLabel_3.getHeight())));
+						lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblhinhTour.getWidth(), lblhinhTour.getHeight())));
 					}
 				}
 			}
@@ -623,40 +690,43 @@ public class NhanVienQuanLy extends JFrame {
 		
 		
 		CustomButton KH_btnThem = new CustomButton((String) null);
+		KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
 		//KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/left-arrow.png")));
 		KH_btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		KH_btnThem.setBounds(3, 406, 125, 47);
+		KH_btnThem.setBounds(15, 420, 80, 35);
 		pnThongTinKH.add(KH_btnThem);
 		KH_btnThem.setText("Thêm");
 		KH_btnThem.setRadius(30);
 		KH_btnThem.setHightlight(Color.WHITE);
 		KH_btnThem.setForeground(new Color(75, 112, 245));
-		KH_btnThem.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnThem.setFont(new Font("Arial", Font.BOLD, 16));
 		KH_btnThem.setColor_fogeground(new Color(75, 112, 245));
 		
 		CustomButton KH_btnXoa = new CustomButton((String) null);
+		KH_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
 		//KH_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/right-arrow.png")));
-		KH_btnXoa.setBounds(138, 406, 113, 47);
+		KH_btnXoa.setBounds(105, 420, 80, 35);
 		pnThongTinKH.add(KH_btnXoa);
 		KH_btnXoa.setText("Xóa");
 		KH_btnXoa.setRadius(30);
 		KH_btnXoa.setHightlight(Color.WHITE);
 		KH_btnXoa.setForeground(new Color(75, 112, 245));
-		KH_btnXoa.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnXoa.setFont(new Font("Arial", Font.BOLD, 16));
 		KH_btnXoa.setColor_fogeground(new Color(75, 112, 245));
 		
 		CustomButton KH_btnSua = new CustomButton((String) null);
+		KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
 		//KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/right-arrow.png")));
-		KH_btnSua.setBounds(261, 406, 114, 47);
+		KH_btnSua.setBounds(195, 420, 80, 35);
 		pnThongTinKH.add(KH_btnSua);
 		KH_btnSua.setText("Sửa");
 		KH_btnSua.setRadius(30);
 		KH_btnSua.setHightlight(Color.WHITE);
 		KH_btnSua.setForeground(new Color(75, 112, 245));
-		KH_btnSua.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnSua.setFont(new Font("Arial", Font.BOLD, 16));
 		KH_btnSua.setColor_fogeground(new Color(75, 112, 245));
 		
 		JLabel lblNewLabel_1 = new JLabel("THÔNG TIN TÀI KHOẢN KHÁCH HÀNG");
@@ -726,6 +796,31 @@ public class NhanVienQuanLy extends JFrame {
 		KH_txtGt.setBounds(130, 310, 240, 20);
 		pnThongTinKH.add(KH_txtGt);
 		
+		CustomButton KH_btnXoaTrang = new CustomButton((String) null);
+		KH_btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				KH_txtMa.setText("");
+				KH_txtTaiKhoan.setText("");
+				KH_txtMatKhau.setText("");
+				KH_txtTen.setText("");
+				KH_txtNgaySinh.setText("");
+				KH_txtSdt.setText("");
+				KH_txtGt.setText("");
+				KH_txtMa.setEditable(true);
+				KH_txtTaiKhoan.setEditable(true);
+			}
+		});
+		KH_btnXoaTrang.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/pen.png")));
+		KH_btnXoaTrang.setText("Edit");
+		KH_btnXoaTrang.setRadius(30);
+		KH_btnXoaTrang.setHightlight(Color.WHITE);
+		KH_btnXoaTrang.setForeground(new Color(75, 112, 245));
+		KH_btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 16));
+		KH_btnXoaTrang.setColor_fogeground(new Color(75, 112, 245));
+		KH_btnXoaTrang.setBounds(285, 420, 80, 35);
+		pnThongTinKH.add(KH_btnXoaTrang);
+		
 		customTable.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -755,7 +850,9 @@ public class NhanVienQuanLy extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int selected = customTable.getSelectedRow();
 				KH_txtMa.setText((String)customTable.getValueAt(selected, 0));
+				KH_txtMa.setEditable(false);
 				KH_txtTaiKhoan.setText((String)customTable.getValueAt(selected, 5));
+				KH_txtTaiKhoan.setEditable(false);
 				KH_txtMatKhau.setText((String)customTable.getValueAt(selected, 6));
 				KH_txtTen.setText((String)customTable.getValueAt(selected, 1));
 				KH_txtSdt.setText((String)customTable.getValueAt(selected, 2));
@@ -998,37 +1095,40 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblHoTen);
 		
 		HDV_btnThem = new CustomButton((String) null);
+		HDV_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
 		HDV_btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		HDV_btnThem.setBounds(21, 419, 101, 34);
+		HDV_btnThem.setBounds(20, 420, 80, 35);
 		panel_1.add(HDV_btnThem);
 		HDV_btnThem.setText("Thêm");
 		HDV_btnThem.setRadius(30);
 		HDV_btnThem.setHightlight(Color.WHITE);
 		HDV_btnThem.setForeground(new Color(75, 112, 245));
-		HDV_btnThem.setFont(new Font("Arial", Font.BOLD, 30));
+		HDV_btnThem.setFont(new Font("Arial", Font.BOLD, 16));
 		HDV_btnThem.setColor_fogeground(new Color(75, 112, 245));
 		
 		HDV_btnXoa = new CustomButton((String) null);
-		HDV_btnXoa.setBounds(145, 419, 101, 34);
+		HDV_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
+		HDV_btnXoa.setBounds(110, 420, 80, 35);
 		panel_1.add(HDV_btnXoa);
 		HDV_btnXoa.setText("Xóa");
 		HDV_btnXoa.setRadius(30);
 		HDV_btnXoa.setHightlight(Color.WHITE);
 		HDV_btnXoa.setForeground(new Color(75, 112, 245));
-		HDV_btnXoa.setFont(new Font("Arial", Font.BOLD, 30));
+		HDV_btnXoa.setFont(new Font("Arial", Font.BOLD, 16));
 		HDV_btnXoa.setColor_fogeground(new Color(75, 112, 245));
 		
 		HDV_btnSua = new CustomButton((String) null);
-		HDV_btnSua.setBounds(268, 419, 101, 34);
+		HDV_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
+		HDV_btnSua.setBounds(200, 420, 80, 35);
 		panel_1.add(HDV_btnSua);
 		HDV_btnSua.setText("Sửa");
 		HDV_btnSua.setRadius(30);
 		HDV_btnSua.setHightlight(Color.WHITE);
 		HDV_btnSua.setForeground(new Color(75, 112, 245));
-		HDV_btnSua.setFont(new Font("Arial", Font.BOLD, 30));
+		HDV_btnSua.setFont(new Font("Arial", Font.BOLD, 16));
 		HDV_btnSua.setColor_fogeground(new Color(75, 112, 245));
 		
 		JLabel lblNewLabel_1 = new JLabel("Thông tin Hướng Dẫn Viên");
@@ -1036,7 +1136,23 @@ public class NhanVienQuanLy extends JFrame {
 		lblNewLabel_1.setBounds(0, 11, 379, 34);
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(Color.BLUE);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		
+		CustomButton HDV_btnXoaTrang = new CustomButton((String) null);
+		HDV_btnXoaTrang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		HDV_btnXoaTrang.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/pen.png")));
+		HDV_btnXoaTrang.setText("Edit");
+		HDV_btnXoaTrang.setRadius(30);
+		HDV_btnXoaTrang.setHightlight(Color.WHITE);
+		HDV_btnXoaTrang.setForeground(new Color(75, 112, 245));
+		HDV_btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 16));
+		HDV_btnXoaTrang.setColor_fogeground(new Color(75, 112, 245));
+		HDV_btnXoaTrang.setBounds(290, 420, 80, 35);
+		panel_1.add(HDV_btnXoaTrang);
 		
 		customTable.addMouseListener(new MouseListener() {
 			

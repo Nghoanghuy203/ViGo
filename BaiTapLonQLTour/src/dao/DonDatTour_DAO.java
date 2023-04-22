@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import bus.KhachHang_BUS;
+import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import entities.DonDatTour;
 import entities.KhachHang;
@@ -43,6 +45,8 @@ public class DonDatTour_DAO implements IDonDatTour{
 	@Override
 	public ArrayList<DonDatTour> getDSDonDatTour() {
 		ArrayList<DonDatTour> ds = new ArrayList<>();
+		Tour_BUS tour_BUS = new Tour_BUS();
+		KhachHang_BUS khachHang_BUS = new KhachHang_BUS();
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
@@ -55,13 +59,13 @@ public class DonDatTour_DAO implements IDonDatTour{
 				String maDon = rs.getNString(1);
 				String maTour = rs.getNString(2);
 				//String tenTour = rs.getNString(3);
-				Tour t = new Tour(maTour);
+				Tour t = tour_BUS.getTour(maTour);
 				String maNguoiDung = rs.getNString(3);
 				//String hoTenNguoiDung = rs.getNString(5);
 				Date ngayDat = rs.getDate(4);
 				int soVe = rs.getInt(5);
 				double tongTien = rs.getDouble(6);
-				KhachHang nd = new KhachHang(maNguoiDung);
+				KhachHang nd = khachHang_BUS.getKhachHang(maNguoiDung);
 				DonDatTour d = new DonDatTour(maDon, t, nd, (java.sql.Date) ngayDat, soVe, tongTien);
 				ds.add(d);
 			}

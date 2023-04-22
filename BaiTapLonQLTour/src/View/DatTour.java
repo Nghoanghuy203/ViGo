@@ -19,7 +19,7 @@ import app.Test;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import custom_entity.ScaledImg;
-import custom_entity.SomeStaticMethod;
+import custom_entity.FileChooser;
 import entities.Tour;
 
 import java.awt.ScrollPane;
@@ -213,10 +213,10 @@ public class DatTour extends JFrame {
                 }
                 else {
                     if(tableModel.getValueAt(0, 1).toString().trim().equals("")) {
-                        SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
+                        FileChooser.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
                     }
                     else {
-                        SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
+                        FileChooser.showDialog(10, "Bạn đã đặt tour thành công!");
                     }
                 }
             }

@@ -38,4 +38,10 @@ public class KhachHang_BUS implements IKhachHang{
 		return khachHang_DAO.capNhatKhachHang(oldID, newHDV);
 	}
 
+	@Override
+	public KhachHang getKhachHang(String id) {
+		// TODO Auto-generated method stub
+		return khachHang_DAO.getKhachHang(id);
+	}
+
 }

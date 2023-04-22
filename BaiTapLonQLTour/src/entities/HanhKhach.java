@@ -52,5 +52,10 @@ public class HanhKhach {
 		HanhKhach other = (HanhKhach) obj;
 		return Objects.equals(maHK, other.maHK);
 	}
+
+	@Override
+	public String toString() {
+		return maHK + ";" + hoTen + ";" + sdt;
+	}
 	
 }

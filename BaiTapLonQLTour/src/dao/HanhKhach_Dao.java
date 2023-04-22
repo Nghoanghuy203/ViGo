@@ -24,7 +24,7 @@ public class HanhKhach_DAO implements IHanhKhach{
 		try {
 			String sql = "Select * from hanhkhach where maDon = ?";
 			statement= con.prepareStatement(sql);
-			statement.setString(1, idDon);
+			statement.setNString(1, idDon);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				String ma = rs.getNString(1);

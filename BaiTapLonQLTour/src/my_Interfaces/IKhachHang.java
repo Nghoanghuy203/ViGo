@@ -10,4 +10,5 @@ public interface IKhachHang {
 	public boolean themKhachHang(KhachHang khachHang);
 	public boolean xoaKhachHang(String id);
 	public boolean capNhatKhachHang(String oldID, KhachHang newHDV);
+	public KhachHang getKhachHang(String id);
 }
