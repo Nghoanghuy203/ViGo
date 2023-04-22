@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import custom_entity.DateLabelFormatter;
+import custom_entity.RoundedCornerBorder;
 import custom_entity.ScaledImg;
 
 import javax.swing.JLabel;
@@ -31,6 +33,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.imageio.ImageIO;
@@ -38,6 +41,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
 import javax.swing.border.MatteBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class ThemAccount extends JFrame implements ActionListener {
 	
@@ -70,7 +77,10 @@ public class ThemAccount extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNgaySinh;
-
+	
+	private UtilDateModel model; 
+	private JDatePanelImpl datePanel; 
+	private JDatePickerImpl datePicker;
 	/**
 	 * Launch the application.
 	 */
@@ -121,19 +131,27 @@ public class ThemAccount extends JFrame implements ActionListener {
 		pnSignin.add(lblNewLabel);
 		
 		txtemail = new JTextField();
-		txtemail.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(65, 105, 225)));
+		txtemail.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		txtemail.setBounds(30, 60, 400, 25);
+		txtemail.setBackground(new Color(255, 255, 255, 0));
+		txtemail.setOpaque(false);
 		pnSignin.add(txtemail);
 		txtemail.setColumns(10);
 		
 		txthoTen = new JTextField();
 		txthoTen.setColumns(10);
 		txthoTen.setBounds(30, 240, 400, 25);
+		txthoTen.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txthoTen.setBackground(new Color(255,255,255,0));
+		txthoTen.setOpaque(false);
 		pnSignin.add(txthoTen);
 		
 		txtsDT = new JTextField();
 		txtsDT.setColumns(10);
 		txtsDT.setBounds(30, 300, 400, 25);
+		txtsDT.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtsDT.setBackground(new Color(255,255,255,0));
+		txtsDT.setOpaque(false);
 		pnSignin.add(txtsDT);
 		
 		JLabel lblEmail = new JLabel("Email");
@@ -178,13 +196,35 @@ public class ThemAccount extends JFrame implements ActionListener {
 		
 		txtPass1 = new JPasswordField();
 		txtPass1.setBounds(30, 120, 400, 25);
+		txtPass1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtPass1.setBackground(new Color(255,255,255,0));
+		txtPass1.setOpaque(false);
 		pnSignin.add(txtPass1);
 		
 		txtPass2 = new JPasswordField();
 		txtPass2.setBounds(30, 180, 400, 25);
+		txtPass2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtPass2.setBackground(new Color(255,255,255,0));
+		txtPass2.setOpaque(false);
 		pnSignin.add(txtPass2);
 		
-		
+		model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		datePanel = new JDatePanelImpl(model, p);
+		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		datePicker.setBorder(null);
+		datePicker.getJFormattedTextField().setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		datePicker.setBackground(new Color(255, 255, 255,0));
+		datePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255,0));
+		datePicker.setBounds(30, 360, 400, 27);
+		datePicker.getJDateInstantPanel().setShowYearButtons(true);
+		//datePicker.getJFormattedTextField().setText("2023-01-01");
+		datePicker.getJFormattedTextField().setForeground(Color.black);
+		datePicker.setButtonFocusable(false);
+		pnSignin.add(datePicker);
 		
 		JRadioButton radNam = new JRadioButton("Nam");
 		radNam.setBackground(new Color(255, 255, 255, 0));
@@ -216,6 +256,69 @@ public class ThemAccount extends JFrame implements ActionListener {
 		lblNgaySinh = new JLabel("Ngày sinh");
 		lblNgaySinh.setBounds(30, 340, 400, 15);
 		pnSignin.add(lblNgaySinh);
+		
+		char dot = txtPass1.getEchoChar();
+		JLabel btnShowPass = new JLabel("");
+		btnShowPass.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/show.png")));
+		btnShowPass.setBounds(440, 110, 40, 40);
+		pnSignin.add(btnShowPass);
+		
+		
+		
+		JLabel btnHidePass = new JLabel("");
+		btnHidePass.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/eye-off.png")));
+		btnHidePass.setBounds(440, 110, 40, 40);
+		btnHidePass.setVisible(false);
+		pnSignin.add(btnHidePass);
+		
+		btnShowPass.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtPass1.setEchoChar((char)0);
+				btnHidePass.setVisible(true);
+				btnShowPass.setVisible(false);
+			}
+		});
+		
+		btnHidePass.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtPass1.setEchoChar(dot);
+				btnShowPass.setVisible(true);
+				btnHidePass.setVisible(false);
+			}
+		});
+		
+		JLabel btnShowPass1 = new JLabel("");
+		btnShowPass1.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/show.png")));
+		btnShowPass1.setBounds(440, 170, 40, 40);
+		pnSignin.add(btnShowPass1);
+		
+		
+		
+		JLabel btnHidePass1 = new JLabel("");
+		btnHidePass1.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/eye-off.png")));
+		btnHidePass1.setBounds(440, 170, 40, 40);
+		btnHidePass1.setVisible(false);
+		pnSignin.add(btnHidePass1);
+		
+		btnShowPass1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtPass2.setEchoChar((char)0);
+				btnHidePass1.setVisible(true);
+				btnShowPass1.setVisible(false);
+			}
+		});
+		
+		btnHidePass1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtPass2.setEchoChar(dot);
+				btnShowPass1.setVisible(true);
+				btnHidePass1.setVisible(false);
+			}
+		});
 		
 		JLabel hinhnen = new JLabel("New label");
 		File f =new File(ThemAccount.class.getResource("/images/anhnen.jpg").getFile());

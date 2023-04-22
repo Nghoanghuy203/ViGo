@@ -1,75 +1,85 @@
 package entities;
 
+import java.sql.Date;
 import java.util.Objects;
-public class NguoiDung {
+public class KhachHang {
 	private String soNguoiDung;
 	private String hoTen;
-	private String ngaySinh;
-	private String diaChi;
 	private String soDienThoai;
-	private TaiKhoan taiKhoan;
+	private Date ngaySinh;
+	private boolean gioiTinh;
+	private String email;
+	private String matKhau;
+	
+	public boolean isGioiTinh() {
+		return gioiTinh;
+	}
+	public void setGioiTinh(boolean gioiTinh) {
+		this.gioiTinh = gioiTinh;
+	}
 	public String getSoNguoiDung() {
 		return soNguoiDung;
 	}
 	public String getHoTen() {
 		return hoTen;
 	}
-	public String getNgaySinh() {
+	public Date getNgaySinh() {
 		return ngaySinh;
-	}
-	public String getDiaChi() {
-		return diaChi;
 	}
 	public String getSoDienThoai() {
 		return soDienThoai;
 	}
-	public TaiKhoan getTaiKhoan() {
-		return taiKhoan;
-	}
+
 	public void setSoNguoiDung(String soNguoiDung) {
 		this.soNguoiDung = soNguoiDung;
 	}
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
 	}
-	public void setNgaySinh(String ngaySinh) {
+	public void setNgaySinh(Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
-	}
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
 	}
 	public void setSoDienThoai(String soDienThoai) {
 		this.soDienThoai = soDienThoai;
 	}
-	public void setTaiKhoan(TaiKhoan taiKhoan) {
-		this.taiKhoan = taiKhoan;
+	
+	public String getEmail() {
+		return email;
 	}
-	public NguoiDung(String soNguoiDung, String hoTen, String ngaySinh, String diaChi, String soDienThoai,
-			TaiKhoan taiKhoan) {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMatKhau() {
+		return matKhau;
+	}
+	public void setMatKhau(String matKhau) {
+		this.matKhau = matKhau;
+	}
+	public KhachHang(String soNguoiDung, String hoTen, Date ngaySinh, String soDienThoai, boolean gioiTinh, String email, String matKhau) {
 		super();
 		this.soNguoiDung = soNguoiDung;
 		this.hoTen = hoTen;
 		this.ngaySinh = ngaySinh;
-		this.diaChi = diaChi;
 		this.soDienThoai = soDienThoai;
-		this.taiKhoan = taiKhoan;
+		this.gioiTinh = gioiTinh;
+		this.email = email;
+		this.matKhau=matKhau;
 	}
-	public NguoiDung() {
+	public KhachHang() {
 		super();
 	}
-	public NguoiDung(String soNguoiDung) {
+	public KhachHang(String soNguoiDung) {
 		super();
 		this.soNguoiDung = soNguoiDung;
 	}
-	public NguoiDung(String maNguoiDung, String hoten) {
+	public KhachHang(String maNguoiDung, String hoten) {
 		this.soNguoiDung=maNguoiDung;
 		this.hoTen=hoten;
 	}
 	@Override
-	public String toString() {
-		return "NguoiDung [soNguoiDung=" + soNguoiDung + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + ", diaChi="
-				+ diaChi + ", soDienThoai=" + soDienThoai + ", taiKhoan=" + taiKhoan + ", loaiNguoiDung="+ "]";
-	}
+    public String toString() {
+        return soNguoiDung + ";" + soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gioiTinh + ";" + email + ";" +matKhau;
+    }
 	@Override
 	public int hashCode() {
 		return Objects.hash(soNguoiDung);
@@ -82,7 +92,7 @@ public class NguoiDung {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		NguoiDung other = (NguoiDung) obj;
+		KhachHang other = (KhachHang) obj;
 		return Objects.equals(soNguoiDung, other.soNguoiDung);
 	}
 }

@@ -18,29 +18,7 @@ public class Tour_BUS implements ITour{
 		return ds;
 	}
 
-	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public boolean themTour() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean xoaTour() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean suaTour() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	@Override
 	public Tour getTour(String id) {
 		// TODO Auto-generated method stub
@@ -61,6 +39,21 @@ public class Tour_BUS implements ITour{
 	public ArrayList<Tour> timKiem(String diemDi, String diemDen) {
 		ArrayList<Tour> ds = tour_Dao.timKiem(diemDi, diemDen);
 		return ds;
+	}
+	@Override
+	public boolean themTour(Tour tour) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean xoaTour(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean suaTour(String id, Tour newTour) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

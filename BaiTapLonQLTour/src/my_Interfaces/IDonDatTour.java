@@ -1,18 +1,14 @@
 package my_Interfaces;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import entities.DonDatTour;
 import entities.Tour;
 
 public interface IDonDatTour {
-	public ArrayList<DonDatTour> getDsDonDatTour();
-	public Tour getDonDatTour(String id);
-	public int count();
-	public boolean themTour(DonDatTour don);
-	//public boolean xoaTour();
-	//public boolean suaTour();
-	//public ArrayList<Tour> timKiem(String diemDi, String diemDen, String ngayDi);
-	//public ArrayList<Tour> timKiem(String diemDi, String diemDen);
-	//ArrayList<Tour> timKiem(String noiDungTimKiem);
+	public ArrayList<DonDatTour> getDSDonDatTour();
+	public ArrayList<DonDatTour> timKiem(String noiDungTimKiem);
+	public ArrayList<DonDatTour> timKiem(int soVeThapNhat, int soVeCaoNhat, double tongGiaThapNhat, double tongGiaCaoNhat,Date ngayDat);
+	public boolean themDonDatTour(DonDatTour d);
 }

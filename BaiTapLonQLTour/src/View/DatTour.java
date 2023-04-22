@@ -19,6 +19,7 @@ import app.Test;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import custom_entity.ScaledImg;
+import custom_entity.SomeStaticMethod;
 import entities.Tour;
 
 import java.awt.ScrollPane;
@@ -206,13 +207,19 @@ public class DatTour extends JFrame {
 		JPanel btnDatNgay = new JPanel();
 		btnDatNgay.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (!Test.isLogin) {
-					showLogin();
-				}
-				else showMs();
-					
-			}
+            public void mouseClicked(MouseEvent e) {
+                if (!Test.isLogin) {
+                    showLogin();
+                }
+                else {
+                    if(tableModel.getValueAt(0, 1).toString().trim().equals("")) {
+                        SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
+                    }
+                    else {
+                        SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
+                    }
+                }
+            }
 		});
 		btnDatNgay.setBackground(new Color(220, 20, 60));
 		btnDatNgay.setToolTipText("");

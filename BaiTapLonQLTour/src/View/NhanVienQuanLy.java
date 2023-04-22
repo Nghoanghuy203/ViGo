@@ -26,7 +26,7 @@ import custom_entity.ChonMau;
 import custom_entity.CustomTable;
 import custom_entity.DateLabelFormatter;
 import custom_entity.RoundedCornerBorder;
-import entities.NguoiDung;
+import entities.KhachHang;
 import entities.Tour;
 
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +51,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 public class NhanVienQuanLy extends JFrame {
 
@@ -60,7 +61,7 @@ public class NhanVienQuanLy extends JFrame {
 	private CustomComboxBox cboThang;
 	private ArrayList<Tour> ds,dsTimKiem;
 	private Tour_BUS tourBus;
-	private NguoiDung nguoiDungBus;
+	private KhachHang nguoiDungBus;
 	private String sDDi, sDDen, sNgay;
 	private JLabel lblNgy;
 	private UtilDateModel model; 
@@ -268,9 +269,9 @@ public class NhanVienQuanLy extends JFrame {
 		btnHuongDanVien.setBounds(561, 122, 230, 50);
 		pnNhanVienQuanLy.add(btnHuongDanVien);
 		
-		JLabel lblTraCuu = new JLabel("Tra cứu mã, tên hoặc SDT:");
+		JLabel lblTraCuu = new JLabel("Tra cứu mã, tên, SDT hoặc email:");
 		lblTraCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTraCuu.setBounds(803, 122, 194, 12);
+		lblTraCuu.setBounds(803, 122, 240, 20);
 		pnNhanVienQuanLy.add(lblTraCuu);
 		
 		txtTim = new JTextField();
@@ -292,6 +293,7 @@ public class NhanVienQuanLy extends JFrame {
 		KH_panel = new JPanel();
 		HDV_panel = new JPanel();
 		
+		//GUI_KhachHang();
 		GUI_Tour();
 		//GUI_HuongDanVien();
 	}
@@ -518,6 +520,148 @@ public class NhanVienQuanLy extends JFrame {
 		pnNhanVienQuanLy.add(KH_panel);
 		KH_panel.setLayout(null);
 		KH_panel.setVisible(true);
+		
+		String header[] =  "Số Khách Hàng,Họ Tên,Ngày Sinh,SĐT,Giới Tính,TK Email,Mật Khẩu".split(",");
+		modelKhachHang = new DefaultTableModel(header,0);
+		/*tkBus = new KhachHang_BUS();
+		ds_KhachHang = tkBus.getDsTK();
+		for (KhachHang khachHang : ds_KhachHang) {
+			modelKhachHang.addRow(khachHang.toString().split(";"));
+		}
+		*/
+		CustomButton customButton_1 = new CustomButton((String) null);
+		customButton_1.setBounds(351, 488, 1, 1);
+		KH_panel.add(customButton_1);
+		
+		CustomTable customTable = new CustomTable(modelKhachHang, ChonMau.blue_4B70F5, Color.white);
+		customTable.setModel(new DefaultTableModel(header,0));
+		customTable.setBounds(10, 90, 761, 387);
+		
+		JScrollPane scrollPane = new JScrollPane(customTable);
+		scrollPane.setBounds(0, 0, 771, 463);
+		KH_panel.add(scrollPane);
+		
+		
+		JPanel pnThongTinKH = new JPanel();
+		pnThongTinKH.setBorder(new LineBorder(ChonMau.blue_4B70F5));
+		pnThongTinKH.setBounds(781, 0, 379, 463);
+		KH_panel.add(pnThongTinKH);
+		pnThongTinKH.setLayout(null);
+		
+		JTextField KH_txtTaiKhoan = new JTextField();
+		KH_txtTaiKhoan.setColumns(10);
+		KH_txtTaiKhoan.setBounds(130, 110, 240, 20);
+		KH_txtTaiKhoan.setEditable(false);
+		pnThongTinKH.add(KH_txtTaiKhoan);
+		
+		JLabel lblTaiKhoan = new JLabel("Email:");
+		lblTaiKhoan.setFont(new Font("Arial", Font.BOLD, 15));
+		lblTaiKhoan.setBounds(20, 110, 100, 20);
+		pnThongTinKH.add(lblTaiKhoan);
+		
+		
+		CustomButton KH_btnThem = new CustomButton((String) null);
+		//KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/left-arrow.png")));
+		KH_btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		KH_btnThem.setBounds(3, 406, 125, 47);
+		pnThongTinKH.add(KH_btnThem);
+		KH_btnThem.setText("Thêm");
+		KH_btnThem.setRadius(30);
+		KH_btnThem.setHightlight(Color.WHITE);
+		KH_btnThem.setForeground(new Color(75, 112, 245));
+		KH_btnThem.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnThem.setColor_fogeground(new Color(75, 112, 245));
+		
+		CustomButton KH_btnXoa = new CustomButton((String) null);
+		//KH_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/right-arrow.png")));
+		KH_btnXoa.setBounds(138, 406, 113, 47);
+		pnThongTinKH.add(KH_btnXoa);
+		KH_btnXoa.setText("Xóa");
+		KH_btnXoa.setRadius(30);
+		KH_btnXoa.setHightlight(Color.WHITE);
+		KH_btnXoa.setForeground(new Color(75, 112, 245));
+		KH_btnXoa.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnXoa.setColor_fogeground(new Color(75, 112, 245));
+		
+		CustomButton KH_btnSua = new CustomButton((String) null);
+		//KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/right-arrow.png")));
+		KH_btnSua.setBounds(261, 406, 114, 47);
+		pnThongTinKH.add(KH_btnSua);
+		KH_btnSua.setText("Sửa");
+		KH_btnSua.setRadius(30);
+		KH_btnSua.setHightlight(Color.WHITE);
+		KH_btnSua.setForeground(new Color(75, 112, 245));
+		KH_btnSua.setFont(new Font("Arial", Font.BOLD, 30));
+		KH_btnSua.setColor_fogeground(new Color(75, 112, 245));
+		
+		JLabel lblNewLabel_1 = new JLabel("THÔNG TIN TÀI KHOẢN KHÁCH HÀNG");
+		lblNewLabel_1.setBounds(3, 11, 379, 34);
+		pnThongTinKH.add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(Color.BLUE);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		
+		JLabel lblMK = new JLabel("Mật Khẩu:");
+		lblMK.setBounds(20, 150, 100, 20);
+		pnThongTinKH.add(lblMK);
+		lblMK.setFont(new Font("Arial", Font.BOLD, 15));
+		
+		JTextField textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(130, 70, 240, 20);
+		pnThongTinKH.add(textField);
+		
+		JTextField textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(130, 190, 240, 20);
+		pnThongTinKH.add(textField_1);
+		
+		JTextField textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(130, 270, 240, 20);
+		pnThongTinKH.add(textField_2);
+		
+		JTextField textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(130, 230, 240, 20);
+		pnThongTinKH.add(textField_3);
+		
+		JLabel lblNewLabel_2_2_1 = new JLabel("Mã KHàng:");
+		lblNewLabel_2_2_1.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel_2_2_1.setBounds(20, 70, 100, 20);
+		pnThongTinKH.add(lblNewLabel_2_2_1);
+		
+		JLabel lblNewLabel_2_2_2 = new JLabel("Họ Tên:");
+		lblNewLabel_2_2_2.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel_2_2_2.setBounds(20, 190, 100, 20);
+		pnThongTinKH.add(lblNewLabel_2_2_2);
+		
+		JLabel lblNewLabel_2_2_3 = new JLabel("Số tiện thoại:\r\n");
+		lblNewLabel_2_2_3.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel_2_2_3.setBounds(20, 230, 100, 20);
+		pnThongTinKH.add(lblNewLabel_2_2_3);
+		
+		JLabel lblNewLabel_2_2_4 = new JLabel("Ngày Sinh:");
+		lblNewLabel_2_2_4.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel_2_2_4.setBounds(20, 270, 100, 20);
+		pnThongTinKH.add(lblNewLabel_2_2_4);
+		
+		JTextField KH_txtMatKhau = new JTextField();
+		KH_txtMatKhau.setBounds(130, 150, 240, 20);
+		pnThongTinKH.add(KH_txtMatKhau);
+		KH_txtMatKhau.setColumns(10);
+				
+		JLabel lblNewLabel_2_2_4_1 = new JLabel("Giới tính:");
+		lblNewLabel_2_2_4_1.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel_2_2_4_1.setBounds(20, 310, 100, 20);
+		pnThongTinKH.add(lblNewLabel_2_2_4_1);
+		
+		JTextField textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(130, 310, 240, 20);
+		pnThongTinKH.add(textField_4);
 	}
 	private void GUI_DonDat() {
 		
@@ -743,6 +887,7 @@ public class NhanVienQuanLy extends JFrame {
 		lblNewLabel_1.setForeground(Color.BLUE);
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 32));
 	}
+	
 	private String[] updateCboBoxDiemDi() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));

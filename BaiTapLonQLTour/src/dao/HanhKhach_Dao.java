@@ -12,35 +12,7 @@ import my_Interfaces.IHanhKhach;
 
 public class HanhKhach_Dao implements IHanhKhach{
 
-	@Override
-	public boolean taoHanhKhach(HanhKhach hk, String idDon) {
-		// TODO Auto-generated method stub
-		int n=0;
-		ConnectDB.getInstance();
-		Connection con = ConnectDB.getConnection();
-		PreparedStatement statement = null;
-		try {
-			String sql = "insert into hanhkhach values(?,?,?,?)";
-			statement =con.prepareStatement(sql);
-			statement.setString(1, hk.getMaHK());
-			statement.setNString(2, hk.getHoTen());
-			statement.setNString(3, hk.getSdt());
-			statement.setNString(4, idDon);
-			n =statement.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return n>0;
-	}
+
 
 	@Override
 	public ArrayList<HanhKhach> getDsHanhKhach(String idDon) {
@@ -66,6 +38,35 @@ public class HanhKhach_Dao implements IHanhKhach{
 			e.printStackTrace();
 		}
 		return ds;
+	}
+
+	@Override
+	public boolean themHanhKhach(HanhKhach hk, String idDon) {
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "insert into hanhkhach values(?,?,?,?)";
+			statement =con.prepareStatement(sql);
+			statement.setString(1, hk.getMaHK());
+			statement.setNString(2, hk.getHoTen());
+			statement.setNString(3, hk.getSdt());
+			statement.setNString(4, idDon);
+			n =statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return n>0;
 	}
 
 }

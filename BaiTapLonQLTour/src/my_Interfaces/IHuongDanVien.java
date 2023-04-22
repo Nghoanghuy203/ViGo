@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import entities.HuongDanVien;
 
 public interface IHuongDanVien {
-	public ArrayList<HuongDanVien> getDsHDV();
-	public void addHDV(HuongDanVien hdv);
-	public void removeHDV(String id);
-	public void updateHDV(String oldID, HuongDanVien newHDV);
+	public ArrayList<HuongDanVien> getDSHuongDanVien();
+	public ArrayList<HuongDanVien> timKiem(String noiDungTimKiem);
+	public boolean themHuongDanVien(HuongDanVien hdv);
+	public boolean xoaHuuongDanVien(String id);
+	public boolean suaHuongDanVien(String oldID, HuongDanVien newHDV);
 }

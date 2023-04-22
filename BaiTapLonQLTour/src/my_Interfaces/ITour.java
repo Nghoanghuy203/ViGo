@@ -8,11 +8,10 @@ import entities.Tour;
 public interface ITour {
 	public ArrayList<Tour> getDS();
 	public Tour getTour(String id);
-	public int count();
-	public boolean themTour();
-	public boolean xoaTour();
-	public boolean suaTour();
-	public ArrayList<Tour> timKiem(String diemDi, String diemDen, String ngayDi);
-	public ArrayList<Tour> timKiem(String diemDi, String diemDen);
 	public ArrayList<Tour> timKiem(String noiDungTimKiem);
+	public ArrayList<Tour> timKiem(String diemDi, String diemDen);
+	public ArrayList<Tour> timKiem(String diemDi, String diemDen, String ngayDi);
+	public boolean themTour(Tour tour);
+	public boolean xoaTour(String id);
+	public boolean suaTour(String id, Tour newTour);
 }

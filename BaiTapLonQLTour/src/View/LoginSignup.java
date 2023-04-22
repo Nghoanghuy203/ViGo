@@ -105,6 +105,7 @@ public class LoginSignup extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				passwordField.setEchoChar(de);
+				System.out.println(de);
 				show.setVisible(true);
 				hiden.setVisible(false);
 			}

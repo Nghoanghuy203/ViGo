@@ -8,7 +8,7 @@ import java.util.Objects;
 public class DonDatTour {
 	private String maDon;
 	private Tour tour;
-	private NguoiDung nguoiDung;
+	private KhachHang nguoiDung;
 	private ArrayList<HanhKhach> dsHanhKhach;
 	private Date ngayDat;
 	private int soVeDat;
@@ -25,10 +25,10 @@ public class DonDatTour {
 	public void setTour(Tour tour) {
 		this.tour = tour;
 	}
-	public NguoiDung getNguoiDung() {
+	public KhachHang getNguoiDung() {
 		return nguoiDung;
 	}
-	public void setNguoiDung(NguoiDung nguoiDung) {
+	public void setNguoiDung(KhachHang nguoiDung) {
 		this.nguoiDung = nguoiDung;
 	}
 	public ArrayList<HanhKhach> getDsHanhKhach() {
@@ -55,7 +55,7 @@ public class DonDatTour {
 	public void setTongTien(double tongTien) {
 		this.tongTien = tongTien;
 	}
-	public DonDatTour(String maDon, Tour tour, NguoiDung nguoiDung, Date ngayDat,
+	public DonDatTour(String maDon, Tour tour, KhachHang nguoiDung, Date ngayDat,
 			int soVeDat, double tongTien) {
 		super();
 		this.maDon = maDon;

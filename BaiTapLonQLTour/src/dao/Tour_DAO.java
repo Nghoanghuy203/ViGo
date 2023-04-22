@@ -2,6 +2,7 @@ package dao;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,21 +33,20 @@ public class Tour_DAO implements ITour{
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				String ma = rs.getNString(1);
-				String ten = rs.getNString(2);
-				LocalDate ngayKhoiHanh = rs.getDate(3).toLocalDate();
-				Time tgKhoiHanh = rs.getTime(3);
-				int soNgay = rs.getInt(4);
-				int soVeConLai = rs.getInt(5);
-				double gia= rs.getDouble(6);
-				Blob clob = rs.getBlob(7);
+				String ma = rs.getNString("maTour");
+				String ten = rs.getNString("tenTour");
+				LocalDate ngayKhoiHanh = rs.getDate("tgKhoiHanh").toLocalDate();
+				Time tgKhoiHanh = rs.getTime("tgKhoiHanh");
+				int soNgay = rs.getInt("soNgay");
+				int soVeConLai = rs.getInt("soVeConLai");
+				double gia= rs.getDouble("gia");
+				Blob clob = rs.getBlob("hinhAnh");
 				byte[] byteArr = clob.getBytes(1, (int)clob.length());
 				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
 				BufferedImage img = ImageIO.read(bis);
-				//LocalDate ngayTapTrung = rs.getDate(8).toLocalDate();
-				Time tgTapTrung = rs.getTime(8);
-				String diemDI = rs.getNString(9);
-				String diemDen = rs.getNString(10);
+				Time tgTapTrung = rs.getTime("tgTapTrung");
+				String diemDI = rs.getNString("diemDi");
+				String diemDen = rs.getNString("diemDen");
 				String mahdv = rs.getNString("maHDV");
 				String tenhdv = rs.getNString("tenHDV");
 				String sdt = rs.getNString("sdt");
@@ -61,28 +61,92 @@ public class Tour_DAO implements ITour{
 		return ds;
 	}
 
+
+
 	@Override
-	public int count() {
+	public boolean themTour(Tour tour) {
 		// TODO Auto-generated method stub
-		return 0;
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "insert into Tour values(?,?,?,?,?,?,?,?,?,getdate(),?)";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, tour.getMaTour());
+			statement.setNString(2, tour.getTenTour());
+			statement.setString(3, tour.getNgayKhoiHanh().toString());
+			statement.setInt(4, tour.getSoNgay());
+			statement.setInt(5, tour.getSoVeConLai());
+			statement.setDouble(6, tour.getGia());
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ImageIO.write(tour.getHinhAnh(), "img", bos);
+			byte[] byteArr = bos.toByteArray();
+			statement.setBytes(7, byteArr);
+			statement.setString(8, tour.getTgKhoiHanh().toString());
+			statement.setNString(9, tour.getDiemDi());
+			statement.setNString(10, tour.getDiemDen());
+			statement.setNString(11, tour.getHdv().getMaHDV());
+			n=statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
 	}
 
 	@Override
-	public boolean themTour() {
+	public boolean xoaTour(String id) {
 		// TODO Auto-generated method stub
-		return false;
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "alter table Tour delete where maTour=?";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, id);
+			n=statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
 	}
 
 	@Override
-	public boolean xoaTour() {
+	public boolean suaTour(String id, Tour newTour) {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean suaTour() {
-		// TODO Auto-generated method stub
-		return false;
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "update Tour "
+					+ "set tenTour=?, tgKhoiHanh=?, soNgay=?, soVeConlai=?, gia=?,"
+					+ "hinhAnh=?, tgTapTrung=?, diemDi=?, diemDen=?, tgCapNhat=getdate()"
+					+ " where maTour = ?";
+			statement = con.prepareStatement(sql);
+			//statement.setString(1, newTour.getMaTour());
+			statement.setNString(1, newTour.getTenTour());
+			statement.setString(2, newTour.getNgayKhoiHanh().toString());
+			statement.setInt(3, newTour.getSoNgay());
+			statement.setInt(4, newTour.getSoVeConLai());
+			statement.setDouble(5, newTour.getGia());
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ImageIO.write(newTour.getHinhAnh(), "img", bos);
+			byte[] byteArr = bos.toByteArray();
+			statement.setBytes(6, byteArr);
+			statement.setString(7, newTour.getTgKhoiHanh().toString());
+			statement.setNString(8, newTour.getDiemDi());
+			statement.setNString(9, newTour.getDiemDen());
+			statement.setNString(10, id);
+			n=statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
 	}
 	@Override
 	public Tour getTour(String id) {

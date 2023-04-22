@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import app.Test;
 import custom_entity.RoundedCornerBorder;
@@ -113,6 +114,9 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		txtemail = new JTextField();
 		txtemail.setToolTipText("");
 		txtemail.setBounds(222, 216, 415, 41);
+		txtemail.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		txtemail.setBackground(new Color(255,255,255,0));
+		txtemail.setOpaque(false);
 		pnLogin.add(txtemail);
 		txtemail.setColumns(10);
 		
@@ -154,6 +158,9 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		
 		pFDangNhap = new JPasswordField();
 		pFDangNhap.setBounds(222, 307, 415, 41);
+		pFDangNhap.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		pFDangNhap.setBackground(new Color(255,255,255,0));
+		pFDangNhap.setOpaque(false);
 		pnLogin.add(pFDangNhap);
 		
 		lblNewLabel_2 = new JLabel("Chào mừng Quý Khách đã đến với VIGO ");
@@ -174,6 +181,37 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		btnTroVe.setBounds(10, 10, 80, 21);
 		pnLogin.add(btnTroVe);
 		
+		JLabel btnShowPass = new JLabel("");
+		btnShowPass.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/show.png")));
+		btnShowPass.setBounds(650, 320, 40, 40);
+		pnLogin.add(btnShowPass);
+		
+		char dot = pFDangNhap.getEchoChar();
+		
+		JLabel btnHidePass = new JLabel("");
+		btnHidePass.setIcon(new ImageIcon(FormDangNhap.class.getResource("/images/eye-off.png")));
+		btnHidePass.setBounds(650, 320, 40, 40);
+		btnHidePass.setVisible(false);
+		pnLogin.add(btnHidePass);
+		
+		btnShowPass.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pFDangNhap.setEchoChar((char)0);
+				btnHidePass.setVisible(true);
+				btnShowPass.setVisible(false);
+			}
+		});
+		
+		btnHidePass.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pFDangNhap.setEchoChar(dot);
+				btnShowPass.setVisible(true);
+				btnHidePass.setVisible(false);
+			}
+		});
+		
 		hinhnen = new JLabel("New label");
 		hinhnen.setOpaque(true);
 		hinhnen.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -189,6 +227,8 @@ public class FormDangNhap extends JFrame implements ActionListener {
 		hinhnen.setIcon(new ImageIcon(ScaledImg.scaledImage(img, pnLogin.getWidth(), pnLogin.getHeight())));
 		hinhnen.setBounds(0, 0, 800, 560);
 		pnLogin.add(hinhnen);
+		
+		
 		
 		
 	}
