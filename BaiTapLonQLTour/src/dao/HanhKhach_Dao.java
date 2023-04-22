@@ -10,7 +10,7 @@ import connectDB.ConnectDB;
 import entities.HanhKhach;
 import my_Interfaces.IHanhKhach;
 
-public class HanhKhach_Dao implements IHanhKhach{
+public class HanhKhach_DAO implements IHanhKhach{
 
 
 

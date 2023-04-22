@@ -11,7 +11,7 @@ public class ConnectDB {
 		return instance;
 	}
 	public void connect() throws SQLException {
-		String url = "jdbc:sqlserver://localhost:1433;databaseName=QLTOUR;encrypt=false; user=sa;password=123456789";
+		String url = "jdbc:sqlserver://localhost:1433;databaseName=ViGo;encrypt=false; user=sa;password=123456789";
 		con = DriverManager.getConnection(url);	 
 	}
 	public void disconnect() {

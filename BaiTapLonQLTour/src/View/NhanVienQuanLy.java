@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,10 @@ import custom_entity.ChonMau;
 import custom_entity.CustomTable;
 import custom_entity.DateLabelFormatter;
 import custom_entity.RoundedCornerBorder;
+import custom_entity.ScaledImg;
+import entities.DonDatTour;
+import entities.HanhKhach;
+import entities.HuongDanVien;
 import entities.KhachHang;
 import entities.Tour;
 
@@ -36,6 +41,10 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import bus.DonDatTour_BUS;
+import bus.HanhKhach_BUS;
+import bus.HuongDanVien_BUS;
+import bus.KhachHang_BUS;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 
@@ -59,8 +68,8 @@ public class NhanVienQuanLy extends JFrame {
 	private CustomComboxBox cboDiemDen;
 	private CustomComboxBox cboDiemDi;
 	private CustomComboxBox cboThang;
-	private ArrayList<Tour> ds,dsTimKiem;
-	private Tour_BUS tourBus;
+	private ArrayList<Tour> dsTour;
+	private Tour_BUS tour_BUS;
 	private KhachHang nguoiDungBus;
 	private String sDDi, sDDen, sNgay;
 	private JLabel lblNgy;
@@ -91,16 +100,17 @@ public class NhanVienQuanLy extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NhanVienQuanLy frame = new NhanVienQuanLy();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					NhanVienQuanLy frame = new NhanVienQuanLy();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		new NhanVienQuanLy().setVisible(true);
 	}
 
 	/**
@@ -120,14 +130,15 @@ public class NhanVienQuanLy extends JFrame {
 			e.printStackTrace();
 		}
 		//
-		tourBus = new Tour_BUS();
+		//tourBus = new Tour_BUS();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		// setBounds(84, 99, 1200, 620);
 		setBounds(84, 19, 1200, 700);
-		tourBus = new Tour_BUS();
-		ds = tourBus.getDS();
 		
+		//huongDanVien_BUS = new HuongDanVien_BUS();
+		//dsHDV = huongDanVien_BUS.getDSHuongDanVien();
+		//dsKH = khachHang_BUS.getDSKhachHang();
 		pnNhanVienQuanLy = new JPanel();
 		pnNhanVienQuanLy.setBackground(new Color(255, 255, 255));
 		pnNhanVienQuanLy.setBorder(null);
@@ -257,7 +268,7 @@ public class NhanVienQuanLy extends JFrame {
 				KH_panel.setVisible(false);
 				D_panel.setVisible(false);
 				//HDV_panel.setVisible(false);
-				GUI_HuongDanVien();;
+				GUI_HuongDanVien();
 			}
 		});
 		btnHuongDanVien.setText("HG DẪN VIÊN");
@@ -294,10 +305,14 @@ public class NhanVienQuanLy extends JFrame {
 		HDV_panel = new JPanel();
 		
 		//GUI_KhachHang();
-		GUI_Tour();
-		//GUI_HuongDanVien();
+		//GUI_Tour();
+		GUI_HuongDanVien();
+		//GUI_DonDat();
 	}
 	private void GUI_Tour() {
+		//dsTour = tourBus.getDS();
+		tour_BUS = new Tour_BUS();
+		dsTour = tour_BUS.getDS();
 		T_panel.setBounds(20, 183, 1170, 506);
 		pnNhanVienQuanLy.add(T_panel);
 		T_panel.setLayout(null);
@@ -370,7 +385,7 @@ public class NhanVienQuanLy extends JFrame {
 		
 		String header[] =  "Mã Tour, Tên Tour,TG TTrung, TG KhHành,Số Ngày, Số Vé Còn,Giá,Điểm Đi,Điểm Đến,HDV".split(",");
 		modelTour = new DefaultTableModel(header,0);
-		for (Tour tour : tourBus.getDS()) {
+		for (Tour tour : dsTour) {
 			modelTour.addRow(tour.toString().split(";"));
 		}
 		CustomButton customButton_1 = new CustomButton((String) null);
@@ -514,8 +529,55 @@ public class NhanVienQuanLy extends JFrame {
 		JLabel lblNewLabel_3 = new JLabel("Label Hinh");
 		lblNewLabel_3.setBounds(151, 316, 206, 89);
 		panel_1.add(lblNewLabel_3);
+		
+		customTable.addMouseListener(new MouseListener() {
+				
+			@Override
+			public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+				
+			@Override
+			public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selected = customTable.getSelectedRow();
+				T_txtMaTour.setText((String)customTable.getValueAt(selected, 0));
+				T_txtTenTour.setText((String)customTable.getValueAt(selected, 1));
+				T_txtTgTapTrung.setText((String)customTable.getValueAt(selected, 2));
+				T_txtTgKhoiHanh.setText((String)customTable.getValueAt(selected, 3));
+				T_txtSoNgay.setText((String)customTable.getValueAt(selected, 4));
+				T_txtSoVeCon.setText((String)customTable.getValueAt(selected, 5));
+				T_txtGia.setText((String)customTable.getValueAt(selected, 6));
+				T_txtDiemDi.setText((String)customTable.getValueAt(selected, 7));
+				T_txtDiemDen.setText((String)customTable.getValueAt(selected, 8));
+				for (Tour t : dsTour) {
+					if(T_txtMaTour.getText().equals(t.getMaTour())){
+						lblNewLabel_3.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblNewLabel_3.getWidth(), lblNewLabel_3.getHeight())));
+					}
+				}
+			}
+		});
 	}
 	private void GUI_KhachHang() {
+		KhachHang_BUS khachHang_BUS= new KhachHang_BUS();
+		ArrayList<KhachHang> dsKH =khachHang_BUS.getDSKhachHang();
 		KH_panel.setBounds(20, 183, 1170, 506);
 		pnNhanVienQuanLy.add(KH_panel);
 		KH_panel.setLayout(null);
@@ -523,18 +585,18 @@ public class NhanVienQuanLy extends JFrame {
 		
 		String header[] =  "Số Khách Hàng,Họ Tên,Ngày Sinh,SĐT,Giới Tính,TK Email,Mật Khẩu".split(",");
 		modelKhachHang = new DefaultTableModel(header,0);
-		/*tkBus = new KhachHang_BUS();
-		ds_KhachHang = tkBus.getDsTK();
-		for (KhachHang khachHang : ds_KhachHang) {
+		//tkBus = new KhachHang_BUS();
+		//ds_KhachHang = tkBus.getDsTK();
+		for (KhachHang khachHang : dsKH) {
 			modelKhachHang.addRow(khachHang.toString().split(";"));
 		}
-		*/
+		
 		CustomButton customButton_1 = new CustomButton((String) null);
 		customButton_1.setBounds(351, 488, 1, 1);
 		KH_panel.add(customButton_1);
 		
 		CustomTable customTable = new CustomTable(modelKhachHang, ChonMau.blue_4B70F5, Color.white);
-		customTable.setModel(new DefaultTableModel(header,0));
+		customTable.setModel(modelKhachHang);
 		customTable.setBounds(10, 90, 761, 387);
 		
 		JScrollPane scrollPane = new JScrollPane(customTable);
@@ -608,25 +670,26 @@ public class NhanVienQuanLy extends JFrame {
 		pnThongTinKH.add(lblMK);
 		lblMK.setFont(new Font("Arial", Font.BOLD, 15));
 		
-		JTextField textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(130, 70, 240, 20);
-		pnThongTinKH.add(textField);
+		JTextField KH_txtMa = new JTextField();
+		KH_txtMa.setEditable(false);
+		KH_txtMa.setColumns(10);
+		KH_txtMa.setBounds(130, 70, 240, 20);
+		pnThongTinKH.add(KH_txtMa);
 		
-		JTextField textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(130, 190, 240, 20);
-		pnThongTinKH.add(textField_1);
+		JTextField KH_txtTen = new JTextField();
+		KH_txtTen.setColumns(10);
+		KH_txtTen.setBounds(130, 190, 240, 20);
+		pnThongTinKH.add(KH_txtTen);
 		
-		JTextField textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(130, 270, 240, 20);
-		pnThongTinKH.add(textField_2);
+		JTextField KH_txtNgaySinh = new JTextField();
+		KH_txtNgaySinh.setColumns(10);
+		KH_txtNgaySinh.setBounds(130, 270, 240, 20);
+		pnThongTinKH.add(KH_txtNgaySinh);
 		
-		JTextField textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(130, 230, 240, 20);
-		pnThongTinKH.add(textField_3);
+		JTextField KH_txtSdt = new JTextField();
+		KH_txtSdt.setColumns(10);
+		KH_txtSdt.setBounds(130, 230, 240, 20);
+		pnThongTinKH.add(KH_txtSdt);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Mã KHàng:");
 		lblNewLabel_2_2_1.setFont(new Font("Arial", Font.BOLD, 15));
@@ -658,13 +721,53 @@ public class NhanVienQuanLy extends JFrame {
 		lblNewLabel_2_2_4_1.setBounds(20, 310, 100, 20);
 		pnThongTinKH.add(lblNewLabel_2_2_4_1);
 		
-		JTextField textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(130, 310, 240, 20);
-		pnThongTinKH.add(textField_4);
+		JTextField KH_txtGt = new JTextField();
+		KH_txtGt.setColumns(10);
+		KH_txtGt.setBounds(130, 310, 240, 20);
+		pnThongTinKH.add(KH_txtGt);
+		
+		customTable.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+				
+			@Override
+			public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selected = customTable.getSelectedRow();
+				KH_txtMa.setText((String)customTable.getValueAt(selected, 0));
+				KH_txtTaiKhoan.setText((String)customTable.getValueAt(selected, 5));
+				KH_txtMatKhau.setText((String)customTable.getValueAt(selected, 6));
+				KH_txtTen.setText((String)customTable.getValueAt(selected, 1));
+				KH_txtSdt.setText((String)customTable.getValueAt(selected, 2));
+				KH_txtNgaySinh.setText((String)customTable.getValueAt(selected, 3));
+				KH_txtGt.setText((String)customTable.getValueAt(selected, 4));
+			}
+		});
 	}
 	private void GUI_DonDat() {
-		
+		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
+		ArrayList<DonDatTour> dsDDT = donDatTour_BUS.getDSDonDatTour();
+		HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
 		D_panel.setBounds(20, 183, 1170, 506);
 		pnNhanVienQuanLy.add(D_panel);
 		D_panel.setLayout(null);
@@ -769,14 +872,18 @@ public class NhanVienQuanLy extends JFrame {
 		spinnerTGMax.setBounds(318, 32, 99, 23);
 		search.add(spinnerTGMax);
 		
-		String header1[] =  "Số Đơn Đặt,Mã Tour, Tên Tour,Số NgDg, Họ Tên NgDg,TG Đặt,Số Vé,Tổng Tiền".split(",");
-		modelDonDat = new DefaultTableModel(header1,0);
+		String header1[] =  "Mã Đơn Đặt,Mã Tour, Tên Tour,Mã KH, Họ TênKH,TG Đặt,Số Vé,Tổng Tiền".split(",");
 		
+		modelDonDat = new DefaultTableModel(header1,0);
+		for (DonDatTour don : donDatTour_BUS.getDSDonDatTour()) {
+			modelDonDat.addRow(don.toString().split(";"));
+		}
 		CustomButton customButton_1 = new CustomButton((String) null);
 		customButton_1.setBounds(351, 488, 1, 1);
 		D_panel.add(customButton_1);
 		
 		CustomTable customTable = new CustomTable(modelDonDat, ChonMau.blue_4B70F5, Color.white);
+		customTable.setModel(modelDonDat);
 		customTable.setBounds(10, 90, 761, 387);
 		
 		JScrollPane scrollPane = new JScrollPane(customTable);
@@ -790,46 +897,71 @@ public class NhanVienQuanLy extends JFrame {
 		modelHangKhach = new DefaultTableModel(header2,0);
 		CustomTable customTable_1 = new CustomTable(modelHangKhach, ChonMau.blue_4B70F5, Color.white);
 		scrollPane_1.setViewportView(customTable_1);
+		
+		customTable.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+				
+			@Override
+			public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selected = customTable.getSelectedRow();
+				String id = (String)customTable.getValueAt(selected, 0);
+				for (HanhKhach hk : hanhKhach_BUS.getDsHanhKhach(id)) {
+					modelHangKhach.addRow(hk.toString().split(";"));
+				}
+				customTable_1.setModel(modelHangKhach);
+			}
+		});
 	}
 	private void GUI_HuongDanVien(){
+		HuongDanVien_BUS huongDanVien_BUS =new HuongDanVien_BUS();
+		ArrayList<HuongDanVien> dsHDV = huongDanVien_BUS.getDSHuongDanVien();
+		//dsHDV = huongDanVien_BUS.getDSHuongDanVien();
 		HDV_panel.setBounds(20, 183, 1170, 506);
 		pnNhanVienQuanLy.add(HDV_panel);
 		HDV_panel.setLayout(null);
 		HDV_panel.setVisible(true);
-		
+		//dsHDV = huongDanVien_BUS.getDSHuongDanVien();
 		String header[] =  "Mã Hướng Dân Viên,Họ Tên, Số Điện Thoại".split(",");
 		modelHuongDanVien = new DefaultTableModel(header,0);
+		for (HuongDanVien hdv : huongDanVien_BUS.getDSHuongDanVien()) {
+			modelHuongDanVien.addRow(hdv.toString().split(";"));
+		}
 		
 		CustomButton customButton_1 = new CustomButton((String) null);
 		customButton_1.setBounds(351, 488, 1, 1);
 		HDV_panel.add(customButton_1);
 		
 		CustomTable customTable = new CustomTable(modelHuongDanVien, ChonMau.blue_4B70F5, Color.white);
-		customTable.setModel(new DefaultTableModel(header,0));
+		customTable.setModel(modelHuongDanVien);
 		customTable.setBounds(10, 90, 761, 387);
 		
 		JScrollPane scrollPane = new JScrollPane(customTable);
 		scrollPane.setBounds(0, 11, 771, 463);
 		HDV_panel.add(scrollPane);
 		
-		HDV_txtMaHDV = new JTextField();
-		HDV_txtMaHDV.setColumns(10);
-		HDV_txtMaHDV.setBounds(905, 77, 240, 20);
-		HDV_txtMaHDV.setEditable(false);
-		HDV_panel.add(HDV_txtMaHDV);
 		
-		JLabel lblMaKhach = new JLabel("Mã Hướng Dẫn Viên");
-		lblMaKhach.setBounds(798, 77, 97, 14);
-		HDV_panel.add(lblMaKhach);
-
-		HDV_txtHoTen = new JTextField();
-		HDV_txtHoTen.setColumns(10);
-		HDV_txtHoTen.setBounds(905, 140, 240, 20);
-		HDV_panel.add(HDV_txtHoTen);
-		
-		JLabel lblNewLabel_2_2 = new JLabel("Họ Tên");
-		lblNewLabel_2_2.setBounds(798, 140, 97, 14);
-		HDV_panel.add(lblNewLabel_2_2);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(ChonMau.blue_4B70F5));
@@ -837,15 +969,33 @@ public class NhanVienQuanLy extends JFrame {
 		HDV_panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_2_2_1 = new JLabel("Số Điện Thoại");
-		lblNewLabel_2_2_1.setBounds(21, 180, 95, 14);
-		panel_1.add(lblNewLabel_2_2_1);
+		JLabel lblSdt = new JLabel("Số Điện Thoại");
+		lblSdt.setBounds(20, 180, 100, 20);
+		panel_1.add(lblSdt);
 		
 		HDV_txtSoDienThoai = new JTextField();
 		HDV_txtSoDienThoai.setColumns(10);
-		HDV_txtSoDienThoai.setBounds(126, 180, 243, 20);
+		HDV_txtSoDienThoai.setBounds(120, 180, 250, 20);
 		panel_1.add(HDV_txtSoDienThoai);
 		
+		HDV_txtMaHDV = new JTextField();
+		HDV_txtMaHDV.setColumns(10);
+		HDV_txtMaHDV.setBounds(120, 80, 250, 20);
+		HDV_txtMaHDV.setEditable(false);
+		panel_1.add(HDV_txtMaHDV);
+		
+		JLabel lblMaHDV = new JLabel("MÃ HDV:");
+		lblMaHDV.setBounds(20, 80, 100, 20);
+		panel_1.add(lblMaHDV);
+
+		HDV_txtHoTen = new JTextField();
+		HDV_txtHoTen.setColumns(10);
+		HDV_txtHoTen.setBounds(120, 130, 250, 20);
+		panel_1.add(HDV_txtHoTen);
+		
+		JLabel lblHoTen = new JLabel("Họ Tên:");
+		lblHoTen.setBounds(20, 130, 100, 20);
+		panel_1.add(lblHoTen);
 		
 		HDV_btnThem = new CustomButton((String) null);
 		HDV_btnThem.addActionListener(new ActionListener() {
@@ -882,16 +1032,51 @@ public class NhanVienQuanLy extends JFrame {
 		HDV_btnSua.setColor_fogeground(new Color(75, 112, 245));
 		
 		JLabel lblNewLabel_1 = new JLabel("Thông tin Hướng Dẫn Viên");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(0, 11, 379, 34);
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setForeground(Color.BLUE);
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 32));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		
+		customTable.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+				
+			@Override
+			public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+				
+			@Override
+			public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selected = customTable.getSelectedRow();
+				HDV_txtMaHDV.setText((String)customTable.getValueAt(selected, 0));
+				HDV_txtHoTen.setText((String)customTable.getValueAt(selected, 1));
+				HDV_txtSoDienThoai.setText((String)customTable.getValueAt(selected, 2));
+			}
+		});
 	}
 	
 	private String[] updateCboBoxDiemDi() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
-		for (Tour t : tourBus.getDS()) {
+		for (Tour t : tour_BUS.getDS()) {
 				if (!list.contains(t.getDiemDi())) list.add(t.getDiemDi());
 		}
 		s=list.toArray(new String[0]);
@@ -900,7 +1085,7 @@ public class NhanVienQuanLy extends JFrame {
 	private String[] updateCboBoxDiemDen() {
 		String[] s = {};
 		List<String> list = new ArrayList<>(Arrays.asList(s));
-		for (Tour t : tourBus.getDS()) {
+		for (Tour t : tour_BUS.getDS()) {
 				if (!list.contains(t.getDiemDen())) list.add(t.getDiemDen());
 			
 		}

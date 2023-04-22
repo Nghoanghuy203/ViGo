@@ -54,14 +54,14 @@ public class DonDatTour_DAO implements IDonDatTour{
 			while (rs.next()) {
 				String maDon = rs.getNString(1);
 				String maTour = rs.getNString(2);
-				String tenTour = rs.getNString(3);
-				Tour t = new Tour(maTour, tenTour);
-				String maNguoiDung = rs.getNString(4);
-				String hoTenNguoiDung = rs.getNString(5);
-				Date ngayDat = rs.getDate(6);
-				int soVe = rs.getInt(7);
-				double tongTien = rs.getDouble(8);
-				KhachHang nd = new KhachHang(maNguoiDung, hoTenNguoiDung);
+				//String tenTour = rs.getNString(3);
+				Tour t = new Tour(maTour);
+				String maNguoiDung = rs.getNString(3);
+				//String hoTenNguoiDung = rs.getNString(5);
+				Date ngayDat = rs.getDate(4);
+				int soVe = rs.getInt(5);
+				double tongTien = rs.getDouble(6);
+				KhachHang nd = new KhachHang(maNguoiDung);
 				DonDatTour d = new DonDatTour(maDon, t, nd, (java.sql.Date) ngayDat, soVe, tongTien);
 				ds.add(d);
 			}

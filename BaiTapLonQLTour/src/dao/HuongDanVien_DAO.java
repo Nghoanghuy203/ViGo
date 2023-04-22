@@ -14,22 +14,19 @@ public class HuongDanVien_DAO implements IHuongDanVien{
 	public HuongDanVien_DAO() {
 		
 	}
-
-
-
 	@Override
 	public ArrayList<HuongDanVien> getDSHuongDanVien() {
 		ArrayList<HuongDanVien> ds = new ArrayList<>();
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "Select * from HuongDanVien";
+			String sql = "select * from HuongDanVien";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()) {
-				String ma = rs.getNString(1);
-				String ten = rs.getNString(2);
-				String sdt = rs.getNString(3);
+				String ma = rs.getNString("maHDV");
+				String ten = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
 				HuongDanVien hdv = new HuongDanVien(ma, ten, sdt);
 				ds.add(hdv);
 			}

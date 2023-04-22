@@ -78,7 +78,7 @@ public class KhachHang {
 	}
 	@Override
     public String toString() {
-        return soNguoiDung + ";" + soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gioiTinh + ";" + email + ";" +matKhau;
+        return soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gioiTinh + ";" + email + ";" +matKhau;
     }
 	@Override
 	public int hashCode() {

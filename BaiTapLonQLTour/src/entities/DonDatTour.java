@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import custom_entity.Format;
+
 public class DonDatTour {
 	private String maDon;
 	private Tour tour;
@@ -80,6 +82,11 @@ public class DonDatTour {
 			return false;
 		DonDatTour other = (DonDatTour) obj;
 		return Objects.equals(maDon, other.maDon);
+	}
+	@Override
+	public String toString() {
+		return maDon + ";" + tour.getMaTour() + ";" + tour.getTenTour() +";" + nguoiDung.getSoNguoiDung() + ";"
+				+ nguoiDung.getHoTen() + ";" + ngayDat.toString() + ";" + soVeDat + ";" + Format.formatMoneyVND(tongTien);
 	}
 	
 	

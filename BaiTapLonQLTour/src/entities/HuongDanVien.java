@@ -50,7 +50,7 @@ public class HuongDanVien {
 	}
 	@Override
 	public String toString() {
-		return "HuongDanVien [maHDV=" + maHDV + ", hoTen=" + hoTen + ", sdt=" + sdt + "]";
+		return maHDV + ";" + hoTen + ";" + sdt;
 	}
 	
 	

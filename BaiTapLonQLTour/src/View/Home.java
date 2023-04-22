@@ -816,6 +816,12 @@ public class Home extends JFrame {
 			iTour=0;
 			ds=dsTimKiem;
 			lItem=ds.size();
+			item1.setVisible(true);
+			item2.setVisible(true);
+			item3.setVisible(true);
+			item4.setVisible(true);
+			item5.setVisible(true);
+			item6.setVisible(true);
 			showList(iTour);
 		}
 		else txtMess.setText("không tìm thấy kết quả!");
