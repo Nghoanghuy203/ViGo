@@ -6,12 +6,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -34,33 +40,56 @@ public class CustomScollPane extends javax.swing.JPanel {
     }
 
     public void themVe(DonDatTour donDatTour) {
+    	File f = new File("src\\images\\HoangLienSon.png");
+        BufferedImage img=null;
+        try {
+            img = ImageIO.read(f);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
     	JPanel ticket = new JPanel();
-    	ticket.setLayout(new MigLayout("wrap 3", "grow", "grow"));
-    	ticket.setPreferredSize(new Dimension(800,200));
+    	//ticket.setPreferredSize(new Dimension(800,200));
+    	ticket.setSize(800, 200);
+    	JLabel labelBackground = new JLabel("");
+    	labelBackground.setBounds(0,0,800,200);
+        labelBackground.setIcon(new ImageIcon(ScaledImg.scaledImage(img, labelBackground.getWidth(), labelBackground.getHeight())));
+        
+        
+    	//labelBackground.setIcon(new ImageIcon("src\\images\\"));
+    	//ticket.setLayout(new MigLayout("wrap 3", "grow", "grow"));
+    	ticket.setLayout(null);
+        ticket.add(labelBackground);
     	ticket.setBorder(new RoundedCornerBorder());
     	JLabel logo = new JLabel("");
+    	logo.setBounds(20, 20, 60, 60);
     	logo.setIcon(new ImageIcon("src\\images\\logo.png"));
-    	ticket.add(logo,"align left top");
+    	ticket.add(logo);
     	
         JLabel lblTenTour = new JLabel(donDatTour.getTour().getTenTour());
         lblTenTour.setFont(new Font("sansserif", 1, 30));
         lblTenTour.setForeground(ChonMau.blue_4B70F5);
-        ticket.add(lblTenTour, "align center");
+        lblTenTour.setBounds(200, 30, 400, 30);
+        lblTenTour.setHorizontalAlignment(SwingConstants.CENTER);
+        ticket.add(lblTenTour);
         
         JLabel lblNgayDat = new JLabel(donDatTour.getNgayDat().toString());
         lblNgayDat.setFont(new Font("sansserif", 0, 20));
-        ticket.add(lblNgayDat, "align right top");
+        lblNgayDat.setBounds(700, 20, 80, 20);
+        ticket.add(lblNgayDat);
         
         JLabel lblmaTour = new JLabel(donDatTour.getTour().getMaTour());
         lblmaTour.setFont(new Font("sansserif", 0, 20));
-        ticket.add(lblmaTour,"align left bot");
+        lblmaTour.setBounds(20, 160, 200, 20);
+        ticket.add(lblmaTour);
         
         JLabel nulllbl = new JLabel();
         ticket.add(nulllbl);
         
         JLabel lblSoVe = new JLabel(donDatTour.getSoVeDat()+"");
         lblSoVe.setFont(new Font("sansserif", 0, 20));
-        ticket.add(lblSoVe,"align right bot");
+        lblSoVe.setBounds(750, 160, 30, 30);
+        ticket.add(lblSoVe);
         panel.add(ticket);
         
         

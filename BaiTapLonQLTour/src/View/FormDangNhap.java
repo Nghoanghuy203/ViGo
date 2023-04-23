@@ -265,6 +265,7 @@ public class FormDangNhap extends JFrame implements ActionListener {
 			if (txtemail.getText().trim().equals("manager") && pFDangNhap.getText().trim().equals("123")) {
 				NhanVienQuanLy gui_ql = new NhanVienQuanLy();
 				gui_ql.setVisible(true);
+				setVisible(false);
 			}
 			else	
 			if (maKH=="") SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sai tài khoản mật khẩu!");

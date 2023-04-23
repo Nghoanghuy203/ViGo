@@ -6,9 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import custom_entity.Code_Generator;
 import custom_entity.DateLabelFormatter;
 import custom_entity.RoundedCornerBorder;
 import custom_entity.ScaledImg;
+import custom_entity.SomeStaticMethod;
+import entities.KhachHang;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +36,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -45,6 +51,8 @@ import javax.swing.border.MatteBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
+import connectDB.ConnectDB;
 
 public class ThemAccount extends JFrame implements ActionListener {
 	
@@ -77,6 +85,7 @@ public class ThemAccount extends JFrame implements ActionListener {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNgaySinh;
+	private JRadioButton radNam, radNu;
 	
 	private UtilDateModel model; 
 	private JDatePanelImpl datePanel; 
@@ -226,12 +235,12 @@ public class ThemAccount extends JFrame implements ActionListener {
 		datePicker.setButtonFocusable(false);
 		pnSignin.add(datePicker);
 		
-		JRadioButton radNam = new JRadioButton("Nam");
+		radNam = new JRadioButton("Nam");
 		radNam.setBackground(new Color(255, 255, 255, 0));
 		radNam.setBounds(240, 420, 100, 25);
 		pnSignin.add(radNam);
 		
-		JRadioButton radNu = new JRadioButton("Nữ");
+		radNu = new JRadioButton("Nữ");
 		radNu.setBackground(new Color(255, 255, 255, 0));
 		radNu.setBounds(30, 420, 100, 25);
 		pnSignin.add(radNu);
@@ -338,42 +347,121 @@ public class ThemAccount extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(btnThemAccount))
-		{
-			int dk = JOptionPane.showConfirmDialog(this, "Bạn có muốn đăng ký", "confirm", JOptionPane.YES_NO_OPTION);
-			if (dk != JOptionPane.YES_OPTION) {
-				return;
-			}
-			try {
-				Class.forName(driver);
-				Connection con = DriverManager.getConnection(url, user, password);
-				String sql = "insert into ACCOUNT values(?,?,?,?,?,?)";
-				PreparedStatement ps = con.prepareStatement(sql);
-				ps.setString(1, txtemail.getText());
-				ps.setString(2, txtPass1.getText());
-				ps.setString(3, txtPass2.getText());
-				ps.setString(4, txthoTen.getText());
-				ps.setString(5, txtsDT.getText());
-				//ps.setString(6, txtgtinh.getText());
+		if(o.equals(btnThemAccount)) {	
+			if (validDataDangKy()) {
+				String email = txtemail.getText().trim();
+				String mk = txtPass1.getText().trim();
+				String hoten = txthoTen.getText().trim();
+				String sdt = txtsDT.getText().trim();
+				String[] ngaySinh = datePicker.getJFormattedTextField().getText().split("-");
+				int nam = Integer.parseInt(ngaySinh[0]);
+				int thang = Integer.parseInt(ngaySinh[1]);
+				int ngay = Integer.parseInt(ngaySinh[2]);
+				LocalDate ns = LocalDate.of(nam, thang, ngay);
+				int gt = radNam.isSelected()?1:0;
+				Boolean gtb = gt==1?true:false;
+				String gtinh = gt==1?"Nam":"Nữ";
+				String makh = Code_Generator.generateMaKhachHang(hoten, ns, gtinh);
+				int n=0;
+				ConnectDB.getInstance();
+				Connection con = ConnectDB.getConnection();
+				PreparedStatement st =null;
 				
-				int n = ps.executeUpdate(); //update dữ liệu
-				
-//				if(txtemail.getText().equals("")||txtPass1.getText().equals("")||txtPass2.getText().equals("")||txthoTen.getText().equals("")||txtsDT.getText().equals("")||txtgtinh.getText().equals("")) {
-//					JOptionPane.showMessageDialog(this, "Không để thông tin trống");
-//				}
-//				else if(n!=0) {
-//					JOptionPane.showMessageDialog(this, "Đăng kí thành công!!");
-//				} else {
-//					JOptionPane.showMessageDialog(this, "Đăng kí thất bại!!");
-//				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
+				if (JOptionPane.showConfirmDialog(this, "Bạn có muốn đăng ký", "confirm", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+					return;
+				}
+				try {
+					String sql = "insert into KhachHang values(?,?,?,?,?,?,?)";
+					st = con.prepareStatement(sql);
+					st.setNString(1, makh);
+					st.setNString(2, hoten);
+					st.setNString(3, ns.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+					st.setNString(4, sdt);
+					st.setInt(5,gt);
+					st.setNString(6, email);
+					st.setNString(7, mk);				
+					n = st.executeUpdate(); //update dữ liệu
+					
+//					if(txtemail.getText().equals("")||txtPass1.getText().equals("")||txtPass2.getText().equals("")||txthoTen.getText().equals("")||txtsDT.getText().equals("")||txtgtinh.getText().equals("")) {
+//						JOptionPane.showMessageDialog(this, "Không để thông tin trống");
+//					}
+//					else if(n!=0) {
+//						JOptionPane.showMessageDialog(this, "Đăng kí thành công!!");
+//					} else {
+//						JOptionPane.showMessageDialog(this, "Đăng kí thất bại!!");
+//					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				if (n>0) {
+					if (JOptionPane.showConfirmDialog(this, "Đăng ký thành công, bạn có muốn đăng nhập tại đây không?","Thông báo",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+						KhachHang kh = new KhachHang(makh, hoten, ns,sdt,gtb, email, mk);
+						Home.user=kh;
+						Home.isLogin=true;
+						Home.btnCart.setVisible(true);
+						setVisible(false);
+					}
+					else return;
+				}
 			}
+			
 		} 
 		if(o.equals(btnLogIn)) {
 			FormDangNhap l = new FormDangNhap();
 			l.setVisible(true);
 			this.dispose();
 		}
+	}
+	public boolean validDataDangKy() {
+		try {
+			String email = txtemail.getText();
+			String matKhau = txtPass1.getText();
+			String matKhau2 = txtPass2.getText();
+			String hoTen = txthoTen.getText();
+			String soDienThoai = txtsDT.getText();
+			int namSinh = datePicker.getModel().getYear();
+			LocalDateTime dt= LocalDateTime.now();
+			int namHienTai = dt.getYear();
+			if(!(email.length() > 0 && email.matches("([a-zA-Z]{1})([a-zA-Z0-9]*)(@)(yahoo|gmail)(.com)"))) {
+				SomeStaticMethod.showDialog(2, "Email Ký tự đầu phải là chữ theo sau là chuỗi, @ và kết thúc là tên miền(.com)");
+				txtemail.requestFocus();
+				txtemail.selectAll();
+				return false;
+			}
+			if(!(matKhau.length() >= 8 && matKhau.matches("([\\w]*)"))) {
+				SomeStaticMethod.showDialog(2, "Độ dài mật khẩu phải lớn hơn hoặc bằng 8 ký tự");
+				txtPass1.requestFocus();
+				txtPass1.selectAll();
+				return false;
+			}
+			if(!(matKhau2.equals(matKhau))) {
+				SomeStaticMethod.showDialog(2, "Không trùng mật khẩu đầu");
+				txtPass2.requestFocus();
+				txtPass2.selectAll();
+				return false;
+			}
+			if(!(hoTen.length() > 0 && hoTen.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*((\\s)))+"+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*$"))) {
+				SomeStaticMethod.showDialog(2, "Họ Tên không chứa ký tự số. VD: Nguyễn Văn A");
+				txthoTen.requestFocus();
+				txthoTen.selectAll();
+				return false;
+			}
+			if (!(soDienThoai.length() == 10 && soDienThoai.matches("([0])([0-9]{9})"))) {
+				SomeStaticMethod.showDialog(2, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 10");
+				txtsDT.requestFocus();
+				txtsDT.selectAll();
+				return false;
+			}
+			int tuoi = namHienTai-namSinh;
+			if(!(namSinh < namHienTai && tuoi >= 18)) {
+				SomeStaticMethod.showDialog(2, String.valueOf("Năm sinh phải nhỏ hơn năm hiện tại và tuổi phải đủ 18"));
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 }

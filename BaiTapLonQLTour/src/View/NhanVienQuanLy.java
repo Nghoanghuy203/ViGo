@@ -526,7 +526,15 @@ public class NhanVienQuanLy extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				String ma = T_txtMaTour.getText().trim();
 				System.out.println(ma);
-				if (tour_BUS.xoaTour(ma)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				if (tour_BUS.xoaTour(ma)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (Tour tour : dsTour) {
+						modelTour.addRow(tour.toString().split(";"));
+					}
+					customTable.setModel(modelTour);
+					SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công!");
 			}
 		});
@@ -570,8 +578,17 @@ public class NhanVienQuanLy extends JFrame {
 					e1.printStackTrace();
 				}
 				Tour newTour = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
-				if (tour_BUS.suaTour(maTour,newTour)) SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				if (tour_BUS.suaTour(maTour,newTour)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (Tour tour : dsTour) {
+						modelTour.addRow(tour.toString().split(";"));
+					}
+					customTable.setModel(modelTour);
+					SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
+				
 			}
 		});
 		T_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
@@ -656,7 +673,7 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				customTable.xoaTable();
+				
 				HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
 				String ten = T_txtTenTour.getText().trim();
 				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 9).split("-");
@@ -687,13 +704,17 @@ public class NhanVienQuanLy extends JFrame {
 					e1.printStackTrace();
 				}
 				Tour t = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
-				if (tour_BUS.themTour(t)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
-				customTable.resetShowTable();
-				for (Tour tour : dsTour) {
-					modelTour.addRow(tour.toString().split(";"));
+				if (tour_BUS.themTour(t)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (Tour tour : dsTour) {
+						modelTour.addRow(tour.toString().split(";"));
+					}
+					customTable.setModel(modelTour);
+					SomeStaticMethod.showDialog(10, "Thêm thành công!");
 				}
-				customTable.setModel(modelTour);
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				
 			}
 		});
 		T_btnXoaTrang.addMouseListener(new MouseAdapter() {
@@ -765,6 +786,7 @@ public class NhanVienQuanLy extends JFrame {
 				for (Tour t : dsTour) {
 					if(T_txtMaTour.getText().equals(t.getMaTour())){
 						lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblhinhTour.getWidth(), lblhinhTour.getHeight())));
+						
 					}
 				}
 			}
@@ -782,7 +804,7 @@ public class NhanVienQuanLy extends JFrame {
 		modelKhachHang = new DefaultTableModel(header,0);
 		//tkBus = new KhachHang_BUS();
 		//ds_KhachHang = tkBus.getDsTK();
-		for (KhachHang khachHang : dsKH) {
+		for (KhachHang khachHang : khachHang_BUS.getDSKhachHang()) {
 			modelKhachHang.addRow(khachHang.toString().split(";"));
 		}
 		
@@ -896,7 +918,6 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				customTable.xoaTable();
 				String email = KH_txtTaiKhoan.getText().trim();
 				String mk = KH_txtMatKhau.getText().trim();
 				String hoten = KH_txtTen.getText().trim();
@@ -910,13 +931,17 @@ public class NhanVienQuanLy extends JFrame {
  				Boolean gtinh = gt.equals("Nam")?true:false;
  				String maKH = Code_Generator.generateMaKhachHang(hoten, ngaySinh, gt);
  				KhachHang kh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
- 				if (khachHang_BUS.themKhachHang(kh)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
+ 				if (khachHang_BUS.themKhachHang(kh)) {
+ 					customTable.xoaTable();
+ 					customTable.resetShowTable();
+					for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
+						modelKhachHang.addRow(kh1.toString().split(";"));
+					}
+					customTable.setModel(modelKhachHang);
+ 					SomeStaticMethod.showDialog(10, "Thêm thành công!");
+ 				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
-				customTable.resetShowTable();
-				for (KhachHang khachHang : dsKH) {
-					modelKhachHang.addRow(khachHang.toString().split(";"));
-				}
-				customTable.setModel(modelKhachHang);
+				
 			}
 		});
 		KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
@@ -935,7 +960,15 @@ public class NhanVienQuanLy extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String makh = KH_txtMa.getText().trim();
-				if (khachHang_BUS.xoaKhachHang(makh)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				if (khachHang_BUS.xoaKhachHang(makh)) {
+					customTable.xoaTable();
+ 					customTable.resetShowTable();
+					for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
+						modelKhachHang.addRow(kh1.toString().split(";"));
+					}
+					customTable.setModel(modelKhachHang);
+					SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công!");
 				
 			}
@@ -955,6 +988,7 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnSua.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				String maKH = KH_txtMa.getText().trim();
 				String email = KH_txtTaiKhoan.getText().trim();
 				String mk = KH_txtMatKhau.getText().trim();
@@ -969,7 +1003,15 @@ public class NhanVienQuanLy extends JFrame {
  				String gt = KH_txtGt.getText().trim();
  				Boolean gtinh = gt.equals("Nam")?true:false;
  				KhachHang newkh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
- 				if (khachHang_BUS.capNhatKhachHang(maKH,newkh)) SomeStaticMethod.showDialog(10, "Sửa thành công!");
+ 				if (khachHang_BUS.capNhatKhachHang(maKH,newkh)) {
+ 					customTable.xoaTable();
+ 					customTable.resetShowTable();
+					for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
+						modelKhachHang.addRow(kh1.toString().split(";"));
+					}
+					customTable.setModel(modelKhachHang);
+ 					SomeStaticMethod.showDialog(10, "Sửa thành công!");
+ 				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
 			}
 		});
@@ -1291,18 +1333,22 @@ public class NhanVienQuanLy extends JFrame {
 		HDV_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
 		HDV_btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				customTable.xoaTable();
+				
 				String tenHDV = HDV_txtHoTen.getText().trim();
 				String maHDV = Code_Generator.generateHuongDanVien(tenHDV);
 				String sdt = HDV_txtSoDienThoai.getText().trim();
 				HuongDanVien hdv = new HuongDanVien(maHDV, tenHDV, sdt);
-				if (huongDanVien_BUS.themHuongDanVien(hdv)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
-				customTable.resetShowTable();
-				for (HuongDanVien hdv1 : huongDanVien_BUS.getDSHuongDanVien()) {
-					modelHuongDanVien.addRow(hdv1.toString().split(";"));
+				if (huongDanVien_BUS.themHuongDanVien(hdv)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (HuongDanVien hdv1 : huongDanVien_BUS.getDSHuongDanVien()) {
+						modelHuongDanVien.addRow(hdv1.toString().split(";"));
+					}
+					customTable.setModel(modelHuongDanVien);
+					SomeStaticMethod.showDialog(10, "Thêm thành công!");
 				}
-				customTable.setModel(modelHuongDanVien);
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				
 			}
 		});
 		HDV_btnThem.setBounds(20, 420, 80, 35);
@@ -1319,7 +1365,15 @@ public class NhanVienQuanLy extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String maHDV = HDV_txtMaHDV.getText().trim();
-				if (huongDanVien_BUS.xoaHuuongDanVien(maHDV)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				if (huongDanVien_BUS.xoaHuuongDanVien(maHDV)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (HuongDanVien hdv1 : huongDanVien_BUS.getDSHuongDanVien()) {
+						modelHuongDanVien.addRow(hdv1.toString().split(";"));
+					}
+					customTable.setModel(modelHuongDanVien);
+					SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công");
 			}
 		});
@@ -1341,7 +1395,15 @@ public class NhanVienQuanLy extends JFrame {
 				String tenHDV = HDV_txtHoTen.getText().trim();
 				String sdt = HDV_txtSoDienThoai.getText().trim();
 				HuongDanVien newHdv = new HuongDanVien(maHDV, tenHDV, sdt);
-				if (huongDanVien_BUS.suaHuongDanVien(maHDV,newHdv)) SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				if (huongDanVien_BUS.suaHuongDanVien(maHDV,newHdv)) {
+					customTable.xoaTable();
+					customTable.resetShowTable();
+					for (HuongDanVien hdv1 : huongDanVien_BUS.getDSHuongDanVien()) {
+						modelHuongDanVien.addRow(hdv1.toString().split(";"));
+					}
+					customTable.setModel(modelHuongDanVien);
+					SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				}
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
 			}
 		});
