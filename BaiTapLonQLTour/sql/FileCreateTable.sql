@@ -85,3 +85,6 @@ select * from HuongDanVien
 
 
 
+select *
+from KhachHang
+where exists (select * from khachhang where email=N'ng.hoang.huy23@gmail.com' and matKhau=N'1234')

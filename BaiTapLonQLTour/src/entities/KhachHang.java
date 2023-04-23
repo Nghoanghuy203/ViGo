@@ -1,12 +1,13 @@
 package entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 public class KhachHang {
 	private String soNguoiDung;
 	private String hoTen;
 	private String soDienThoai;
-	private Date ngaySinh;
+	private LocalDate ngaySinh;
 	private boolean gioiTinh;
 	private String email;
 	private String matKhau;
@@ -23,7 +24,7 @@ public class KhachHang {
 	public String getHoTen() {
 		return hoTen;
 	}
-	public Date getNgaySinh() {
+	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
 	public String getSoDienThoai() {
@@ -36,7 +37,7 @@ public class KhachHang {
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
 	}
-	public void setNgaySinh(Date ngaySinh) {
+	public void setNgaySinh(LocalDate ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 	public void setSoDienThoai(String soDienThoai) {
@@ -55,7 +56,7 @@ public class KhachHang {
 	public void setMatKhau(String matKhau) {
 		this.matKhau = matKhau;
 	}
-	public KhachHang(String soNguoiDung, String hoTen, Date ngaySinh, String soDienThoai, boolean gioiTinh, String email, String matKhau) {
+	public KhachHang(String soNguoiDung, String hoTen, LocalDate ngaySinh, String soDienThoai, boolean gioiTinh, String email, String matKhau) {
 		super();
 		this.soNguoiDung = soNguoiDung;
 		this.hoTen = hoTen;
@@ -78,7 +79,8 @@ public class KhachHang {
 	}
 	@Override
     public String toString() {
-        return soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gioiTinh + ";" + email + ";" +matKhau;
+		String gt = isGioiTinh()?"Nam":"Nữ";
+        return soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gt + ";" + email + ";" +matKhau;
     }
 	@Override
 	public int hashCode() {

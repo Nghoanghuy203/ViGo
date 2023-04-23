@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -35,7 +36,7 @@ public class KhachHang_DAO implements IKhachHang{
 			statement = con.prepareStatement(sql);
 			statement.setString(1, kh.getSoNguoiDung());
 			statement.setNString(2, kh.getHoTen());
-			statement.setDate(3, kh.getNgaySinh());
+			statement.setNString(3, kh.getNgaySinh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			statement.setNString(4, kh.getSoDienThoai());
 			statement.setBoolean(5, kh.isGioiTinh());
 			statement.setNString(6, kh.getEmail());

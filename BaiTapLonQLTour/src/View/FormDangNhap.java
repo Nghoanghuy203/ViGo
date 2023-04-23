@@ -14,8 +14,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import app.Test;
+import bus.KhachHang_BUS;
+import connectDB.ConnectDB;
 import custom_entity.RoundedCornerBorder;
 import custom_entity.ScaledImg;
+import custom_entity.SomeStaticMethod;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -50,12 +53,6 @@ import javax.swing.ImageIcon;
 
 public class FormDangNhap extends JFrame implements ActionListener {
 	
-	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	String url = "jdbc:sqlserver://localhost:1433;databasename=DANGNHAP;encrypt=false;trustServerCertificate=false;";
-	String user = "sa";
-	String password = "quocthai011555";
-	Statement st;
-	ResultSet rs;
 
 	/**
 	 * 
@@ -243,39 +240,47 @@ public class FormDangNhap extends JFrame implements ActionListener {
 			this.dispose();
 		}
 		if(o.equals(btnDangNhap)) {
+			KhachHang_BUS khachHang_BUS = new KhachHang_BUS();
+			String email="";
+			String mk = "";
+			String maKH ="";
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			PreparedStatement st =null;
 			try {
-//				Class.forName(driver);
-//				Connection con = DriverManager.getConnection(url, user, password);
-//				String sql = "select*from ACCOUNT where EMAIL=? and MATKHAU=?"; // truy vấn đến sql
-//				PreparedStatement ps = con.prepareStatement(sql); 
-//				ps.setString(1,txtemail.getText());
-//				ps.setString(2,pFDangNhap.getText());
-//				rs = ps.executeQuery();
-//				
-//				if(txtemail.getText().equals("") || pFDangNhap.getText().equals("")) {
-//					JOptionPane.showMessageDialog(this, "Chưa nhập Email và Mật khẩu");
-//				} else if(rs.next()) {
-//					Home home = new Home();
-//					home.setVisible(true);
-//					this.dispose();
-//					JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-//				} else {
-//					JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
-//				}
-				if (txtemail.getText().trim().equals("hoanghuy") && pFDangNhap.getText().equals("123")) {
-					Test.isLogin=true;
-					NhanVienQuanLy qlnv = new NhanVienQuanLy();
-					qlnv.setVisible(true);
-					setVisible(false);
-				}
-				if (txtemail.getText().trim().equals("khachhang") && pFDangNhap.getText().equals("123")) {
-					setVisible(false);
-					Test.isLogin=true;
-					JOptionPane.showMessageDialog(this, "Đặt tour thành công");
+				String sql = "select * from KhachHang where email=? and matKhau=?";
+				st = con.prepareStatement(sql);
+				st.setNString(1, txtemail.getText().trim());
+				st.setNString(2, pFDangNhap.getText().trim());
+				ResultSet rs = st.executeQuery();
+				while (rs.next()) {
+					maKH=rs.getNString("maKH");
+					if (maKH=="") break;
+					email=rs.getNString("email");
+					mk = rs.getNString("matKhau");
 				}
 			} catch (Exception e2) {
-			
+				e2.printStackTrace();
 			}
+			if (txtemail.getText().trim().equals("manager") && pFDangNhap.getText().trim().equals("123")) {
+				NhanVienQuanLy gui_ql = new NhanVienQuanLy();
+				gui_ql.setVisible(true);
+			}
+			else	
+			if (maKH=="") SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sai tài khoản mật khẩu!");
+			else
+			if (txtemail.getText().trim().equals(email) && pFDangNhap.getText().equals(mk)) {
+				//Home.isLogin=true;
+				//NhanVienQuanLy qlnv = new NhanVienQuanLy();
+				//qlnv.setVisible(true);
+				setVisible(false);
+				Home.isLogin=true;
+				Home.user=khachHang_BUS.getKhachHang(maKH);
+				System.out.println(Home.user.toString());
+				SomeStaticMethod.showDialog(10, "Đăng nhập thành công!");
+			}
+			 
+			
 		}
 	}
 	public static void main(String[] args) {

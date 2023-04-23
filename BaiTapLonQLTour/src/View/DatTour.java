@@ -19,6 +19,7 @@ import app.Test;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import custom_entity.ScaledImg;
+import custom_entity.SomeStaticMethod;
 import custom_entity.FileChooser;
 import entities.Tour;
 
@@ -130,7 +131,9 @@ public class DatTour extends JFrame {
 		btnUser.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				f.setVisible(true);
+				if (!Home.isLogin) {
+					f.setVisible(true);
+				}
 			}
 		});
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -164,7 +167,7 @@ public class DatTour extends JFrame {
 		pnDatTour.add(h1);
 		
 		maTour = new JLabel("Mã tour:");
-		maTour.setBounds(114, 232, 161, 14);
+		maTour.setBounds(114, 232, 300, 14);
 		pnDatTour.add(maTour);
 		
 		ngayKhoiHanh = new JLabel("Khởi hành 11/04/2023");
@@ -208,15 +211,15 @@ public class DatTour extends JFrame {
 		btnDatNgay.addMouseListener(new MouseAdapter() {
 			@Override
             public void mouseClicked(MouseEvent e) {
-                if (!Test.isLogin) {
+                if (!Home.isLogin) {
                     showLogin();
                 }
                 else {
                     if(tableModel.getValueAt(0, 1).toString().trim().equals("")) {
-                        FileChooser.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
+                        SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
                     }
                     else {
-                        FileChooser.showDialog(10, "Bạn đã đặt tour thành công!");
+                        SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
                     }
                 }
             }
@@ -333,7 +336,7 @@ public class DatTour extends JFrame {
 	}
 
 	public void showLogin() {
-		if (!Test.isLogin) {
+		if (!Home.isLogin) {
 			if (JOptionPane.showConfirmDialog(this, "Bạn cần đăng nhập tài khoản để đặt tour!", "Lưu ý", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 				new FormDangNhap().setVisible(true);
 			}	

@@ -146,7 +146,7 @@ public class Tour {
 	
 	@Override
     public String toString() {
-        return maTour + ";" + tenTour  + ";" + tgTapTrung + ";" + tgKhoiHanh  + ngayKhoiHanh + ";" + soNgay + ";" + soVeConLai + ";" + Format.formatMoneyVND(gia) + ";" + diemDi + ";" + diemDen+";"+hdv.getMaHDV();
+        return maTour + ";" + tenTour  + ";" + tgTapTrung + ";" + ngayKhoiHanh  +" "+ tgKhoiHanh + ";" + soNgay + ";" + soVeConLai + ";" + Format.formatMoneyVND(gia) + ";" + diemDi + ";" + diemDen+";"+hdv.getMaHDV();
     }
 	
 	
