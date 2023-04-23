@@ -117,7 +117,7 @@ public class KhachHang_DAO implements IKhachHang{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "alter table KhachHang delete where maKH=?";
+			String sql = "delete from KhachHang where maKH=?";
 			statement = con.prepareStatement(sql);
 			statement.setString(1, id);
 			n=statement.executeUpdate();

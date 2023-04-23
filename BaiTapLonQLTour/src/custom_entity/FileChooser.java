@@ -10,7 +10,7 @@ import javax.swing.filechooser.FileSystemView;
 
 public class FileChooser {
 
-	    public static BufferedImage fileChooser() {
+	    public static BufferedImage getImg() {
 	    	BufferedImage img = null;
 	    	JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	        jfc.setDialogTitle("Select an image");
@@ -28,6 +28,19 @@ public class FileChooser {
 				}
 	        }
 	        return img;
+	    }
+	    public static String getUrl() {
+	    	String s=null;
+	    	JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+	        jfc.setDialogTitle("Select an image");
+	        jfc.setAcceptAllFileFilterUsed(false);
+	        FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG and jpg images", "png", "jpg");
+	        jfc.addChoosableFileFilter(filter);
+	        int returnValue = jfc.showOpenDialog(null);
+	        if (returnValue == JFileChooser.APPROVE_OPTION) {
+	            s=jfc.getSelectedFile().getPath();
+	        }
+	    	return s;
 	    }
 	}
 

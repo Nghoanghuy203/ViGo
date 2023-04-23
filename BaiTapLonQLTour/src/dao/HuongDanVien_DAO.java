@@ -69,7 +69,7 @@ public class HuongDanVien_DAO implements IHuongDanVien{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "alter table HuongDanVien delete where maHDV=?";
+			String sql = "delete from HuongDanVien where maHDV=?";
 			statement = con.prepareStatement(sql);
 			statement.setString(1, id);
 			n=statement.executeUpdate();
@@ -98,6 +98,30 @@ public class HuongDanVien_DAO implements IHuongDanVien{
 			e.printStackTrace();
 		}
 		return n>0;
+	}
+	@Override
+	public HuongDanVien getHuongDanVien(String id) {
+		// TODO Auto-generated method stub
+		HuongDanVien hdv=null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "select * from HuongDanVien where maHDV=?";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, id);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				String ma = rs.getNString("maHDV");
+				String ten = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				hdv = new HuongDanVien(ma, ten, sdt);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return hdv;
 	}
 
 }

@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 
@@ -16,11 +16,17 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import app.Test;
+import bus.DonDatTour_BUS;
+import bus.HanhKhach_BUS;
 import bus.Tour_BUS;
 import connectDB.ConnectDB;
 import custom_entity.ScaledImg;
 import custom_entity.SomeStaticMethod;
+import custom_entity.Code_Generator;
 import custom_entity.FileChooser;
+import entities.DonDatTour;
+import entities.HanhKhach;
+import entities.KhachHang;
 import entities.Tour;
 
 import java.awt.ScrollPane;
@@ -45,8 +51,10 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.border.LineBorder;
@@ -138,21 +146,21 @@ public class DatTour extends JFrame {
 		});
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUser.setForeground(new Color(255, 255, 255));
-		btnUser.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\user.png"));
+		btnUser.setIcon(new ImageIcon(DatTour.class.getResource("/images/user.png")));
 		btnUser.setBounds(1050, 11, 51, 52);
 		pnHeader.add(btnUser);
 		
 		JLabel lblLogo = new JLabel("ViGo");
 		lblLogo.setFont(new Font("Arial", Font.BOLD, 35));
 		lblLogo.setForeground(new Color(255, 255, 255));
-		lblLogo.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\beach_118051 (1).png"));
+		lblLogo.setIcon(new ImageIcon(DatTour.class.getResource("/images/logo.png")));
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
 		
 		JLabel btnCart = new JLabel("");
 		btnCart.setBounds(1104, 11, 51, 52);
 		pnHeader.add(btnCart);
-		btnCart.setIcon(new ImageIcon("T:\\java\\baitap\\TestGui\\images\\cart.png"));
+		btnCart.setIcon(new ImageIcon(DatTour.class.getResource("/images/cart.png")));
 		
 		
 		tenTour = new JLabel("Đà Lạt");
@@ -214,13 +222,29 @@ public class DatTour extends JFrame {
                 if (!Home.isLogin) {
                     showLogin();
                 }
+                else 
+                if(tableModel.getValueAt(0, 1).toString().trim().equals("")) {
+                	SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
+                }
                 else {
-                    if(tableModel.getValueAt(0, 1).toString().trim().equals("")) {
-                        SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Bạn không thể đặt tour khi chưa thêm ít nhất 1 hàng khách");
-                    }
-                    else {
-                        SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
-                    }
+                	HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
+                	DonDatTour_BUS donDatTour_BUS = new  DonDatTour_BUS();
+                	String maDon = Code_Generator.generateMaDon(ma, Home.user.getSoNguoiDung());
+                	Tour t = tour_BUS.getTour(ma);
+                	KhachHang kh = Home.user;
+                	DonDatTour don = new DonDatTour(maDon, t, kh, Date.valueOf(LocalDate.now()), soLuongHK);
+                	if (donDatTour_BUS.themDonDatTour(don)) {
+                		for (int i = 0; i < soLuongHK; i++) {
+                    		String maHK = Code_Generator.generateMaHanhKhach(maDon);
+                    		String hoTenHK = (String) table.getValueAt(i, 1);
+                    		String sdt = (String) table.getValueAt(i, 2);
+                    		HanhKhach hk = new HanhKhach(maHK, hoTenHK, sdt);
+                    		hanhKhach_BUS.themHanhKhach(hk, maDon);
+    					}
+                		Home.ds=tour_BUS.getDS();
+                		SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
+                	}
+                	else SomeStaticMethod.showDialog(10, "Đặt tour thất bại!");
                 }
             }
 		});

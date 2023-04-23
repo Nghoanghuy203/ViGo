@@ -41,5 +41,10 @@ public class HuongDanVien_BUS implements IHuongDanVien{
 		// TODO Auto-generated method stub
 		return huongDanVien_DAO.suaHuongDanVien(oldID, newHDV);
 	}
+	@Override
+	public HuongDanVien getHuongDanVien(String id) {
+		// TODO Auto-generated method stub
+		return huongDanVien_DAO.getHuongDanVien(id);
+	}
 
 }

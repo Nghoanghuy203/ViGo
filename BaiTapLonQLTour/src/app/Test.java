@@ -1,6 +1,14 @@
 package app;
 
-import View.Home;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.imageio.ImageIO;
+
+import bus.Tour_BUS;
+import entities.Tour;
+import view.Home;
 
 public class Test {
 	public static void main(String[] args) {

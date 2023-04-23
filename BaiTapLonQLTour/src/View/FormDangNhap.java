@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 
@@ -277,6 +277,7 @@ public class FormDangNhap extends JFrame implements ActionListener {
 				Home.isLogin=true;
 				Home.user=khachHang_BUS.getKhachHang(maKH);
 				System.out.println(Home.user.toString());
+				Home.btnCart.setVisible(true);
 				SomeStaticMethod.showDialog(10, "Đăng nhập thành công!");
 			}
 			 

@@ -58,7 +58,7 @@ public class DonDatTour {
 		this.tongTien = tongTien;
 	}
 	public DonDatTour(String maDon, Tour tour, KhachHang nguoiDung, Date ngayDat,
-			int soVeDat, double tongTien) {
+			int soVeDat) {
 		super();
 		this.maDon = maDon;
 		this.tour = tour;
@@ -66,7 +66,7 @@ public class DonDatTour {
 		//this.dsHanhKhach = dsHanhKhach;
 		this.ngayDat = ngayDat;
 		this.soVeDat = soVeDat;
-		this.tongTien = tongTien;
+		this.tongTien = tinhTongTien();
 	}
 	@Override
 	public int hashCode() {
@@ -89,5 +89,7 @@ public class DonDatTour {
 				+ nguoiDung.getHoTen() + ";" + ngayDat.toString() + ";" + soVeDat + ";" + Format.formatMoneyVND(tongTien);
 	}
 	
-	
+	public double tinhTongTien() {
+		return soVeDat*tour.getGia();
+	}
 }

@@ -1,16 +1,25 @@
-package View;
+package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +27,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -76,7 +86,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 public class NhanVienQuanLy extends JFrame {
-
+	public static String url;
 	private JPanel pnNhanVienQuanLy;
 	private CustomComboxBox cboDiemDen;
 	private CustomComboxBox cboDiemDi;
@@ -514,6 +524,10 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String ma = T_txtMaTour.getText().trim();
+				System.out.println(ma);
+				if (tour_BUS.xoaTour(ma)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công!");
 			}
 		});
 		T_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
@@ -530,6 +544,34 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnSua.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
+				String ten = T_txtTenTour.getText().trim();
+				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 9).split("-");
+				int nam = Integer.parseInt(ngaykh[0]);
+				int thang = Integer.parseInt(ngaykh[1]);
+				int ngay = Integer.parseInt(ngaykh[2]);
+				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+ 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
+				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
+				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
+				double gia = Double.parseDouble(T_txtGia.getText().trim());
+				Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
+				String diemDi = T_txtDiemDi.getText().trim();
+				String diemDen = T_txtDiemDen.getText().trim();
+				String maHDV = T_txtMaHDV.getText().trim();
+				HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
+				String maTour = T_txtMaTour.getText().trim();
+				File fimg = new File(url);
+				BufferedImage img=null;
+				try {
+					img = ImageIO.read(fimg);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Tour newTour = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
+				if (tour_BUS.suaTour(maTour,newTour)) SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
 			}
 		});
 		T_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
@@ -592,32 +634,66 @@ public class NhanVienQuanLy extends JFrame {
 		T_txtMaHDV.setBounds(151, 275, 206, 20);
 		panel_1.add(T_txtMaHDV);
 		//fileImg.setVisible(false);
+//		String url;
 		fileImg.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				BufferedImage img = FileChooser.fileChooser();
+				//BufferedImage img = FileChooser.fileChooser();
+				url = FileChooser.getUrl();
+				File fimg = new File(url);
+				BufferedImage img=null;
+				try {
+					img = ImageIO.read(fimg);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(img, lblhinhTour.getWidth(), lblhinhTour.getHeight())));
 			}
 		});
 		T_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				customTable.xoaTable();
+				HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
 				String ten = T_txtTenTour.getText().trim();
-				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 10).split("-");
+				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 9).split("-");
 				int nam = Integer.parseInt(ngaykh[0]);
 				int thang = Integer.parseInt(ngaykh[1]);
 				int ngay = Integer.parseInt(ngaykh[2]);
-				LocalDate tgKhoiHanh = LocalDate.of(nam, thang, ngay);
+				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+ 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
 				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
 				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
 				double gia = Double.parseDouble(T_txtGia.getText().trim());
-				String tgtt = T_txtTgTapTrung.getText().trim();
+				Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
 				String diemDi = T_txtDiemDi.getText().trim();
 				String diemDen = T_txtDiemDen.getText().trim();
 				String maHDV = T_txtMaHDV.getText().trim();
-				BufferedImage img = (BufferedImage) lblhinhTour.getIcon();
+				String maTour = Code_Generator.generateMaTour(diemDi, diemDen, ten, ngayKhoiHanh);
+				System.out.println(maTour);
+				HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
+				//ImageIcon icon = (ImageIcon)lblhinhTour.getIcon();
+				//BufferedImage img = (BufferedImage)icon.getImage(); 
+				System.out.println(url);
+				File fimg = new File(url);
+				BufferedImage img=null;
+				try {
+					img = ImageIO.read(fimg);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Tour t = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
+				if (tour_BUS.themTour(t)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				customTable.resetShowTable();
+				for (Tour tour : dsTour) {
+					modelTour.addRow(tour.toString().split(";"));
+				}
+				customTable.setModel(modelTour);
 			}
 		});
 		T_btnXoaTrang.addMouseListener(new MouseAdapter() {
@@ -625,6 +701,7 @@ public class NhanVienQuanLy extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				T_txtMaTour.setText("");
+				T_txtMaTour.setEditable(false);
 				T_txtTenTour.setText("");
 				T_txtTgTapTrung.setText("");
 				T_txtTgKhoiHanh.setText("");
@@ -819,6 +896,7 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				customTable.xoaTable();
 				String email = KH_txtTaiKhoan.getText().trim();
 				String mk = KH_txtMatKhau.getText().trim();
 				String hoten = KH_txtTen.getText().trim();
@@ -834,6 +912,11 @@ public class NhanVienQuanLy extends JFrame {
  				KhachHang kh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
  				if (khachHang_BUS.themKhachHang(kh)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				customTable.resetShowTable();
+				for (KhachHang khachHang : dsKH) {
+					modelKhachHang.addRow(khachHang.toString().split(";"));
+				}
+				customTable.setModel(modelKhachHang);
 			}
 		});
 		KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
@@ -854,6 +937,7 @@ public class NhanVienQuanLy extends JFrame {
 				String makh = KH_txtMa.getText().trim();
 				if (khachHang_BUS.xoaKhachHang(makh)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công!");
+				
 			}
 		});
 		KH_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
@@ -1126,10 +1210,12 @@ public class NhanVienQuanLy extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				customTable_1.xoaTable();
 				int selected = customTable.getSelectedRow();
 				String id = (String)customTable.getValueAt(selected, 0);
 				for (HanhKhach hk : hanhKhach_BUS.getDsHanhKhach(id)) {
 					modelHangKhach.addRow(hk.toString().split(";"));
+					
 				}
 				customTable_1.setModel(modelHangKhach);
 			}
@@ -1205,12 +1291,18 @@ public class NhanVienQuanLy extends JFrame {
 		HDV_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
 		HDV_btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				customTable.xoaTable();
 				String tenHDV = HDV_txtHoTen.getText().trim();
 				String maHDV = Code_Generator.generateHuongDanVien(tenHDV);
 				String sdt = HDV_txtSoDienThoai.getText().trim();
 				HuongDanVien hdv = new HuongDanVien(maHDV, tenHDV, sdt);
 				if (huongDanVien_BUS.themHuongDanVien(hdv)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
 				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				customTable.resetShowTable();
+				for (HuongDanVien hdv1 : huongDanVien_BUS.getDSHuongDanVien()) {
+					modelHuongDanVien.addRow(hdv1.toString().split(";"));
+				}
+				customTable.setModel(modelHuongDanVien);
 			}
 		});
 		HDV_btnThem.setBounds(20, 420, 80, 35);
@@ -1345,4 +1437,21 @@ public class NhanVienQuanLy extends JFrame {
 		s=list.toArray(new String[0]);
 		return s;
 	}
+	static Image iconToImage(Icon icon) {
+		if (icon instanceof ImageIcon) {
+		return ((ImageIcon)icon).getImage();
+		} else {
+		int w = icon.getIconWidth();
+		int h = icon.getIconHeight();
+		GraphicsEnvironment ge =
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		BufferedImage image = gc.createCompatibleImage(w, h);
+		Graphics2D g = image.createGraphics();
+		icon.paintIcon(null, g, 0, 0);
+		g.dispose();
+		return image;
+		}
+		}
 }

@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -35,9 +35,9 @@ import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 
-import View.DatTour;
 import entities.DonDatTour;
 import entities.HuongDanVien;
+import view.DatTour;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -118,9 +118,9 @@ public class HienThiDanhSachVe extends JFrame{
 		pnContent.setBounds(150, 100, 900, 550);
 		
 		CustomScollPane noticeBoard = new CustomScollPane();
-		noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), 5, 5*100000000));
+		noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), 5));
 		for (int i = 0; i < 10; i++) {
-			noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), i, i*100000000));
+			noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), i));
 		}
 		noticeBoard.setBounds(0, 30, 900, 520);
 		noticeBoard.setOpaque(false);

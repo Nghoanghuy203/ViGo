@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -59,6 +59,7 @@ import javax.swing.SpringLayout;
 public class Home extends JFrame {
 	public static boolean isLogin;
 	public static KhachHang user;
+	public static ArrayList<Tour> ds;
 
 	private JPanel pnHome;
 	private LoginSignup login;
@@ -75,10 +76,11 @@ public class Home extends JFrame {
 	private JLabel tourPicture6, tourName6, tourPrice6, tourTime6, tourID6;
 	//
 	private Tour_BUS tourBus;
-	private ArrayList<Tour> ds, dsTimKiem;
+	private ArrayList<Tour> dsTimKiem;
 	//
 	private int iTour, lItem;
 	private JLabel lblNgy;
+	public static JLabel btnCart;
 
 	private UtilDateModel model;
 	private JDatePanelImpl datePanel;
@@ -124,7 +126,8 @@ public class Home extends JFrame {
 
 		setContentPane(pnHome);
 		pnHome.setLayout(null);
-
+		
+		
 		JPanel pnHeader = new JPanel();
 		pnHeader.setBorder(null);
 		pnHeader.setBackground(new Color(65, 105, 225));
@@ -146,17 +149,7 @@ public class Home extends JFrame {
 		pnHeader.add(btnExit);
 
 		JLabel btnUser = new JLabel("");
-		btnUser.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-//				login = new LoginSignup();
-//				login.main(null);
-				if (!Home.isLogin) {
-					FormDangNhap f = new FormDangNhap();
-					f.setVisible(true);
-				}
-			}
-		});
+		
 		btnUser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUser.setForeground(new Color(255, 255, 255));
 		btnUser.setIcon(new ImageIcon("src\\images\\user.png"));
@@ -170,10 +163,26 @@ public class Home extends JFrame {
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
 
-		JLabel btnCart = new JLabel("");
+		btnCart = new JLabel("");
 		btnCart.setBounds(1104, 11, 51, 52);
 		pnHeader.add(btnCart);
 		btnCart.setIcon(new ImageIcon("src\\images\\cart.png"));
+		btnCart.setVisible(false);
+		btnUser.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				login = new LoginSignup();
+//				login.main(null);
+				if (!Home.isLogin) {
+					
+					FormDangNhap f = new FormDangNhap();
+					f.setVisible(true);
+				}
+				else {
+					new ThongTinUser(Home.user).setVisible(true);
+				}
+			}
+		});
 		btnCart.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -197,6 +206,7 @@ public class Home extends JFrame {
 		pnHome.add(titleContent);
 
 		JPanel listTour = new JPanel();
+		listTour.setOpaque(false);
 		listTour.setBackground(Color.WHITE);
 		listTour.setBounds(100, 149, 1000, 540);
 		pnHome.add(listTour);
@@ -617,6 +627,7 @@ public class Home extends JFrame {
 		pnHome.add(btnRedu);
 
 		txtMess = new JTextField();
+		txtMess.setOpaque(false);
 		txtMess.setSelectionColor(new Color(255, 0, 0));
 		txtMess.setBorder(null);
 		txtMess.setHorizontalAlignment(SwingConstants.CENTER);
@@ -679,6 +690,8 @@ public class Home extends JFrame {
 					btnRedu.setVisible(true);
 			}
 		});
+		//
+		
 	}
 
 	private void showList(int i) {
@@ -688,6 +701,11 @@ public class Home extends JFrame {
 		if (lItem - iTour < 7)
 			btnRedu.setVisible(false);
 		if (lItem - iTour == 5) {
+			item1.setVisible(true);
+			item2.setVisible(true);
+			item3.setVisible(true);
+			item4.setVisible(true);
+			item5.setVisible(true);
 			updateDataItem1(i);
 			i++;
 			updateDataItem2(i);
@@ -699,6 +717,10 @@ public class Home extends JFrame {
 			updateDataItem5(i);
 			item6.setVisible(false);
 		} else if (lItem - iTour == 4) {
+			item1.setVisible(true);
+			item2.setVisible(true);
+			item3.setVisible(true);
+			item4.setVisible(true);
 			updateDataItem1(i);
 			i++;
 			updateDataItem2(i);
@@ -709,6 +731,9 @@ public class Home extends JFrame {
 			item5.setVisible(false);
 			item6.setVisible(false);
 		} else if (lItem - iTour == 3) {
+			item1.setVisible(true);
+			item2.setVisible(true);
+			item3.setVisible(true);
 			updateDataItem1(i);
 			i++;
 			updateDataItem2(i);
@@ -718,6 +743,8 @@ public class Home extends JFrame {
 			item5.setVisible(false);
 			item6.setVisible(false);
 		} else if (lItem - iTour == 2) {
+			item1.setVisible(true);
+			item2.setVisible(true);
 			updateDataItem1(i);
 			i++;
 			updateDataItem2(i);
@@ -876,4 +903,13 @@ public class Home extends JFrame {
 		s = list.toArray(new String[0]);
 		return s;
 	}
+	
+//	private void Gui_user() {
+//		JPanel pnMain = new JPanel();
+//		pnMain.setSize(1200, 700);
+//		getContentPane().add(pnMain);
+//		pnMain.setLayout(null);
+//		pnMain.setBackground(new Color(0, 0, 0, 30));
+//		setBackground(new Color(0, 0, 0, 30));
+//	}
 }

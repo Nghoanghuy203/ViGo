@@ -69,4 +69,13 @@ public class CustomTable extends JTable{
 		return false;
 		
 	}
+	
+	public void xoaTable() {
+        DefaultTableModel dtm = (DefaultTableModel) this.getModel();
+        dtm.getDataVector().removeAllElements();
+    }
+    public void resetShowTable() {
+        this.setVisible(false);
+        this.setVisible(true);
+    }
 }

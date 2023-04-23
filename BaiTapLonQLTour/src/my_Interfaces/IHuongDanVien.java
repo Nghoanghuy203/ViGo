@@ -10,4 +10,5 @@ public interface IHuongDanVien {
 	public boolean themHuongDanVien(HuongDanVien hdv);
 	public boolean xoaHuuongDanVien(String id);
 	public boolean suaHuongDanVien(String oldID, HuongDanVien newHDV);
+	public HuongDanVien getHuongDanVien(String id);
 }

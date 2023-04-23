@@ -3,20 +3,26 @@ package dao;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
 import connectDB.ConnectDB;
 import entities.HuongDanVien;
 import entities.Tour;
 import my_Interfaces.ITour;
+import view.NhanVienQuanLy;
 
 public class Tour_DAO implements ITour{
 	public Tour_DAO() {
@@ -29,7 +35,7 @@ public class Tour_DAO implements ITour{
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV order by tgCapNhat desc";
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV where not soVeConLai=0  order by tgCapNhat desc";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -71,7 +77,7 @@ public class Tour_DAO implements ITour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "insert into Tour values(?,?,?,?,?,?,?,?,?,getdate(),?)";
+			String sql = "insert into Tour values(?,?,?,?,?,?,(SELECT * FROM OPENROWSET(BULK N'"+NhanVienQuanLy.url+"', SINGLE_BLOB) as img),?,?,?,getdate(),?)";
 			statement = con.prepareStatement(sql);
 			statement.setString(1, tour.getMaTour());
 			statement.setNString(2, tour.getTenTour());
@@ -79,14 +85,10 @@ public class Tour_DAO implements ITour{
 			statement.setInt(4, tour.getSoNgay());
 			statement.setInt(5, tour.getSoVeConLai());
 			statement.setDouble(6, tour.getGia());
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ImageIO.write(tour.getHinhAnh(), "img", bos);
-			byte[] byteArr = bos.toByteArray();
-			statement.setBytes(7, byteArr);
-			statement.setString(8, tour.getTgKhoiHanh().toString());
-			statement.setNString(9, tour.getDiemDi());
-			statement.setNString(10, tour.getDiemDen());
-			statement.setNString(11, tour.getHdv().getMaHDV());
+			statement.setString(7, tour.getTgKhoiHanh().toString());
+			statement.setNString(8, tour.getDiemDi());
+			statement.setNString(9, tour.getDiemDen());
+			statement.setNString(10, tour.getHdv().getMaHDV());
 			n=statement.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -103,9 +105,9 @@ public class Tour_DAO implements ITour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "alter table Tour delete where maTour=?";
+			String sql = "delete from Tour  where maTour=?";
 			statement = con.prepareStatement(sql);
-			statement.setString(1, id);
+			statement.setNString(1, id);
 			n=statement.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -122,10 +124,7 @@ public class Tour_DAO implements ITour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement statement = null;
 		try {
-			String sql = "update Tour "
-					+ "set tenTour=?, tgKhoiHanh=?, soNgay=?, soVeConlai=?, gia=?,"
-					+ "hinhAnh=?, tgTapTrung=?, diemDi=?, diemDen=?, tgCapNhat=getdate()"
-					+ " where maTour = ?";
+			String sql = "update Tour set tenTour=?, tgKhoiHanh=?, soNgay=?, soVeConlai=?, gia=?,hinhAnh=(SELECT * FROM OPENROWSET(BULK N'" +NhanVienQuanLy.url+"', SINGLE_BLOB) as img), tgTapTrung=?, diemDi=?, diemDen=?, tgCapNhat=getdate(), maHDV=? where maTour = ?";
 			statement = con.prepareStatement(sql);
 			//statement.setString(1, newTour.getMaTour());
 			statement.setNString(1, newTour.getTenTour());
@@ -133,13 +132,10 @@ public class Tour_DAO implements ITour{
 			statement.setInt(3, newTour.getSoNgay());
 			statement.setInt(4, newTour.getSoVeConLai());
 			statement.setDouble(5, newTour.getGia());
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ImageIO.write(newTour.getHinhAnh(), "img", bos);
-			byte[] byteArr = bos.toByteArray();
-			statement.setBytes(6, byteArr);
-			statement.setString(7, newTour.getTgKhoiHanh().toString());
-			statement.setNString(8, newTour.getDiemDi());
-			statement.setNString(9, newTour.getDiemDen());
+			statement.setString(6, newTour.getTgKhoiHanh().toString());
+			statement.setNString(7, newTour.getDiemDi());
+			statement.setNString(8, newTour.getDiemDen());
+			statement.setNString(9, newTour.getHdv().getMaHDV());
 			statement.setNString(10, id);
 			n=statement.executeUpdate();
 		} catch (Exception e) {

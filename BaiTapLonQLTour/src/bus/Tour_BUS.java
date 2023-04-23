@@ -43,17 +43,17 @@ public class Tour_BUS implements ITour{
 	@Override
 	public boolean themTour(Tour tour) {
 		// TODO Auto-generated method stub
-		return false;
+		return tour_Dao.themTour(tour);
 	}
 	@Override
 	public boolean xoaTour(String id) {
 		// TODO Auto-generated method stub
-		return false;
+		return tour_Dao.xoaTour(id);
 	}
 	@Override
 	public boolean suaTour(String id, Tour newTour) {
 		// TODO Auto-generated method stub
-		return false;
+		return tour_Dao.suaTour(id, newTour);
 	}
 	
 
