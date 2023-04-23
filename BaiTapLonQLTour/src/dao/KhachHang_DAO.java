@@ -62,7 +62,7 @@ public class KhachHang_DAO implements IKhachHang{
 				String maKH = rs.getNString("maKH");
 				String tenKH = rs.getNString("hoTen");
 				String sdt = rs.getNString("soDienThoai");
-				Date ngaySinh = rs.getDate("ngaySinh");
+				LocalDate ngaySinh = rs.getDate("ngaySinh").toLocalDate();
 				boolean gioiTinh = rs.getBoolean("gioiTinh");
 				String email = rs.getNString("email");
 				String matKhau = rs.getNString("matKhau");
@@ -94,7 +94,7 @@ public class KhachHang_DAO implements IKhachHang{
 					+ "where maKh = ?";
 			statement = con.prepareStatement(sql);
 			statement.setString(1, newKH.getHoTen());
-			statement.setString(2, newKH.getNgaySinh().toString());
+			statement.setString(2, newKH.getNgaySinh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			statement.setNString(3, newKH.getSoDienThoai());
 			int gt = newKH.isGioiTinh()?1:0;
 			statement.setInt(4, gt);
@@ -145,7 +145,7 @@ public class KhachHang_DAO implements IKhachHang{
 				String maKH = rs.getNString("maKH");
 				String tenKH = rs.getNString("hoTen");
 				String sdt = rs.getNString("soDienThoai");
-				Date ngaySinh = rs.getDate("ngaySinh");
+				LocalDate ngaySinh = rs.getDate("ngaySinh").toLocalDate();
 				boolean gioiTinh = rs.getBoolean("gioiTinh");
 				String email = rs.getNString("email");
 				String matKhau = rs.getNString("matKhau");

@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -299,8 +300,8 @@ public class NhanVienQuanLy extends JFrame {
 		KH_panel = new JPanel();
 		HDV_panel = new JPanel();
 		
-		GUI_KhachHang();
-		//GUI_Tour();
+		//GUI_KhachHang();
+		GUI_Tour();
 		//GUI_HuongDanVien();
 		//GUI_DonDat();
 	}
@@ -408,6 +409,7 @@ public class NhanVienQuanLy extends JFrame {
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		
 		T_txtMaTour = new JTextField();
+		T_txtMaTour.setOpaque(false);
 		T_txtMaTour.setColumns(10);
 		T_txtMaTour.setBounds(151, 30, 206, 20);
 		panel_1.add(T_txtMaTour);
@@ -417,6 +419,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2);
 		
 		T_txtTenTour = new JTextField();
+		T_txtTenTour.setOpaque(false);
 		T_txtTenTour.setColumns(10);
 		T_txtTenTour.setBounds(151, 58, 206, 20);
 		panel_1.add(T_txtTenTour);
@@ -426,6 +429,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_1);
 		
 		T_txtTgKhoiHanh = new JTextField();
+		T_txtTgKhoiHanh.setOpaque(false);
 		T_txtTgKhoiHanh.setColumns(10);
 		T_txtTgKhoiHanh.setBounds(151, 85, 206, 20);
 		panel_1.add(T_txtTgKhoiHanh);
@@ -435,6 +439,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2);
 		
 		T_txtSoNgay = new JTextField();
+		T_txtSoNgay.setOpaque(false);
 		T_txtSoNgay.setColumns(10);
 		T_txtSoNgay.setBounds(151, 110, 206, 20);
 		panel_1.add(T_txtSoNgay);
@@ -444,6 +449,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_1);
 		
 		T_txtSoVeCon = new JTextField();
+		T_txtSoVeCon.setOpaque(false);
 		T_txtSoVeCon.setColumns(10);
 		T_txtSoVeCon.setBounds(151, 140, 206, 20);
 		panel_1.add(T_txtSoVeCon);
@@ -453,6 +459,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_2);
 		
 		T_txtGia = new JTextField();
+		T_txtGia.setOpaque(false);
 		T_txtGia.setColumns(10);
 		T_txtGia.setBounds(151, 170, 206, 20);
 		panel_1.add(T_txtGia);
@@ -462,6 +469,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_3);
 		
 		T_txtTgTapTrung = new JTextField();
+		T_txtTgTapTrung.setOpaque(false);
 		T_txtTgTapTrung.setColumns(10);
 		T_txtTgTapTrung.setBounds(151, 195, 206, 20);
 		panel_1.add(T_txtTgTapTrung);
@@ -471,6 +479,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_4);
 		
 		T_txtDiemDi = new JTextField();
+		T_txtDiemDi.setOpaque(false);
 		T_txtDiemDi.setColumns(10);
 		T_txtDiemDi.setBounds(151, 220, 206, 20);
 		panel_1.add(T_txtDiemDi);
@@ -480,6 +489,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_5);
 		
 		T_txtDiemDen = new JTextField();
+		T_txtDiemDen.setOpaque(false);
 		T_txtDiemDen.setColumns(10);
 		T_txtDiemDen.setBounds(151, 245, 206, 20);
 		panel_1.add(T_txtDiemDen);
@@ -501,6 +511,11 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(T_btnThem);
 		
 		T_btnXoa = new CustomButton((String) null);
+		T_btnXoa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		T_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
 		T_btnXoa.setText("Xóa");
 		T_btnXoa.setRadius(30);
@@ -512,6 +527,11 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(T_btnXoa);
 		
 		T_btnSua = new CustomButton((String) null);
+		T_btnSua.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		T_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
 		T_btnSua.setText("Sửa");
 		T_btnSua.setRadius(30);
@@ -567,6 +587,7 @@ public class NhanVienQuanLy extends JFrame {
 		panel_1.add(lblNewLabel_2_2_6_2);
 		
 		T_txtMaHDV = new JTextField();
+		T_txtMaHDV.setOpaque(false);
 		T_txtMaHDV.setColumns(10);
 		T_txtMaHDV.setBounds(151, 275, 206, 20);
 		panel_1.add(T_txtMaHDV);
@@ -583,7 +604,20 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				fileImg.setVisible(false);
+				String ten = T_txtTenTour.getText().trim();
+				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 10).split("-");
+				int nam = Integer.parseInt(ngaykh[0]);
+				int thang = Integer.parseInt(ngaykh[1]);
+				int ngay = Integer.parseInt(ngaykh[2]);
+				LocalDate tgKhoiHanh = LocalDate.of(nam, thang, ngay);
+				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
+				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
+				double gia = Double.parseDouble(T_txtGia.getText().trim());
+				String tgtt = T_txtTgTapTrung.getText().trim();
+				String diemDi = T_txtDiemDi.getText().trim();
+				String diemDen = T_txtDiemDen.getText().trim();
+				String maHDV = T_txtMaHDV.getText().trim();
+				BufferedImage img = (BufferedImage) lblhinhTour.getIcon();
 			}
 		});
 		T_btnXoaTrang.addMouseListener(new MouseAdapter() {
@@ -650,7 +684,7 @@ public class NhanVienQuanLy extends JFrame {
 				T_txtDiemDi.setText((String)customTable.getValueAt(selected, 7));
 				T_txtDiemDen.setText((String)customTable.getValueAt(selected, 8));
 				T_txtMaHDV.setText((String)customTable.getValueAt(selected, 9));
-				fileImg.setVisible(false);
+				fileImg.setVisible(true);
 				for (Tour t : dsTour) {
 					if(T_txtMaTour.getText().equals(t.getMaTour())){
 						lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblhinhTour.getWidth(), lblhinhTour.getHeight())));
@@ -793,11 +827,13 @@ public class NhanVienQuanLy extends JFrame {
 				int nam = Integer.parseInt(ns[0]);
 				int thang = Integer.parseInt(ns[1]);
 				int ngay = Integer.parseInt(ns[2]);
- 				@SuppressWarnings("deprecation")
-				Date ngaySinh = new Date(nam, thang, ngay);
+				LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
  				String gt = KH_txtGt.getText().trim();
- 				String maKH = Code_Generator.generateMaKhachHang(hoten, Date, gt)
-				String maKH = Code_Generator.generateMaKhachHang(hoten, null, hoten);
+ 				Boolean gtinh = gt.equals("Nam")?true:false;
+ 				String maKH = Code_Generator.generateMaKhachHang(hoten, ngaySinh, gt);
+ 				KhachHang kh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
+ 				if (khachHang_BUS.themKhachHang(kh)) SomeStaticMethod.showDialog(10, "Thêm thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
 			}
 		});
 		KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
@@ -815,7 +851,9 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnXoa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String makh = KH_txtMa.getText().trim();
+				if (khachHang_BUS.xoaKhachHang(makh)) SomeStaticMethod.showDialog(10, "Xóa thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Xóa không thành công!");
 			}
 		});
 		KH_btnXoa.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/xoa.png")));
@@ -830,6 +868,27 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnXoa.setColor_fogeground(new Color(75, 112, 245));
 		
 		CustomButton KH_btnSua = new CustomButton((String) null);
+		KH_btnSua.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String maKH = KH_txtMa.getText().trim();
+				String email = KH_txtTaiKhoan.getText().trim();
+				String mk = KH_txtMatKhau.getText().trim();
+				String hoten = KH_txtTen.getText().trim();
+				String sdt = KH_txtSdt.getText().trim();
+				String[] ns = KH_txtNgaySinh.getText().trim().split("-");
+				int nam = Integer.parseInt(ns[0]);
+				int thang = Integer.parseInt(ns[1]);
+				int ngay = Integer.parseInt(ns[2]);
+				System.out.println(KH_txtNgaySinh);
+				LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
+ 				String gt = KH_txtGt.getText().trim();
+ 				Boolean gtinh = gt.equals("Nam")?true:false;
+ 				KhachHang newkh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
+ 				if (khachHang_BUS.capNhatKhachHang(maKH,newkh)) SomeStaticMethod.showDialog(10, "Sửa thành công!");
+				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
+			}
+		});
 		KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
 		//KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/right-arrow.png")));
 		KH_btnSua.setBounds(195, 420, 80, 35);
@@ -852,7 +911,7 @@ public class NhanVienQuanLy extends JFrame {
 				KH_txtNgaySinh.setText("");
 				KH_txtSdt.setText("");
 				KH_txtGt.setText("");
-				KH_txtMa.setEditable(true);
+				//KH_txtMa.setEditable(true);
 				KH_txtTaiKhoan.setEditable(true);
 			}
 		});
@@ -900,8 +959,8 @@ public class NhanVienQuanLy extends JFrame {
 				KH_txtTaiKhoan.setEditable(false);
 				KH_txtMatKhau.setText((String)customTable.getValueAt(selected, 6));
 				KH_txtTen.setText((String)customTable.getValueAt(selected, 1));
-				KH_txtSdt.setText((String)customTable.getValueAt(selected, 2));
-				KH_txtNgaySinh.setText((String)customTable.getValueAt(selected, 3));
+				KH_txtSdt.setText((String)customTable.getValueAt(selected, 3));
+				KH_txtNgaySinh.setText((String)customTable.getValueAt(selected, 2));
 				KH_txtGt.setText((String)customTable.getValueAt(selected, 4));
 			}
 		});

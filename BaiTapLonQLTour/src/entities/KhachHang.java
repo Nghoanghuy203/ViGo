@@ -2,6 +2,7 @@ package entities;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 public class KhachHang {
 	private String soNguoiDung;
@@ -80,7 +81,7 @@ public class KhachHang {
 	@Override
     public String toString() {
 		String gt = isGioiTinh()?"Nam":"Nữ";
-        return soNguoiDung + ";" +  hoTen + ";" +  ngaySinh + ";" + soDienThoai + ";" + gt + ";" + email + ";" +matKhau;
+        return soNguoiDung + ";" +  hoTen + ";" +  ngaySinh.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ";" + soDienThoai + ";" + gt + ";" + email + ";" +matKhau;
     }
 	@Override
 	public int hashCode() {
