@@ -30,13 +30,13 @@ public class Code_Generator {
 	}
 	
 	public static String generateMaDon(String maTour, String maKH) {
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("ddMMyy");
-		return maTour+"-"+maKH+"-"+dateTimeFormatter.format(LocalDate.now());
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("ddMMyy-mmss");
+		return maTour+"-"+maKH+"-"+dateTimeFormatter.format(LocalDateTime.now());
 	}
 	
-	static int Count = 1;
-	public static String generateMaHanhKhach(String maDon) {
-		return String.format("%02d", Count++)+"-"+maDon;
+	public static int Count = 1;
+	public static String generateMaHanhKhach(String tenHK) {
+		return String.format("%02d", Count++)+"-"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmm-ddMM")) +"-"+getFirstCharacter(tenHK);
 	}
 	
 	public static String getFirstCharacter(String input) {

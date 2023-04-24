@@ -15,6 +15,7 @@ CREATE TABLE DonDatTour (
 
 insert into DonDatTour values(N'Test',N'HCM-DL-VQGĐL230323',N'NHH0203031',getdate(),3,10000000)
 
+delete from DonDatTour where maDon = N'Test'
 select* from DonDatTour
 --table hành khách
 create table HanhKhach(
@@ -24,6 +25,8 @@ create table HanhKhach(
 	maDon nvarchar(50) references DonDatTour(maDon)
 )
 insert into hanhkhach values(N'HHHH',N'Hoàng Huy',N'0232342424',N'Test')
+
+select*from hanhkhach
 --table khách hàng
 create table KhachHang (
 	maKH nvarchar(50),
@@ -65,6 +68,15 @@ create table Tour(
 --insert values
 INSERT INTO Tour values (N'HCM-DL-VQGĐL230323', N'Vườn Quốc Gia Đà Lạt','2023-03-23 17:05:00', 3, 10, 4000000,(SELECT * FROM OPENROWSET(BULK N'T:\img\hinh1.jpg', SINGLE_BLOB) as img),'16:00:00',N'Hồ Chí Minh',N'Đà Lạt',getdate(),N'NHH220423')
 go
+INSERT INTO Tour values (N'HN-HCM-BNR230520', N'Bến Nhà Rồng','2023-05-20 17:00:00', 3, 13, 3000000,(SELECT * FROM OPENROWSET(BULK N'T:\img\hinh2.jpg', SINGLE_BLOB) as img),'16:00:00',N'Hà Nội',N'Hồ Chí Minh',getdate(),N'HHHT230423')
+go
+
+alter table Tour 
+delete from Tour  where maTour=N'HN-HCM-BNR230520'
+
+update Tour 
+set hinhAnh=(SELECT * FROM OPENROWSET(BULK N'T:\img\hinh3.jpg', SINGLE_BLOB) as img)
+where maTour = N'HCM-DL-VQGĐL230323';
 --query
 select * 
 from Tour t join HuongDanVien hdv

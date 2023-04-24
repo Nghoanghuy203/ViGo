@@ -14,4 +14,6 @@ public interface ITour {
 	public boolean themTour(Tour tour);
 	public boolean xoaTour(String id);
 	public boolean suaTour(String id, Tour newTour);
+	public boolean capNhatSoLuongVe(String id, int soLuongVeDat);
+	public ArrayList<Tour> getTourForManager();
 }

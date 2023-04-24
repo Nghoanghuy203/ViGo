@@ -285,5 +285,61 @@ public class Tour_DAO implements ITour{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public boolean capNhatSoLuongVe(String id, int soLuongVeDat) {
+		// TODO Auto-generated method stub
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "update Tour set soVeConLai=soVeConLai-? where maTour=?";
+			statement = con.prepareStatement(sql);
+			statement.setInt(1, soLuongVeDat);
+			statement.setNString(2, id);
+			n=statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
+	@Override
+	public ArrayList<Tour> getTourForManager() {
+		ArrayList<Tour> ds = new ArrayList<>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "Select * from Tour t join HuongDanVien h on t.maHDV=h.maHDV order by tgCapNhat desc";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String ma = rs.getNString("maTour");
+				String ten = rs.getNString("tenTour");
+				LocalDate ngayKhoiHanh = rs.getDate("tgKhoiHanh").toLocalDate();
+				Time tgKhoiHanh = rs.getTime("tgKhoiHanh");
+				int soNgay = rs.getInt("soNgay");
+				int soVeConLai = rs.getInt("soVeConLai");
+				double gia= rs.getDouble("gia");
+				Blob clob = rs.getBlob("hinhAnh");
+				byte[] byteArr = clob.getBytes(1, (int)clob.length());
+				ByteArrayInputStream bis = new ByteArrayInputStream(byteArr);
+				BufferedImage img = ImageIO.read(bis);
+				Time tgTapTrung = rs.getTime("tgTapTrung");
+				String diemDI = rs.getNString("diemDi");
+				String diemDen = rs.getNString("diemDen");
+				String mahdv = rs.getNString("maHDV");
+				String tenhdv = rs.getNString("tenHDV");
+				String sdt = rs.getNString("sdt");
+				HuongDanVien hdv = new HuongDanVien(mahdv, tenhdv, sdt);
+				Tour t = new Tour(ma, ten, ngayKhoiHanh, tgKhoiHanh, soNgay, soVeConLai, gia, img, tgTapTrung, diemDI, diemDen, hdv);
+				ds.add(t);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return ds;
+	}
 
 }

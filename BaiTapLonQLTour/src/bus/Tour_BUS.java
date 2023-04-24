@@ -55,6 +55,16 @@ public class Tour_BUS implements ITour{
 		// TODO Auto-generated method stub
 		return tour_Dao.suaTour(id, newTour);
 	}
+	@Override
+	public boolean capNhatSoLuongVe(String id, int soLuongVeDat) {
+		// TODO Auto-generated method stub
+		return tour_Dao.capNhatSoLuongVe(id, soLuongVeDat);
+	}
+	@Override
+	public ArrayList<Tour> getTourForManager() {
+		// TODO Auto-generated method stub
+		return tour_Dao.getTourForManager();
+	}
 	
 
 }

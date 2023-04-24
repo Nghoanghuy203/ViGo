@@ -27,7 +27,7 @@ public class DonDatTour_DAO implements IDonDatTour{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement st = null;
 		try {
-			String sql = "insert into DonDatTour values(?, ?, ?, ?, ?, ?) update Tour set soVeConLai=soVeConLai-? where maTour=?";
+			String sql = "insert into DonDatTour values(?, ?, ?, ?, ?, ?)";
 			st = con.prepareStatement(sql);
 			st.setNString(1, d.getMaDon());
 			st.setNString(2, d.getTour().getMaTour());
@@ -35,8 +35,6 @@ public class DonDatTour_DAO implements IDonDatTour{
 			st.setDate(4, d.getNgayDat());
 			st.setInt(5, d.getSoVeDat());
 			st.setDouble(6, d.getTongTien());
-			st.setInt(7, d.getSoVeDat());
-			st.setNString(8, d.getTour().getMaTour());
 			n=st.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception

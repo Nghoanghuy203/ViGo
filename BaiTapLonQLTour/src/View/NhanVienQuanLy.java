@@ -318,7 +318,7 @@ public class NhanVienQuanLy extends JFrame {
 	private void GUI_Tour() {
 		//dsTour = tourBus.getDS();
 		tour_BUS = new Tour_BUS();
-		dsTour = tour_BUS.getDS();
+		dsTour = tour_BUS.getTourForManager();
 		T_panel.setBounds(20, 183, 1170, 506);
 		pnNhanVienQuanLy.add(T_panel);
 		T_panel.setLayout(null);
@@ -783,6 +783,7 @@ public class NhanVienQuanLy extends JFrame {
 				T_txtDiemDen.setText((String)customTable.getValueAt(selected, 8));
 				T_txtMaHDV.setText((String)customTable.getValueAt(selected, 9));
 				fileImg.setVisible(true);
+				dsTour=tour_BUS.getTourForManager();
 				for (Tour t : dsTour) {
 					if(T_txtMaTour.getText().equals(t.getMaTour())){
 						lblhinhTour.setIcon(new ImageIcon(ScaledImg.scaledImage(t.getHinhAnh(), lblhinhTour.getWidth(), lblhinhTour.getHeight())));

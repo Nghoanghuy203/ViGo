@@ -126,6 +126,7 @@ public class ThongTinUser extends JFrame{
 				Home.isLogin=false;
 				Home.user=null;
 				Home.btnCart.setVisible(false);
+				DatTour.btnCart.setVisible(false);
 				setVisible(false);
 			}
 		});

@@ -61,7 +61,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 
 public class DatTour extends JFrame {
-
+	public static JLabel btnCart;
 	private JPanel pnDatTour;
 	private JTable table;
 	private DefaultTableModel tableModel;
@@ -139,8 +139,12 @@ public class DatTour extends JFrame {
 		btnUser.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (!Home.isLogin) {
+				if (!Home.isLogin) {	
+					FormDangNhap f = new FormDangNhap();
 					f.setVisible(true);
+				}
+				else {
+					new ThongTinUser(Home.user).setVisible(true);
 				}
 			}
 		});
@@ -157,11 +161,19 @@ public class DatTour extends JFrame {
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
 		
-		JLabel btnCart = new JLabel("");
+		btnCart = new JLabel("");
+		btnCart.setVisible(false);
+		btnCart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				HienThiDanhSachVe hienThiDanhSachVe = new HienThiDanhSachVe();
+				hienThiDanhSachVe.setVisible(true);
+			}
+		});
 		btnCart.setBounds(1104, 11, 51, 52);
 		pnHeader.add(btnCart);
 		btnCart.setIcon(new ImageIcon(DatTour.class.getResource("/images/cart.png")));
-		
+		if (Home.isLogin) btnCart.setVisible(true);
 		
 		tenTour = new JLabel("Đà Lạt");
 		tenTour.setForeground(new Color(65, 105, 225));
@@ -234,6 +246,7 @@ public class DatTour extends JFrame {
                 	KhachHang kh = Home.user;
                 	DonDatTour don = new DonDatTour(maDon, t, kh, Date.valueOf(LocalDate.now()), soLuongHK);
                 	if (donDatTour_BUS.themDonDatTour(don)) {
+                		Code_Generator.Count=1;
                 		for (int i = 0; i < soLuongHK; i++) {
                     		String maHK = Code_Generator.generateMaHanhKhach(maDon);
                     		String hoTenHK = (String) table.getValueAt(i, 1);
@@ -241,8 +254,12 @@ public class DatTour extends JFrame {
                     		HanhKhach hk = new HanhKhach(maHK, hoTenHK, sdt);
                     		hanhKhach_BUS.themHanhKhach(hk, maDon);
     					}
+                		tour_BUS.capNhatSoLuongVe(ma, soLuongHK);
                 		Home.ds=tour_BUS.getDS();
+                		Tour mTour = tour_BUS.getTour(ma);
+                		hienThongTinTour(t.getMaTour());
                 		SomeStaticMethod.showDialog(10, "Bạn đã đặt tour thành công!");
+                		if (mTour.getSoVeConLai()==0) setVisible(false);
                 	}
                 	else SomeStaticMethod.showDialog(10, "Đặt tour thất bại!");
                 }
