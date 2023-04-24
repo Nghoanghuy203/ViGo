@@ -79,13 +79,16 @@ public class Tour_DAO implements ITour{
 		try {
 			String sql = "insert into Tour values(?,?,?,?,?,?,(SELECT * FROM OPENROWSET(BULK N'"+NhanVienQuanLy.url+"', SINGLE_BLOB) as img),?,?,?,getdate(),?)";
 			statement = con.prepareStatement(sql);
-			statement.setString(1, tour.getMaTour());
+			statement.setNString(1, tour.getMaTour());
 			statement.setNString(2, tour.getTenTour());
-			statement.setString(3, tour.getNgayKhoiHanh().toString());
+			String ngay = tour.getNgayKhoiHanh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			String tg = tour.getTgKhoiHanh().toString();
+			String tgkh = ngay+" "+tg;
+			statement.setNString(3, tgkh);
 			statement.setInt(4, tour.getSoNgay());
 			statement.setInt(5, tour.getSoVeConLai());
 			statement.setDouble(6, tour.getGia());
-			statement.setString(7, tour.getTgKhoiHanh().toString());
+			statement.setString(7, tour.getTgTapTrung().toString());
 			statement.setNString(8, tour.getDiemDi());
 			statement.setNString(9, tour.getDiemDen());
 			statement.setNString(10, tour.getHdv().getMaHDV());
@@ -128,11 +131,14 @@ public class Tour_DAO implements ITour{
 			statement = con.prepareStatement(sql);
 			//statement.setString(1, newTour.getMaTour());
 			statement.setNString(1, newTour.getTenTour());
-			statement.setString(2, newTour.getNgayKhoiHanh().toString());
+			String ngay = newTour.getNgayKhoiHanh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			String tg = newTour.getTgKhoiHanh().toString();
+			String tgkh = ngay+" "+tg;
+			statement.setString(2, tgkh);
 			statement.setInt(3, newTour.getSoNgay());
 			statement.setInt(4, newTour.getSoVeConLai());
 			statement.setDouble(5, newTour.getGia());
-			statement.setString(6, newTour.getTgKhoiHanh().toString());
+			statement.setString(6, newTour.getTgTapTrung().toString());
 			statement.setNString(7, newTour.getDiemDi());
 			statement.setNString(8, newTour.getDiemDen());
 			statement.setNString(9, newTour.getHdv().getMaHDV());

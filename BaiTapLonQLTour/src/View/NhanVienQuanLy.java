@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,6 +114,11 @@ public class NhanVienQuanLy extends JFrame {
 	private JTextField T_txtDiemDi,D_txtTongTien,T_txtDiemDen;
 	private JTextField txtSearch;
 	private JTextField txtTim;
+	private JTextField KH_txtMatKhau;
+	private JTextField KH_txtTaiKhoan;
+	private JTextField KH_txtTen;
+	private JTextField KH_txtSdt;
+	private JTextField KH_txtNgaySinh;
 	private CustomButton T_btnThem,D_btnThem,HDV_btnThem;
 	private CustomButton T_btnXoa,D_btnXoa,HDV_btnXoa;
 	private CustomButton T_btnSua,D_btnSua,HDV_btnSua;
@@ -198,7 +204,7 @@ public class NhanVienQuanLy extends JFrame {
 		lblLogo.setBounds(10, 3, 211, 72);
 		pnHeader.add(lblLogo);
 		
-		JLabel btnTroVe = new JLabel("Trở về");
+		JLabel btnTroVe = new JLabel("Thoát khỏi chức năng quản lý");
 		btnTroVe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -208,7 +214,7 @@ public class NhanVienQuanLy extends JFrame {
 			}
 		});
 		btnTroVe.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/back.png")));
-		btnTroVe.setBounds(10, 90, 80, 21);
+		btnTroVe.setBounds(20, 90, 300, 21);
 		pnNhanVienQuanLy.add(btnTroVe);
 		
 		CustomButton btnTour = new CustomButton((String) null);
@@ -318,7 +324,7 @@ public class NhanVienQuanLy extends JFrame {
 	}
 	private void GUI_Tour() {
 		//dsTour = tourBus.getDS();
-		T_panel = new JPanel();
+		T_panel.removeAll();
 		tour_BUS = new Tour_BUS();
 		dsTour = tour_BUS.getTourForManager();
 		T_panel.setBounds(20, 183, 1170, 506);
@@ -554,44 +560,47 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnSua.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
-				String ten = T_txtTenTour.getText().trim();
-				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 9).split("-");
-				int nam = Integer.parseInt(ngaykh[0]);
-				int thang = Integer.parseInt(ngaykh[1]);
-				int ngay = Integer.parseInt(ngaykh[2]);
-				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
-				//LocalDate n = LocalDate.parse(T_txtTgKhoiHanh.getText().trim().substring(0, 9));
- 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 18));
-				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
-				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
-				double gia = Double.parseDouble(T_txtGia.getText().trim());
-				Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
-				String diemDi = T_txtDiemDi.getText().trim();
-				String diemDen = T_txtDiemDen.getText().trim();
-				String maHDV = T_txtMaHDV.getText().trim();
-				HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
-				String maTour = T_txtMaTour.getText().trim();
-				File fimg = new File(url);
-				BufferedImage img=null;
-				try {
-					img = ImageIO.read(fimg);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				Tour newTour = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
-				if (tour_BUS.suaTour(maTour,newTour)) {
-					customTable.xoaTable();
-					customTable.resetShowTable();
-					for (Tour tour : dsTour) {
-						modelTour.addRow(tour.toString().split(";"));
+				if (validDataTour()) {
+					HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
+					String ten = T_txtTenTour.getText().trim();
+					String ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 10).replaceAll("-", "");
+					int nam = Integer.parseInt(ngaykh.substring(0, 4));
+					int thang = Integer.parseInt(ngaykh.substring(4, 6));
+					int ngay = Integer.parseInt(ngaykh.substring(6, 8));
+					LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+					//LocalDate n = LocalDate.parse(T_txtTgKhoiHanh.getText().trim().substring(0, 9));
+//					LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+	 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
+					int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
+					int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
+					double gia = Double.parseDouble(T_txtGia.getText().trim());
+					Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
+					String diemDi = T_txtDiemDi.getText().trim();
+					String diemDen = T_txtDiemDen.getText().trim();
+					String maHDV = T_txtMaHDV.getText().trim();
+					HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
+					String maTour = T_txtMaTour.getText().trim();
+					File fimg = new File(url);
+					BufferedImage img=null;
+					try {
+						img = ImageIO.read(fimg);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					customTable.setModel(modelTour);
-					SomeStaticMethod.showDialog(10, "Sửa thành công!");
+					Tour newTour = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
+					if (tour_BUS.suaTour(maTour,newTour)) {
+						customTable.xoaTable();
+						customTable.resetShowTable();
+						for (Tour tour : tour_BUS.getDS()) {
+							modelTour.addRow(tour.toString().split(";"));
+						}
+						customTable.setModel(modelTour);
+						SomeStaticMethod.showDialog(10, "Sửa thành công!");
+					}
+					else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
+					
 				}
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
-				
 			}
 		});
 		T_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
@@ -676,47 +685,49 @@ public class NhanVienQuanLy extends JFrame {
 		T_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
-				String ten = T_txtTenTour.getText().trim();
-				String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 9).split("-");
-				int nam = Integer.parseInt(ngaykh[0]);
-				int thang = Integer.parseInt(ngaykh[1]);
-				int ngay = Integer.parseInt(ngaykh[2]);
-				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
- 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 18));
-				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
-				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
-				double gia = Double.parseDouble(T_txtGia.getText().trim());
-				Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
-				String diemDi = T_txtDiemDi.getText().trim();
-				String diemDen = T_txtDiemDen.getText().trim();
-				String maHDV = T_txtMaHDV.getText().trim();
-				String maTour = Code_Generator.generateMaTour(diemDi, diemDen, ten, ngayKhoiHanh);
-				System.out.println(maTour);
-				HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
-				//ImageIcon icon = (ImageIcon)lblhinhTour.getIcon();
-				//BufferedImage img = (BufferedImage)icon.getImage(); 
-				System.out.println(url);
-				File fimg = new File(url);
-				BufferedImage img=null;
-				try {
-					img = ImageIO.read(fimg);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				Tour t = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
-				if (tour_BUS.themTour(t)) {
-					customTable.xoaTable();
-					customTable.resetShowTable();
-					for (Tour tour : dsTour) {
-						modelTour.addRow(tour.toString().split(";"));
+				if (validDataTour()) {
+					HuongDanVien_BUS huongDanVien_BUS = new HuongDanVien_BUS();
+					String ten = T_txtTenTour.getText().trim();
+					String[] ngaykh = T_txtTgKhoiHanh.getText().trim().substring(0, 10).split("-");
+					int nam = Integer.parseInt(ngaykh[0]);
+					int thang = Integer.parseInt(ngaykh[1]);
+					int ngay = Integer.parseInt(ngaykh[2]);
+					LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+	 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
+					int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
+					int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
+					double gia = Double.parseDouble(T_txtGia.getText().trim());
+					Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
+					String diemDi = T_txtDiemDi.getText().trim();
+					String diemDen = T_txtDiemDen.getText().trim();
+					String maHDV = T_txtMaHDV.getText().trim();
+					String maTour = Code_Generator.generateMaTour(diemDi, diemDen, ten, ngayKhoiHanh);
+					System.out.println(maTour);
+					HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
+					//ImageIcon icon = (ImageIcon)lblhinhTour.getIcon();
+					//BufferedImage img = (BufferedImage)icon.getImage(); 
+					System.out.println(url);
+					File fimg = new File(url);
+					BufferedImage img=null;
+					try {
+						img = ImageIO.read(fimg);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					customTable.setModel(modelTour);
-					SomeStaticMethod.showDialog(10, "Thêm thành công!");
+					Tour t = new Tour(maTour, ten, ngayKhoiHanh, tgKhoiHanh, songay, sove, gia, img, tgtt, diemDi, diemDen, hdv);
+					if (tour_BUS.themTour(t)) {
+						customTable.xoaTable();
+						customTable.resetShowTable();
+						for (Tour tour : dsTour) {
+							modelTour.addRow(tour.toString().split(";"));
+						}
+						customTable.setModel(modelTour);
+						SomeStaticMethod.showDialog(10, "Thêm thành công!");
+					}
+					else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+					
 				}
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
 				
 			}
 		});
@@ -809,7 +820,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_KhachHang() {
-		KH_panel = new JPanel();
+		KH_panel.removeAll();
 		KhachHang_BUS khachHang_BUS= new KhachHang_BUS();
 		ArrayList<KhachHang> dsKH =khachHang_BUS.getDSKhachHang();
 		KH_panel.setBounds(20, 183, 1170, 506);
@@ -844,7 +855,7 @@ public class NhanVienQuanLy extends JFrame {
 		KH_panel.add(pnThongTinKH);
 		pnThongTinKH.setLayout(null);
 		
-		JTextField KH_txtTaiKhoan = new JTextField();
+		KH_txtTaiKhoan = new JTextField();
 		KH_txtTaiKhoan.setOpaque(false);
 		KH_txtTaiKhoan.setColumns(10);
 		KH_txtTaiKhoan.setBounds(130, 110, 240, 20);
@@ -876,19 +887,19 @@ public class NhanVienQuanLy extends JFrame {
 		KH_txtMa.setBounds(130, 70, 240, 20);
 		pnThongTinKH.add(KH_txtMa);
 		
-		JTextField KH_txtTen = new JTextField();
+		KH_txtTen = new JTextField();
 		KH_txtTen.setOpaque(false);
 		KH_txtTen.setColumns(10);
 		KH_txtTen.setBounds(130, 190, 240, 20);
 		pnThongTinKH.add(KH_txtTen);
 		
-		JTextField KH_txtNgaySinh = new JTextField();
+		KH_txtNgaySinh = new JTextField();
 		KH_txtNgaySinh.setOpaque(false);
 		KH_txtNgaySinh.setColumns(10);
 		KH_txtNgaySinh.setBounds(130, 270, 240, 20);
 		pnThongTinKH.add(KH_txtNgaySinh);
 		
-		JTextField KH_txtSdt = new JTextField();
+		KH_txtSdt = new JTextField();
 		KH_txtSdt.setOpaque(false);
 		KH_txtSdt.setColumns(10);
 		KH_txtSdt.setBounds(130, 230, 240, 20);
@@ -914,7 +925,7 @@ public class NhanVienQuanLy extends JFrame {
 		lblNewLabel_2_2_4.setBounds(20, 270, 100, 20);
 		pnThongTinKH.add(lblNewLabel_2_2_4);
 		
-		JTextField KH_txtMatKhau = new JTextField();
+		KH_txtMatKhau = new JTextField();
 		KH_txtMatKhau.setOpaque(false);
 		KH_txtMatKhau.setBounds(130, 150, 240, 20);
 		pnThongTinKH.add(KH_txtMatKhau);
@@ -935,30 +946,31 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnThem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String email = KH_txtTaiKhoan.getText().trim();
-				String mk = KH_txtMatKhau.getText().trim();
-				String hoten = KH_txtTen.getText().trim();
-				String sdt = KH_txtSdt.getText().trim();
-				String[] ns = KH_txtNgaySinh.getText().trim().split("-");
-				int nam = Integer.parseInt(ns[0]);
-				int thang = Integer.parseInt(ns[1]);
-				int ngay = Integer.parseInt(ns[2]);
-				LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
- 				String gt = KH_txtGt.getText().trim();
- 				Boolean gtinh = gt.equals("Nam")?true:false;
- 				String maKH = Code_Generator.generateMaKhachHang(hoten, ngaySinh, gt);
- 				KhachHang kh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
- 				if (khachHang_BUS.themKhachHang(kh)) {
- 					customTable.xoaTable();
- 					customTable.resetShowTable();
-					for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
-						modelKhachHang.addRow(kh1.toString().split(";"));
-					}
-					customTable.setModel(modelKhachHang);
- 					SomeStaticMethod.showDialog(10, "Thêm thành công!");
- 				}
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
-				
+				if (validDataKhachHang()) {
+					String email = KH_txtTaiKhoan.getText().trim();
+					String mk = KH_txtMatKhau.getText().trim();
+					String hoten = KH_txtTen.getText().trim();
+					String sdt = KH_txtSdt.getText().trim();
+					String[] ns = KH_txtNgaySinh.getText().trim().split("-");
+					int nam = Integer.parseInt(ns[0]);
+					int thang = Integer.parseInt(ns[1]);
+					int ngay = Integer.parseInt(ns[2]);
+					LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
+	 				String gt = KH_txtGt.getText().trim();
+	 				Boolean gtinh = gt.equals("Nam")?true:false;
+	 				String maKH = Code_Generator.generateMaKhachHang(hoten, ngaySinh, gt);
+	 				KhachHang kh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
+	 				if (khachHang_BUS.themKhachHang(kh)) {
+	 					customTable.xoaTable();
+	 					customTable.resetShowTable();
+						for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
+							modelKhachHang.addRow(kh1.toString().split(";"));
+						}
+						customTable.setModel(modelKhachHang);
+	 					SomeStaticMethod.showDialog(10, "Thêm thành công!");
+	 				}
+					else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Thêm trùng mã!");
+				}
 			}
 		});
 		KH_btnThem.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/them.png")));
@@ -1005,31 +1017,32 @@ public class NhanVienQuanLy extends JFrame {
 		KH_btnSua.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				String maKH = KH_txtMa.getText().trim();
-				String email = KH_txtTaiKhoan.getText().trim();
-				String mk = KH_txtMatKhau.getText().trim();
-				String hoten = KH_txtTen.getText().trim();
-				String sdt = KH_txtSdt.getText().trim();
-				String[] ns = KH_txtNgaySinh.getText().trim().split("-");
-				int nam = Integer.parseInt(ns[0]);
-				int thang = Integer.parseInt(ns[1]);
-				int ngay = Integer.parseInt(ns[2]);
-				System.out.println(KH_txtNgaySinh);
-				LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
- 				String gt = KH_txtGt.getText().trim();
- 				Boolean gtinh = gt.equals("Nam")?true:false;
- 				KhachHang newkh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
- 				if (khachHang_BUS.capNhatKhachHang(maKH,newkh)) {
- 					customTable.xoaTable();
- 					customTable.resetShowTable();
-					for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
-						modelKhachHang.addRow(kh1.toString().split(";"));
-					}
-					customTable.setModel(modelKhachHang);
- 					SomeStaticMethod.showDialog(10, "Sửa thành công!");
- 				}
-				else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
+				if (validDataKhachHang()) {
+					String maKH = KH_txtMa.getText().trim();
+					String email = KH_txtTaiKhoan.getText().trim();
+					String mk = KH_txtMatKhau.getText().trim();
+					String hoten = KH_txtTen.getText().trim();
+					String sdt = KH_txtSdt.getText().trim();
+					String[] ns = KH_txtNgaySinh.getText().trim().split("-");
+					int nam = Integer.parseInt(ns[0]);
+					int thang = Integer.parseInt(ns[1]);
+					int ngay = Integer.parseInt(ns[2]);
+					System.out.println(KH_txtNgaySinh);
+					LocalDate ngaySinh = LocalDate.of(nam, thang, ngay);
+	 				String gt = KH_txtGt.getText().trim();
+	 				Boolean gtinh = gt.equals("Nam")?true:false;
+	 				KhachHang newkh = new KhachHang(maKH,hoten, ngaySinh, sdt, gtinh, email, mk);
+	 				if (khachHang_BUS.capNhatKhachHang(maKH,newkh)) {
+	 					customTable.xoaTable();
+	 					customTable.resetShowTable();
+						for (KhachHang kh1 : khachHang_BUS.getDSKhachHang()) {
+							modelKhachHang.addRow(kh1.toString().split(";"));
+						}
+						customTable.setModel(modelKhachHang);
+	 					SomeStaticMethod.showDialog(10, "Sửa thành công!");
+	 				}
+					else SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sửa không thành công!");
+				}
 			}
 		});
 		KH_btnSua.setIcon(new ImageIcon(NhanVienQuanLy.class.getResource("/images/sua.png")));
@@ -1109,7 +1122,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_DonDat() {
-		D_panel = new JPanel();
+		D_panel.removeAll();
 		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
 		ArrayList<DonDatTour> dsDDT = donDatTour_BUS.getDSDonDatTour();
 		HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
@@ -1282,7 +1295,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_HuongDanVien(){
-		HDV_panel = new JPanel();
+		HDV_panel.removeAll();
 		HuongDanVien_BUS huongDanVien_BUS =new HuongDanVien_BUS();
 		ArrayList<HuongDanVien> dsHDV = huongDanVien_BUS.getDSHuongDanVien();
 		//dsHDV = huongDanVien_BUS.getDSHuongDanVien();
@@ -1534,5 +1547,113 @@ public class NhanVienQuanLy extends JFrame {
 		g.dispose();
 		return image;
 		}
+	}
+	
+	public boolean validDataTour() {
+		try {
+			String ten = T_txtTenTour.getText().trim();
+			Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 18));
+			String songay = T_txtSoNgay.getText().trim();
+			String sove = T_txtSoVeCon.getText().trim();
+			String gia = T_txtGia.getText().trim();
+			Time tgtt = Time.valueOf(T_txtTgTapTrung.getText().trim());
+			String diemDi = T_txtDiemDi.getText().trim();
+			String diemDen = T_txtDiemDen.getText().trim();
+			if(!(ten.length() > 0 && ten.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*((\\s)))+"+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*$"))) {
+				SomeStaticMethod.showDialog(2, "Tên bắt đầu bằng chữ viết HOA và sau mỗi khoảng trắng cũng chữ HOA và không chứa số");
+				T_txtTenTour.requestFocus();
+				T_txtTenTour.selectAll();
+				return false;
+			}
+			if(!(songay.matches("\\d+"))) {
+				SomeStaticMethod.showDialog(2, "Số ngày phải là số nguyên dương");
+				T_txtSoNgay.requestFocus();
+				T_txtSoNgay.selectAll();
+				return false;
+			}
+			if(!(sove.matches("\\d+"))) {
+				SomeStaticMethod.showDialog(2, "Số vé phải là số nguyên dương");
+				T_txtSoVeCon.requestFocus();
+				T_txtSoVeCon.selectAll();
+				return false;
+			}
+			int tg = tgKhoiHanh.getHours() - tgtt.getHours();
+			if(!((tg <=1 && tg >= 0)&&tgKhoiHanh.getHours() > tgtt.getHours())) {
+				SomeStaticMethod.showDialog(2, "Thời gian tập trung phải bé hơn thời gian khởi hành\n và phải nằm trong khoảng 1 tiếng trước khi khởi hành");
+				T_txtTgTapTrung.requestFocus();
+				T_txtTgTapTrung.selectAll();
+				return false;
+			}
+			if(!(diemDi.length() > 0 && diemDi.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*((\\s)))+"+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*$"))) {
+				SomeStaticMethod.showDialog(2, "Điểm đi là tên Tỉnh không chứa số và viết chữ có dấu\nĐiểm đi bắt đầu là chữ HOA và sau mỗi khoảng trắng bắt buộc viết HOA");
+				T_txtDiemDi.requestFocus();
+				T_txtDiemDen.selectAll();
+				return false;
+			}
+			if(!(diemDen.length() > 0 && diemDen.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*((\\s)))+"+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*$"))) {
+				SomeStaticMethod.showDialog(2, "Điểm đến là tên Tỉnh không chứa số và viết chữ có dấu\nĐiểm đến bắt đầu là chữ HOA và sau mỗi khoảng trắng bắt buộc viết HOA");
+				T_txtDiemDi.requestFocus();
+				T_txtDiemDen.selectAll();
+				return false;
+			}
+			if(!(gia.matches("\\d+(\\.\\d+)?"))) {
+				SomeStaticMethod.showDialog(2, "Giá phải là số nguyên dương");
+				T_txtGia.requestFocus();
+				T_txtGia.selectAll();
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return false;
 		}
+		return true;
+	}
+	public boolean validDataKhachHang() {
+		try {
+			String email = KH_txtTaiKhoan.getText();
+			String matKhau = KH_txtMatKhau.getText();
+			String hoTen = KH_txtTen.getText();
+			String soDienThoai = KH_txtSdt.getText();
+			String namSinh = KH_txtNgaySinh.getText();
+			LocalDateTime dt= LocalDateTime.now();
+			int namHienTai = dt.getYear();
+			if(!(email.length() > 0 && email.matches("([a-zA-Z]{1})([a-zA-Z0-9]*)(@)(yahoo|gmail)(.com)"))) {
+				SomeStaticMethod.showDialog(2, "Email Ký tự đầu phải là chữ theo sau là chuỗi, @ và kết thúc là tên miền(.com)");
+				KH_txtTaiKhoan.requestFocus();
+				KH_txtTaiKhoan.selectAll();
+				return false;
+			}
+			if(!(matKhau.length() >= 8 && matKhau.matches("([\\w]*)"))) {
+				SomeStaticMethod.showDialog(2, "Độ dài mật khẩu phải lớn hơn hoặc bằng 8 ký tự");
+				KH_txtMatKhau.requestFocus();
+				KH_txtMatKhau.selectAll();
+				return false;
+			}
+			if(!(hoTen.length() > 0 && hoTen.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*((\\s)))+"+Code_Generator.tiengVietLow().toUpperCase()+Code_Generator.tiengVietLow()+"*$"))) {
+				SomeStaticMethod.showDialog(2, "Họ Tên không chứa ký tự số. VD: Nguyễn Văn A");
+				KH_txtTen.requestFocus();
+				KH_txtTen.selectAll();
+				return false;
+			}
+				
+			if (!(soDienThoai.length() == 10 && soDienThoai.matches("([0])([0-9]{9})"))) {
+				SomeStaticMethod.showDialog(2, "Số Điện thoại bắt đầu bằng số 0 và độ dài số điện thoại bằng 10");
+				KH_txtSdt.requestFocus();
+				KH_txtSdt.selectAll();
+				return false;
+			}
+			int namSinh1 = Integer.parseInt(namSinh.substring(0, 4));
+			int tuoi = namHienTai-namSinh1;
+			if(!((namSinh1 < namHienTai && tuoi >= 18) && namSinh.matches("(\\d{4})(-)(\\d{2})(-)(\\d{2})"))) {
+				SomeStaticMethod.showDialog(2, "Năm sinh là số nguyên dương không chứa chữ" + "\n" + "Năm sinh phải nhỏ hơn năm hiện tại và tuổi phải đủ 18");
+				KH_txtNgaySinh.requestFocus();
+				KH_txtNgaySinh.selectAll();
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

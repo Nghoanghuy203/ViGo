@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
@@ -83,7 +84,16 @@ public class Code_Generator {
 		//System.out.println(s.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+"+)((\\s{1}"+Code_Generator.tiengVietFull()+"+){1,})$"));
 		System.out.println(s.matches("^("+tiengVietLow().toUpperCase()+tiengVietLow()+"*((\\s)))+"+tiengVietLow().toUpperCase()+tiengVietLow()+"*$"));
 		//System.out.println(s.matches("([A-Z]{1}"+tv+"*)(\\ [A-Z]{1}"+tv+"*)*"));
-		Time t = Time.valueOf("12:00:00 ");
-		System.out.println(t.getMinutes());
+		Time t = Time.valueOf("12:12:00");
+		//System.out.println(t.getMinutes());
+		String ng = "2023-01-23 13:25:12";
+		String ngaykh = ng.trim().substring(0, 10).replaceAll("-", "");
+		int nam = Integer.parseInt(ngaykh.substring(0, 4));
+		int thang = Integer.parseInt(ngaykh.substring(4, 6));
+		int ngay = Integer.parseInt(ngaykh.substring(6, 8));
+		LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
+		Time tgKhoiHanh = Time.valueOf(ng.trim().substring(11, 19));
+		System.out.println(tgKhoiHanh.toString());
 	}
+	
 }

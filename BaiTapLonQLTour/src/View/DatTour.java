@@ -15,7 +15,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import app.Test;
 import bus.DonDatTour_BUS;
 import bus.HanhKhach_BUS;
 import bus.Tour_BUS;
@@ -28,6 +27,7 @@ import entities.DonDatTour;
 import entities.HanhKhach;
 import entities.KhachHang;
 import entities.Tour;
+import test.Test;
 
 import java.awt.ScrollPane;
 import javax.swing.JLabel;

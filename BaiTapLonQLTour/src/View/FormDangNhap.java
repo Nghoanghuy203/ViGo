@@ -13,12 +13,12 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import app.Test;
 import bus.KhachHang_BUS;
 import connectDB.ConnectDB;
 import custom_entity.RoundedCornerBorder;
 import custom_entity.ScaledImg;
 import custom_entity.SomeStaticMethod;
+import test.Test;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -268,25 +268,40 @@ public class FormDangNhap extends JFrame implements ActionListener {
 				setVisible(false);
 			}
 			else	
-			if (maKH=="") SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sai tài khoản mật khẩu!");
-			else
-			if (txtemail.getText().trim().equals(email) && pFDangNhap.getText().equals(mk)) {
-				//Home.isLogin=true;
-				//NhanVienQuanLy qlnv = new NhanVienQuanLy();
-				//qlnv.setVisible(true);
-				setVisible(false);
-				Home.isLogin=true;
-				Home.user=khachHang_BUS.getKhachHang(maKH);
-				System.out.println(Home.user.toString());
-				Home.btnCart.setVisible(true);
-				
-				SomeStaticMethod.showDialog(10, "Đăng nhập thành công!");
-				//DatTour.btnCart.setVisible(true);
+			if (validDataDangNhap()) {
+				if (maKH=="") SomeStaticMethod.showDialog(JOptionPane.ERROR_MESSAGE, "Sai tài khoản mật khẩu!");
+				else
+				if (txtemail.getText().trim().equals(email) && pFDangNhap.getText().equals(mk)) {
+					//Home.isLogin=true;
+					//NhanVienQuanLy qlnv = new NhanVienQuanLy();
+					//qlnv.setVisible(true);
+					setVisible(false);
+					Home.isLogin=true;
+					Home.user=khachHang_BUS.getKhachHang(maKH);
+					System.out.println(Home.user.toString());
+					Home.btnCart.setVisible(true);
+					
+					SomeStaticMethod.showDialog(10, "Đăng nhập thành công!");
+					//DatTour.btnCart.setVisible(true);
+				}
 			}
-			 
-			
 		}
 	}
+	public boolean validDataDangNhap() {
+        try {
+            String taiKhoan = txtemail.getText();
+            if(!(taiKhoan.length() > 0 && taiKhoan.matches("^[A-Za-z]{1}[\\w|\\.|\\_]+@(yahoo.com|gmail.com)$"))) {
+                txtemail.selectAll();
+                txtemail.requestFocus();
+            	SomeStaticMethod.showDialog(2, "Email bắt đầu là chữ theo sau là ký tự tùy muốn và theo sau là @gmail hoặc @yahoo và tên miền");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 	public static void main(String[] args) {
 		new FormDangNhap().setVisible(true);
 	}

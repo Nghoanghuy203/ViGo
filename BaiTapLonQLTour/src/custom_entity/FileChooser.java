@@ -40,6 +40,7 @@ public class FileChooser {
 	        if (returnValue == JFileChooser.APPROVE_OPTION) {
 	            s=jfc.getSelectedFile().getPath();
 	        }
+	        if (s==null) return "";
 	    	return s;
 	    }
 	}
