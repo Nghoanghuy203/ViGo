@@ -12,7 +12,7 @@ public interface ITour {
 	public ArrayList<Tour> timKiem(String diemDi, String diemDen);
 	public ArrayList<Tour> timKiem(String diemDi, String diemDen, String ngayDi);
 	public boolean themTour(Tour tour);
-	public boolean xoaTour(String id);
+	public boolean xoaTour(String maTour);
 	public boolean suaTour(String id, Tour newTour);
 	public boolean capNhatSoLuongVe(String id, int soLuongVeDat);
 	public ArrayList<Tour> getTourForManager();

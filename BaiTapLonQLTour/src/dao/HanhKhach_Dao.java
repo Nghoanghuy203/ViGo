@@ -69,4 +69,21 @@ public class HanhKhach_DAO implements IHanhKhach{
 		return n>0;
 	}
 
+	@Override
+	public boolean xoaHanhKhach(String maDon) {
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "delete from HanhKhach where maDon=?";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, maDon);
+			n=statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
 }

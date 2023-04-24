@@ -3,6 +3,7 @@ package bus;
 import java.util.ArrayList;
 
 import dao.KhachHang_DAO;
+import entities.DonDatTour;
 import entities.KhachHang;
 import my_Interfaces.IKhachHang;
 
@@ -29,6 +30,11 @@ public class KhachHang_BUS implements IKhachHang{
 	@Override
 	public boolean xoaKhachHang(String id) {
 		// TODO Auto-generated method stub
+		HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
+		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
+		DonDatTour donDatTour = donDatTour_BUS.getDonTheoMaKH(id);
+		hanhKhach_BUS.xoaHanhKhach(donDatTour.getMaDon());
+		donDatTour_BUS.xoaDonDatTourTheoMaKH(id);
 		return khachHang_DAO.xoaKhachHang(id);
 	}
 

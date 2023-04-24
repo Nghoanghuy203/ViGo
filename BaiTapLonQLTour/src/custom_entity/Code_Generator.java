@@ -1,5 +1,6 @@
 package custom_entity;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -82,5 +83,7 @@ public class Code_Generator {
 		//System.out.println(s.matches("^("+Code_Generator.tiengVietLow().toUpperCase()+"+)((\\s{1}"+Code_Generator.tiengVietFull()+"+){1,})$"));
 		System.out.println(s.matches("^("+tiengVietLow().toUpperCase()+tiengVietLow()+"*((\\s)))+"+tiengVietLow().toUpperCase()+tiengVietLow()+"*$"));
 		//System.out.println(s.matches("([A-Z]{1}"+tv+"*)(\\ [A-Z]{1}"+tv+"*)*"));
+		Time t = Time.valueOf("12:00:00 ");
+		System.out.println(t.getMinutes());
 	}
 }

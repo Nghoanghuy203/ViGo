@@ -84,6 +84,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.DropMode;
 
 public class NhanVienQuanLy extends JFrame {
 	public static String url;
@@ -317,6 +318,7 @@ public class NhanVienQuanLy extends JFrame {
 	}
 	private void GUI_Tour() {
 		//dsTour = tourBus.getDS();
+		T_panel = new JPanel();
 		tour_BUS = new Tour_BUS();
 		dsTour = tour_BUS.getTourForManager();
 		T_panel.setBounds(20, 183, 1170, 506);
@@ -559,7 +561,8 @@ public class NhanVienQuanLy extends JFrame {
 				int thang = Integer.parseInt(ngaykh[1]);
 				int ngay = Integer.parseInt(ngaykh[2]);
 				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
- 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
+				//LocalDate n = LocalDate.parse(T_txtTgKhoiHanh.getText().trim().substring(0, 9));
+ 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 18));
 				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
 				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
 				double gia = Double.parseDouble(T_txtGia.getText().trim());
@@ -681,7 +684,7 @@ public class NhanVienQuanLy extends JFrame {
 				int thang = Integer.parseInt(ngaykh[1]);
 				int ngay = Integer.parseInt(ngaykh[2]);
 				LocalDate ngayKhoiHanh = LocalDate.of(nam, thang, ngay);
- 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 19));
+ 				Time tgKhoiHanh = Time.valueOf(T_txtTgKhoiHanh.getText().trim().substring(11, 18));
 				int songay = Integer.parseInt(T_txtSoNgay.getText().trim());
 				int sove = Integer.parseInt(T_txtSoVeCon.getText().trim());
 				double gia = Double.parseDouble(T_txtGia.getText().trim());
@@ -770,6 +773,17 @@ public class NhanVienQuanLy extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				T_txtMaTour.setText("");
+				//T_txtMaTour.setEditable(false);
+				T_txtTenTour.setText("");
+				T_txtTgTapTrung.setText("");
+				T_txtTgKhoiHanh.setText("");
+				T_txtSoNgay.setText("");
+				T_txtSoVeCon.setText("");
+				T_txtGia.setText("");
+				T_txtDiemDi.setText("");
+				T_txtDiemDen.setText("");
+				T_txtMaHDV.setText("");
 				int selected = customTable.getSelectedRow();
 				T_txtMaTour.setText((String)customTable.getValueAt(selected, 0));
 				T_txtMaTour.setEditable(false);
@@ -778,7 +792,8 @@ public class NhanVienQuanLy extends JFrame {
 				T_txtTgKhoiHanh.setText((String)customTable.getValueAt(selected, 3));
 				T_txtSoNgay.setText((String)customTable.getValueAt(selected, 4));
 				T_txtSoVeCon.setText((String)customTable.getValueAt(selected, 5));
-				T_txtGia.setText((String)customTable.getValueAt(selected, 6));
+				String gia = (String)customTable.getValueAt(selected, 6).toString().replaceAll("\\.|VND", "");
+				T_txtGia.setText(gia);
 				T_txtDiemDi.setText((String)customTable.getValueAt(selected, 7));
 				T_txtDiemDen.setText((String)customTable.getValueAt(selected, 8));
 				T_txtMaHDV.setText((String)customTable.getValueAt(selected, 9));
@@ -794,6 +809,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_KhachHang() {
+		KH_panel = new JPanel();
 		KhachHang_BUS khachHang_BUS= new KhachHang_BUS();
 		ArrayList<KhachHang> dsKH =khachHang_BUS.getDSKhachHang();
 		KH_panel.setBounds(20, 183, 1170, 506);
@@ -1093,6 +1109,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_DonDat() {
+		D_panel = new JPanel();
 		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
 		ArrayList<DonDatTour> dsDDT = donDatTour_BUS.getDSDonDatTour();
 		HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
@@ -1265,6 +1282,7 @@ public class NhanVienQuanLy extends JFrame {
 		});
 	}
 	private void GUI_HuongDanVien(){
+		HDV_panel = new JPanel();
 		HuongDanVien_BUS huongDanVien_BUS =new HuongDanVien_BUS();
 		ArrayList<HuongDanVien> dsHDV = huongDanVien_BUS.getDSHuongDanVien();
 		//dsHDV = huongDanVien_BUS.getDSHuongDanVien();

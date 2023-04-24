@@ -3,6 +3,8 @@ package bus;
 import java.util.ArrayList;
 
 import dao.Tour_DAO;
+import entities.DonDatTour;
+import entities.HanhKhach;
 import entities.Tour;
 import my_Interfaces.ITour;
 
@@ -48,6 +50,13 @@ public class Tour_BUS implements ITour{
 	@Override
 	public boolean xoaTour(String id) {
 		// TODO Auto-generated method stub
+		HanhKhach_BUS hanhKhach_BUS = new HanhKhach_BUS();
+		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
+		ArrayList<DonDatTour> donDatTour = donDatTour_BUS.getDsDonTheoMaTour(id);
+		for (DonDatTour donDatTour2 : donDatTour) {
+			hanhKhach_BUS.xoaHanhKhach(donDatTour2.getMaDon());
+			donDatTour_BUS.xoaDonDatTourTheoMaTour(id);
+		}
 		return tour_Dao.xoaTour(id);
 	}
 	@Override

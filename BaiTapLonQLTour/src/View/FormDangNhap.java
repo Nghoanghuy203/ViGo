@@ -281,7 +281,7 @@ public class FormDangNhap extends JFrame implements ActionListener {
 				Home.btnCart.setVisible(true);
 				
 				SomeStaticMethod.showDialog(10, "Đăng nhập thành công!");
-				DatTour.btnCart.setVisible(true);
+				//DatTour.btnCart.setVisible(true);
 			}
 			 
 			

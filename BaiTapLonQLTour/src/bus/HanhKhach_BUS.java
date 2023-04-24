@@ -3,6 +3,7 @@ package bus;
 import java.util.ArrayList;
 
 import dao.HanhKhach_DAO;
+import dao.KhachHang_DAO;
 import entities.HanhKhach;
 import my_Interfaces.IHanhKhach;
 
@@ -18,6 +19,12 @@ public class HanhKhach_BUS implements IHanhKhach{
 	public boolean themHanhKhach(HanhKhach hangKhach, String idDonDatTour) {
 		// TODO Auto-generated method stub
 		return hanhKhach_Dao.themHanhKhach(hangKhach, idDonDatTour);
+	}
+
+	@Override
+	public boolean xoaHanhKhach(String maDon) {
+		// TODO Auto-generated method stub
+		return hanhKhach_Dao.xoaHanhKhach(maDon);
 	}
 
 }

@@ -34,5 +34,29 @@ public class DonDatTour_BUS implements IDonDatTour{
 		// TODO Auto-generated method stub
 		return donDatTour_DAO.themDonDatTour(d);
 	}
+
+	@Override
+	public boolean xoaDonDatTourTheoMaTour(String maTour) {
+		// TODO Auto-generated method stub
+		return donDatTour_DAO.xoaDonDatTourTheoMaTour(maTour);
+	}
+
+	@Override
+	public boolean xoaDonDatTourTheoMaKH(String maKH) {
+		// TODO Auto-generated method stub
+		return donDatTour_DAO.xoaDonDatTourTheoMaKH(maKH);
+	}
+
+	@Override
+	public DonDatTour getDonTheoMaKH(String maKH) {
+		// TODO Auto-generated method stub
+		return donDatTour_DAO.getDonTheoMaKH(maKH);
+	}
+
+	@Override
+	public ArrayList<DonDatTour> getDsDonTheoMaTour(String maTour) {
+		// TODO Auto-generated method stub
+		return donDatTour_DAO.getDsDonTheoMaTour(maTour);
+	}
 	
 }

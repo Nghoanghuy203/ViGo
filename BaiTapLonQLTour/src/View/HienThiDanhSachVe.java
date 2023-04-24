@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 
+import bus.DonDatTour_BUS;
 import entities.DonDatTour;
 import entities.HuongDanVien;
 import view.DatTour;
@@ -72,14 +73,17 @@ public class HienThiDanhSachVe extends JFrame{
 	private JLabel btnUndo, btnRedu;
 	private SpringLayout springLayout;
 	public HienThiDanhSachVe() {
+		
 		// TODO Auto-generated constructor stub
 		setSize(300,200);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		
+		DonDatTour_BUS donDatTour_BUS = new DonDatTour_BUS();
 		CustomScollPane a = new CustomScollPane();
-		entities.Tour tour = new entities.Tour("MaTour", "TenTour", LocalDate.now(), new Time(1, 1, 1), 3, 10, 100000000, null, new Time(0,1,1),"Ha Noi", "Sai Gon", new HuongDanVien("HDV1", "a", "91829821"));
 		getContentPane().add(a);
+		CustomScollPane customScollPane = new CustomScollPane();
+		
+		
 		try {
 			//ConnectDB.getInstance().connect();
 		} catch (Exception e) {
@@ -117,14 +121,12 @@ public class HienThiDanhSachVe extends JFrame{
 		pnContent.setBackground(new Color(255, 255, 255, 255));
 		pnContent.setBounds(150, 100, 900, 550);
 		
-		CustomScollPane noticeBoard = new CustomScollPane();
-		noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), 5));
-		for (int i = 0; i < 10; i++) {
-			noticeBoard.themVe(new DonDatTour("Ma Tour", tour, null, new java.sql.Date(2000, 10, 10), i));
+		for (DonDatTour donDatTour: donDatTour_BUS.timKiem(Home.user.getSoNguoiDung())) {
+			customScollPane.themVe(donDatTour);
 		}
-		noticeBoard.setBounds(0, 30, 900, 520);
-		noticeBoard.setOpaque(false);
-		pnContent.add(noticeBoard);
+		customScollPane.setBounds(0, 30, 900, 520);
+		customScollPane.setOpaque(false);
+		pnContent.add(customScollPane);
 		JLabel btnTroVe = new JLabel("Trở về");
 		btnTroVe.addMouseListener(new MouseAdapter() {
 			@Override

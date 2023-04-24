@@ -17,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -40,56 +39,36 @@ public class CustomScollPane extends javax.swing.JPanel {
     }
 
     public void themVe(DonDatTour donDatTour) {
-    	File f = new File("src\\images\\HoangLienSon.png");
-        BufferedImage img=null;
-        try {
-            img = ImageIO.read(f);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
     	JPanel ticket = new JPanel();
-    	//ticket.setPreferredSize(new Dimension(800,200));
-    	ticket.setSize(800, 200);
-    	JLabel labelBackground = new JLabel("");
-    	labelBackground.setBounds(0,0,800,200);
-        labelBackground.setIcon(new ImageIcon(ScaledImg.scaledImage(img, labelBackground.getWidth(), labelBackground.getHeight())));
-        
-        
+    	ticket.setPreferredSize(new Dimension(800,150));
     	//labelBackground.setIcon(new ImageIcon("src\\images\\"));
-    	//ticket.setLayout(new MigLayout("wrap 3", "grow", "grow"));
-    	ticket.setLayout(null);
-        ticket.add(labelBackground);
+    	ticket.setLayout(new MigLayout("wrap 3", "grow", "grow"));
+    	
     	ticket.setBorder(new RoundedCornerBorder());
     	JLabel logo = new JLabel("");
-    	logo.setBounds(20, 20, 60, 60);
     	logo.setIcon(new ImageIcon("src\\images\\logo.png"));
-    	ticket.add(logo);
+    	ticket.add(logo,"align left top");
     	
         JLabel lblTenTour = new JLabel(donDatTour.getTour().getTenTour());
         lblTenTour.setFont(new Font("sansserif", 1, 30));
         lblTenTour.setForeground(ChonMau.blue_4B70F5);
-        lblTenTour.setBounds(200, 30, 400, 30);
-        lblTenTour.setHorizontalAlignment(SwingConstants.CENTER);
-        ticket.add(lblTenTour);
+        ticket.add(lblTenTour, "align center");
         
         JLabel lblNgayDat = new JLabel(donDatTour.getNgayDat().toString());
         lblNgayDat.setFont(new Font("sansserif", 0, 20));
-        lblNgayDat.setBounds(700, 20, 80, 20);
-        ticket.add(lblNgayDat);
+        ticket.add(lblNgayDat, "align right top");
         
         JLabel lblmaTour = new JLabel(donDatTour.getTour().getMaTour());
         lblmaTour.setFont(new Font("sansserif", 0, 20));
-        lblmaTour.setBounds(20, 160, 200, 20);
-        ticket.add(lblmaTour);
+        ticket.add(lblmaTour,"align left bot");
         
         JLabel nulllbl = new JLabel();
         ticket.add(nulllbl);
         
-        JLabel lblSoVe = new JLabel(donDatTour.getSoVeDat()+"");
-        lblSoVe.setFont(new Font("sansserif", 0, 20));
-        lblSoVe.setBounds(750, 160, 30, 30);
-        ticket.add(lblSoVe);
+        JLabel lblSoVe = new JLabel("Số lượng vé :"+donDatTour.getSoVeDat());
+        lblSoVe.setFont(new Font("sansserif", 0, 30));
+        lblSoVe.setForeground(ChonMau.blue_4B70F5);
+        ticket.add(lblSoVe,"align right bot");
         panel.add(ticket);
         
         
