@@ -1,7 +1,7 @@
 ﻿use master
 go
 
-/****** Object:  Database [ViGo]    Script Date: 24/04/2023 6:39:26 CH ******/
+--tạo database
 create database Nhom4_QLTour
 on primary 
 ( NAME = N'Nhom4_QLTour', FILENAME = N'T:\Nhom4_QLTour.mdf' , SIZE = 7168KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
@@ -58,7 +58,7 @@ CREATE TABLE DonDatTour (
   tongTien money
 )
 
-select*from hanhkhach
+
 
 --tạo bảng hành khách
 create table HanhKhach(
@@ -67,6 +67,7 @@ create table HanhKhach(
 	sdt nvarchar(15),
 	maDon nvarchar(50) references DonDatTour(maDon)
 )
+--hành khách được insert khi đặt tour thành công 
 
 
 --chèn dữ liệu mặc định cho database
@@ -81,7 +82,8 @@ insert into HuongDanVien values(N'PTM220323',N'Phan Thị Mơ',N'0936723573')
 go
 
 --chèn tour
-
+--chú ý: coppy file 'img' trong project vào ổ T:\ để insert tour có sẵn hoặc chạy chương trình để tạo 
+--taikhoan người quản lý tk: manager  mk: 123
 INSERT INTO Tour values (N'HCM-LĐ-VQGĐL230323', N'Vườn Quốc Gia Đà Lạt','2023-03-23 17:05:00', 3, 10, 4000000,(SELECT * FROM OPENROWSET(BULK N'T:\img\vuonhoadalat.png', SINGLE_BLOB) as img),'16:00:00',N'Hồ Chí Minh',N'Lâm Đồng',getdate(),N'TVC220423')
 go
 INSERT INTO Tour values (N'HCM-NB-CP010523', N'Vườn Quốc Gia Cúc Phương','2023-05-01 16:05:00', 5, 10, 5000000,(SELECT * FROM OPENROWSET(BULK N'T:\img\cucphuong.jpg', SINGLE_BLOB) as img),'15:00:00',N'Hồ Chí Minh',N'Ninh Bình',getdate(),N'LTM220423')
@@ -111,7 +113,8 @@ go
 INSERT INTO Tour values (N'HCM-BĐ-EG010523', N'Eo Gió','2023-05-01 14:05:00', 4, 25, 7000000,(SELECT * FROM OPENROWSET(BULK N'T:\img\eogio.jpg', SINGLE_BLOB) as img),'13:00:00',N'Hồ Chí Minh',N'Bình Định',getdate(),N'NVA220423')
 go
 
---chèn khách hàng
-insert into KhachHang values(N'KH0101011',N'Khách Hàng','2001-01-01',N'0362026128',1,N'khachhang@gmail.com',N'12345678')
+--chèn khách hàng hoặc chạy chương trình để đăng ký
+insert into KhachHang values(N'KH0101011',N'Khách Hàng','2001-01-01',N'0362897345',1,N'khachhang@gmail.com',N'12345678')
 go
-
+insert into KhachHang values(N'KH0103031',N'Nguyễn Hoàng Huy','2003-03-01',N'0362026128',1,N'hh@gmail.com',N'12345678')
+go
