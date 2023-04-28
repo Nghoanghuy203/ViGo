@@ -682,7 +682,7 @@ public class ManHinhNguoiQuanLy extends JFrame {
 					HuongDanVien hdv = huongDanVien_BUS.getHuongDanVien(maHDV);
 					String maTour = T_txtMaTour.getText().trim();
 					if (url.equals("")) {
-						SomeStaticMethod.showDialog(JOptionPane.WARNING_MESSAGE, "Vui lòng chọn ảnh trước khi sửa oo một số lỗi của chương trình mà team dev chưa fix được :(");
+						SomeStaticMethod.showDialog(JOptionPane.WARNING_MESSAGE, "Vui lòng chọn ảnh trước khi sửa do một số lỗi của chương trình mà team dev chưa fix được :(");
 						return;
 					}
 					File fimg = new File(url);

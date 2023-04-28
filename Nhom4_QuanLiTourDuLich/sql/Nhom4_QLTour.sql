@@ -116,5 +116,20 @@ go
 --chèn khách hàng hoặc chạy chương trình để đăng ký
 insert into KhachHang values(N'KH0101011',N'Khách Hàng','2001-01-01',N'0362897345',1,N'khachhang@gmail.com',N'12345678')
 go
-insert into KhachHang values(N'KH0103031',N'Nguyễn Hoàng Huy','2003-03-01',N'0362026128',1,N'hh@gmail.com',N'12345678')
+insert into KhachHang values(N'NHH0203031',N'Nguyễn Hoàng Huy','2003-03-02',N'0362026128',1,N'hh@gmail.com',N'12345678')
+go
+
+--chèn đơn đặt tour của khách hàng Nguyễn Hoàng Huy hoặc vào chạy chương trình để đặt tour
+select * from DonDatTour
+insert into DonDatTour values(N'HCM-BĐ-QN170623-NHH0203031-240423-4130',N'HCM-BĐ-QN170623',N'NHH0203031','2023-04-23',1,6000000)
+go
+insert into DonDatTour values(N'HCM-PT-MN170623-NHH0203031-250423-1717',N'HCM-PT-MN170623',N'NHH0203031','2023-04-25',2,16000000)
+go
+--chèn hàng khách của đơn
+select * from hanhkhach where maDon = N'HCM-PT-MN170623-NHH0203031-250423-1717'
+insert into HanhKhach values(N'01-2341-2404-NVT47',N'Nguyễn Văn T',0387384732,N'HCM-BĐ-QN170623-NHH0203031-240423-4130')
+go
+insert into HanhKhach values(N'01-1517-2504-HHHTHCM-PT-MN1',N'Hồ Huỳnh Hoài Thịnh',0293499073,N'HCM-PT-MN170623-NHH0203031-250423-1717')
+go
+insert into HanhKhach values(N'02-1517-2504-LKVHCM-PT-MN1',N'Lê Khánh Vy',0987886473,N'HCM-PT-MN170623-NHH0203031-250423-1717')
 go

@@ -2,7 +2,6 @@ package entities;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.net.URI;
 import java.net.URL;
 import java.sql.Time;
 import java.time.LocalDate;

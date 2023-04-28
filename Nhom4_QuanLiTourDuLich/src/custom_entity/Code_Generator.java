@@ -38,7 +38,7 @@ public class Code_Generator {
 	
 	public static int Count = 1;
 	public static String generateMaHanhKhach(String tenHK) {
-		return String.format("%02d", Count++)+"-"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmm-ddMM")) +"-"+getFirstCharacter(tenHK);
+		return String.format("%02d", Count++)+"-"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss-ddMMyy")) +"-"+getFirstCharacter(tenHK);
 	}
 	
 	public static String getFirstCharacter(String input) {
